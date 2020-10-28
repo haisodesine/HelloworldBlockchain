@@ -2,7 +2,9 @@ package com.xingkaichun.helloworldblockchain.core;
 
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 
 import java.util.List;
 
@@ -71,11 +73,15 @@ public abstract class BlockChainDataBase {
     /**
      * 查询区块链中总的交易数量
      */
-    public abstract long queryTransactionSize() ;
+    public abstract long queryTransactionCount() ;
     /**
      * 根据区块哈希查找区块高度
      */
     public abstract long queryBlockHeightByBlockHash(String blockHash) ;
+    /**
+     * 根据已花费的交易输出ID查询花费去向所在的交易的哈希
+     */
+    public abstract String queryToTransactionHashByTransactionOutputId(TransactionOutputId transactionOutputId) ;
     //endregion
 
 
@@ -105,7 +111,11 @@ public abstract class BlockChainDataBase {
     /**
      * 根据交易高度查询交易。交易高度从1开始。
      */
-    public abstract List<Transaction> queryTransactionByTransactionHeight(long from,long size) ;
+    public abstract List<Transaction> queryTransactionListByTransactionHeight(long from,long size) ;
+    /**
+     * 根据地址查询交易列表。from从0开始。
+     */
+    public abstract List<Transaction> queryTransactionListByAddress(String address,long from,long size) ;
     //endregion
 
 
@@ -114,11 +124,11 @@ public abstract class BlockChainDataBase {
     /**
      * 在区块链中根据 交易输出哈希 查找交易输出
      */
-    public abstract TransactionOutput queryTransactionOutputByTransactionOutputHash(String transactionOutputHash) ;
+    public abstract TransactionOutput queryTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) ;
     /**
      * 在区块链中根据 交易输出哈希 查找未花费交易输出
      */
-    public abstract TransactionOutput queryUnspendTransactionOutputByTransactionOutputHash(String unspendTransactionOutputHash) ;
+    public abstract TransactionOutput queryUnspendTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) ;
     /**
      * 根据地址查询交易输出。from从0开始。
      */
