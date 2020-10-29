@@ -511,8 +511,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                         TransactionOutput transactionOutput = outputs.get(i);
                         transactionOutput.setBlockHeight(blockHeight);
                         transactionOutput.setTransactionHash(transaction.getTransactionHash());
-                        //TODO 从哪里开始 0？1？
-                        transactionOutput.setTransactionOutputIndex(i+LongUtil.ONE);
+                        transactionOutput.setTransactionOutputIndex(i);
                         transactionOutput.setTransactionSequenceNumberInBlock(transaction.getTransactionSequenceNumberInBlock());
                     }
                 }
