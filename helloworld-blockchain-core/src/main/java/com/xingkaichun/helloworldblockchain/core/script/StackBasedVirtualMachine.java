@@ -40,7 +40,7 @@ public class StackBasedVirtualMachine {
             }else if(Arrays.equals(OperationCodeEnum.OP_CHECKSIG.getCode(),byteCommand)){
                 String publicKey = stack.pop();
                 String sign = stack.pop();
-                boolean verifySignatureSuccess = AccountUtil.verifySignature(publicKey, TransactionTool.getSignatureData(transactionEnvironment),sign);
+                boolean verifySignatureSuccess = AccountUtil.verifySignatureHexString(publicKey, TransactionTool.getSignatureData(transactionEnvironment),sign);
                 if(!verifySignatureSuccess){
                     throw new RuntimeException("脚本执行失败");
                 }

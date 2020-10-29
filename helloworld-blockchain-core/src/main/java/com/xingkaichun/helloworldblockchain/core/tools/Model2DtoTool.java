@@ -99,7 +99,7 @@ public class Model2DtoTool {
     }
 
     public static String signature(TransactionDTO transactionDTO, String privateKey) {
-        String strSignature = AccountUtil.signature(privateKey,signatureData(transactionDTO));
+        String strSignature = AccountUtil.signatureHexString(privateKey,signatureData(transactionDTO));
         return strSignature;
     }
 
