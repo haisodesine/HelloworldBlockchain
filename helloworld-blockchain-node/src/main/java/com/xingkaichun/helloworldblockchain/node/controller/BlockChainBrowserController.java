@@ -150,7 +150,7 @@ public class BlockChainBrowserController {
                     transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
                     transactionInputDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
                     transactionInputDto.setTransactionHash(transactionInput.getUnspendTransactionOutput().getTransactionHash());
-                    transactionInputDto.setTransactionOutputSequence(transactionInput.getUnspendTransactionOutput().getTransactionOutputSequence());
+                    transactionInputDto.setTransactionOutputSequence(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
                     transactionInputDtoList.add(transactionInputDto);
                 }
             }
@@ -164,7 +164,7 @@ public class BlockChainBrowserController {
                     transactionOutputDto.setValue(transactionOutput.getValue());
                     transactionOutputDto.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
                     transactionOutputDto.setTransactionHash(transactionOutput.getTransactionHash());
-                    transactionOutputDto.setTransactionOutputSequence(transactionOutput.getTransactionOutputSequence());
+                    transactionOutputDto.setTransactionOutputSequence(transactionOutput.getTransactionOutputIndex());
                     transactionOutputDtoList.add(transactionOutputDto);
                 }
             }

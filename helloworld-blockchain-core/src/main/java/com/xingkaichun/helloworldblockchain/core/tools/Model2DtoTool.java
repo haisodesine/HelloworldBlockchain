@@ -94,7 +94,7 @@ public class Model2DtoTool {
     public static UnspendTransactionOutputDTO transactionOutput2UnspendTransactionOutputDto(TransactionOutput transactionOutput) {
         UnspendTransactionOutputDTO unspendTransactionOutputDto = new UnspendTransactionOutputDTO();
         unspendTransactionOutputDto.setTransactionHash(transactionOutput.getTransactionHash());
-        unspendTransactionOutputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputSequence());
+        unspendTransactionOutputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
         return unspendTransactionOutputDto;
     }
 

@@ -65,7 +65,7 @@ public class Dto2ModelTool {
                 UnspendTransactionOutputDTO unspendTransactionOutputDto = transactionInputDTO.getUnspendTransactionOutputDTO();
                 TransactionOutputId transactionOutputId = new TransactionOutputId();
                 transactionOutputId.setTransactionHash(unspendTransactionOutputDto.getTransactionHash());
-                transactionOutputId.setTransactionOutputSequence(unspendTransactionOutputDto.getTransactionOutputIndex());
+                transactionOutputId.setTransactionOutputIndex(unspendTransactionOutputDto.getTransactionOutputIndex());
                 TransactionOutput unspendTransactionOutput = blockChainDataBase.queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
                 if(unspendTransactionOutput == null){
                     throw new ClassCastException("UnspendTransactionOutput不应该是null。");

@@ -35,9 +35,9 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
         transactionOutputDetailDto.setTransactionHash(transactionOutput.getTransactionHash());
         transactionOutputDetailDto.setValue(transactionOutput.getValue());
         transactionOutputDetailDto.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
-        transactionOutputDetailDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputSequence());
+        transactionOutputDetailDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
         transactionOutputId.setTransactionHash(transactionOutput.getTransactionHash());
-        transactionOutputId.setTransactionOutputSequence(transactionOutput.getTransactionOutputSequence());
+        transactionOutputId.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
         TransactionOutput transactionOutputTemp = getBlockChainCore().getBlockChainDataBase().queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
         transactionOutputDetailDto.setSpend(transactionOutputTemp==null);
 
@@ -57,7 +57,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
                 for(TransactionInput transactionInput:inputs){
                     UnspendTransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
                     if(transactionOutput.getTransactionHash().equals(unspendTransactionOutput.getTransactionHash()) &&
-                            transactionOutput.getTransactionSequenceNumberInBlock()==unspendTransactionOutput.getTransactionOutputSequence()){
+                            transactionOutput.getTransactionSequenceNumberInBlock()==unspendTransactionOutput.getTransactionOutputIndex()){
                         transactionOutputDetailDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
                         break;
                     }

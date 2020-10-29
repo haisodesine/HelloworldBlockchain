@@ -23,7 +23,7 @@ public class BlockChainBrowserControllerModel2Dto {
             for (TransactionInput transactionInput:transactionInputs) {
                 QueryTxoByTransactionOutputIdResponse.TransactionInputDto transactionInputDto = new QueryTxoByTransactionOutputIdResponse.TransactionInputDto();
                 transactionInputDto.setTransactionHash(transactionHash);
-                transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputSequence());
+                transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
                 transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
                 transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
                 transactionInputDtoList.add(transactionInputDto);
@@ -36,7 +36,7 @@ public class BlockChainBrowserControllerModel2Dto {
             for (TransactionOutput transactionOutput:transactionOutputs) {
                 QueryTxoByTransactionOutputIdResponse.TransactionOutputDto transactionInputDto = new QueryTxoByTransactionOutputIdResponse.TransactionOutputDto();
                 transactionInputDto.setTransactionHash(transactionHash);
-                transactionInputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputSequence());
+                transactionInputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
                 transactionInputDto.setAddress(transactionOutput.getAddress());
                 transactionInputDto.setValue(transactionOutput.getValue());
                 transactionOutputDtoList.add(transactionInputDto);
