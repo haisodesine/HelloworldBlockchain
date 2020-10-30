@@ -137,6 +137,10 @@ public abstract class BlockChainDataBase {
      * 根据地址查询未花费交易输出。from从0开始。
      */
     public abstract List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address,long from,long size) ;
+    /**
+     * 根据地址查询已花费交易输出。from从0开始。
+     */
+    public abstract List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size);
     //endregion
 
 

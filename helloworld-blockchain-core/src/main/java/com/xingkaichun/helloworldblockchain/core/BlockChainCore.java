@@ -95,7 +95,7 @@ public abstract class BlockChainCore {
     /**
      * 根据地址获取[已花费交易输出列表]。from从0开始。
      */
-    public abstract List<TransactionOutput> querySpendTxoListByAddress(String address,long from,long size) ;
+    public abstract List<TransactionOutput> queryStxoListByAddress(String address,long from,long size) ;
 
 
     /**

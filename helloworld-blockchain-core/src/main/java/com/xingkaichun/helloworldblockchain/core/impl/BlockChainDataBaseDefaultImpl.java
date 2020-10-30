@@ -427,6 +427,35 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     }
 
     @Override
+    public List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) {
+        List<TransactionOutput> transactionOutputList = new ArrayList<>();
+        DBIterator iterator = blockChainDB.iterator();
+        byte[] addressToSpendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToSpendTransactionOutputListKey(address);
+        int currentFrom = 0;
+        int currentSize = 0;
+        for (iterator.seek(addressToSpendTransactionOutputListKey); iterator.hasNext(); iterator.next()) {
+            byte[] byteKey = iterator.peekNext().getKey();
+            if(Bytes.indexOf(byteKey,addressToSpendTransactionOutputListKey) != 0){
+                break;
+            }
+            byte[] byteValue = iterator.peekNext().getValue();
+            if(byteValue == null || byteValue.length==0){
+                continue;
+            }
+            currentFrom++;
+            if(currentFrom>=from && currentSize<size){
+                TransactionOutput transactionOutput = EncodeDecodeUtil.decodeToTransactionOutput(byteValue);
+                transactionOutputList.add(transactionOutput);
+                currentSize++;
+            }
+            if(currentSize>=size){
+                break;
+            }
+        }
+        return transactionOutputList;
+    }
+
+    @Override
     public List<Transaction> queryTransactionListByAddress(String address,long from,long size) {
         List<Transaction> transactionList = new ArrayList<>();
         DBIterator iterator = blockChainDB.iterator();
@@ -478,6 +507,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         storeHash(writeBatch,block,blockChainActionEnum);
         storeAddressToUnspendTransactionOutputList(writeBatch,block,blockChainActionEnum);
         storeAddressToTransactionOutputList(writeBatch,block,blockChainActionEnum);
+        storeAddressToSpendTransactionOutputList(writeBatch,block,blockChainActionEnum);
         storeAddressToTransactionHashList(writeBatch,block,blockChainActionEnum);
         return writeBatch;
     }
@@ -746,6 +776,28 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                         writeBatch.put(addressToTransactionOutputListKey,byteTransactionOutput);
                     }else{
                         writeBatch.delete(addressToTransactionOutputListKey);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * 存储地址到交易输出列表
+     */
+    private void storeAddressToSpendTransactionOutputList(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
+        for(Transaction transaction : block.getTransactions()){
+            if(transaction == null){
+                return;
+            }
+            List<TransactionInput> inputs = transaction.getInputs();
+            if(inputs != null){
+                for (TransactionInput transactionInput:inputs){
+                    TransactionOutput utxo = transactionInput.getUnspendTransactionOutput();
+                    byte[] addressToSpendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToSpendTransactionOutputListKey(utxo);
+                    if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
+                        writeBatch.delete(addressToSpendTransactionOutputListKey);
+                    }else{
+                        writeBatch.put(addressToSpendTransactionOutputListKey, EncodeDecodeUtil.encode(utxo));
                     }
                 }
             }

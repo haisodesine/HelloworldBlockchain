@@ -6,7 +6,6 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
-import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTxoByTransactionOutputIdResponse;
 import com.xingkaichun.helloworldblockchain.node.util.BlockChainBrowserControllerModel2Dto;
@@ -169,6 +168,20 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
         transactionDto.setTransactionInputDtoList(transactionInputDtoList);
         transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
         return transactionDto;
+    }
+
+    @Override
+    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryStxosByAddress(String address, long from, long size) {
+        List<TransactionOutput> stxoList = getBlockChainCore().queryStxoListByAddress(address,from,size);
+        if(stxoList == null){
+            return null;
+        }
+        List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = new ArrayList<>();
+        for(TransactionOutput transactionOutput:stxoList){
+            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = getTransactionOutputDetailDtoByTransactionOutputId(transactionOutput);
+            transactionOutputDetailDtoList.add(transactionOutputDetailDto);
+        }
+        return transactionOutputDetailDtoList;
     }
 
     private BlockChainCore getBlockChainCore(){

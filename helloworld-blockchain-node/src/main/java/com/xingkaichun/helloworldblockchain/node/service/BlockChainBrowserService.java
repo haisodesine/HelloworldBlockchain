@@ -20,4 +20,6 @@ public interface BlockChainBrowserService {
     List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByAddress(String address, long from, long size);
 
     QueryTransactionByTransactionHashResponse.TransactionDto queryTransactionByTransactionHash(String transactionHash);
+
+    List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryStxosByAddress(String address, long from, long size);
 }

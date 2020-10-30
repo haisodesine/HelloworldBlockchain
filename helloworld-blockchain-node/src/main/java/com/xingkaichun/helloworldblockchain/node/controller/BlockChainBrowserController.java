@@ -216,6 +216,26 @@ public class BlockChainBrowserController {
         }
     }
     /**
+     * 根据地址获取未花费交易输出
+     */
+    @ResponseBody
+    @RequestMapping(value = BlockChainApiRoute.QUERY_STXOS_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryStxosByAddressResponse> queryStxosByAddress(@RequestBody QueryStxosByAddressRequest request){
+        try {
+            PageCondition pageCondition = request.getPageCondition();
+            long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
+            long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
+            List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.queryStxosByAddress(request.getAddress(),from,size);
+            QueryStxosByAddressResponse response = new QueryStxosByAddressResponse();
+            response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
+            return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
+        } catch (Exception e){
+            String message = "[查询交易输出]失败";
+            logger.error(message,e);
+            return ServiceResult.createFailServiceResult(message);
+        }
+    }
+    /**
      * 根据地址获取交易输出
      */
     @ResponseBody
