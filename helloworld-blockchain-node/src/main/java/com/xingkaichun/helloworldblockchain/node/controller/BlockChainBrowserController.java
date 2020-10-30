@@ -6,7 +6,6 @@ import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
-import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
@@ -23,7 +22,6 @@ import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.request.*
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.response.*;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.*;
 import com.xingkaichun.helloworldblockchain.node.service.BlockChainBrowserService;
-import com.xingkaichun.helloworldblockchain.node.util.BlockChainBrowserControllerModel2Dto;
 import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import org.slf4j.Logger;
@@ -344,7 +342,7 @@ public class BlockChainBrowserController {
     @RequestMapping(value = BlockChainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryBlockDtoByBlockHashResponse> queryBlockDtoByBlockHash(@RequestBody QueryBlockDtoByBlockHashRequest request){
         try {
-            Block block = getBlockChainCore().queryBlockDtoByBlockHash(request.getBlockHash());
+            Block block = getBlockChainCore().queryBlockByBlockHash(request.getBlockHash());
             if(block == null){
                 return ServiceResult.createFailServiceResult(String.format("区块链中不存在区块哈希[%s]，请检查输入哈希。",request.getBlockHash()));
             }

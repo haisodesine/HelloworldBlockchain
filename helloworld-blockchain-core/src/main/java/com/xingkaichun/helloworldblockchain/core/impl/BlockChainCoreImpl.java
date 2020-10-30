@@ -137,7 +137,7 @@ public class BlockChainCoreImpl extends BlockChainCore {
     }
 
     @Override
-    public Block queryBlockDtoByBlockHash(String blockHash) {
+    public Block queryBlockByBlockHash(String blockHash) {
         return blockChainDataBase.queryBlockByBlockHash(blockHash);
     }
 

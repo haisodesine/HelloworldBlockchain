@@ -67,7 +67,7 @@ public abstract class BlockChainCore {
     /**
      * 根据区块哈希查询区块
      */
-    public abstract Block queryBlockDtoByBlockHash(String blockHash);
+    public abstract Block queryBlockByBlockHash(String blockHash);
 
 
 
@@ -91,11 +91,11 @@ public abstract class BlockChainCore {
     /**
      * 根据地址获取[未花费交易输出列表]。from从0开始。
      */
-    public abstract List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address, long from, long size) ;
+    public abstract List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address,long from,long size) ;
     /**
      * 根据地址获取[已花费交易输出列表]。from从0开始。
      */
-    public abstract List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) ;
+    public abstract List<TransactionOutput> querySpendTransactionOutputListByAddress(String address,long from,long size) ;
 
 
     /**
