@@ -7,10 +7,13 @@ package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser;
 public class BlockChainApiRoute {
 
     public static final String GENERATE_ACCOUNT = "/Api/BlockChain/GenerateAccount";
+
     public static final String SUBMIT_TRANSACTION = "/Api/BlockChain/SubmitTransactionDto";
     public static final String QUERY_TRANSACTION_BY_TRANSACTION_HASH = "/Api/BlockChain/QueryTransactionByTransactionHash";
     public static final String QUERY_TRANSACTION_BY_TRANSACTION_HEIGHT = "/Api/BlockChain/QueryTransactionByTransactionHeight";
+    public static final String QUERY_TRANSACTION_LIST_BY_ADDRESS = "/Api/BlockChain/QueryTransactionListByAddress";
     public static final String QUERY_MINING_TRANSACTION_BY_TRANSACTION_HASH = "/Api/BlockChain/QueryMiningTransactionByTransactionHash";
+
     public static final String QUERY_UTXOS_BY_ADDRESS = "/Api/BlockChain/QueryUtxosByAddress";
     public static final String QUERY_TXOS_BY_ADDRESS = "/Api/BlockChain/QueryTxosByAddress";
 

@@ -115,64 +115,13 @@ public class BlockChainBrowserController {
     }
 
     /**
-     * 根据交易Hash查询交易
+     * 根据交易哈希查询交易
      */
     @ResponseBody
     @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionByTransactionHashResponse> queryTransactionByTransactionHash(@RequestBody QueryTransactionByTransactionHashRequest request){
         try {
-            Transaction transaction = getBlockChainCore().queryTransactionByTransactionHash(request.getTransactionHash());
-            if(transaction == null){
-                return ServiceResult.createFailServiceResult(String.format("区块链中不存在交易哈希[%s]，请检查输入的交易哈希。",request.getTransactionHash()));
-            }
-            long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
-            Block block = getBlockChainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
-            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = new QueryTransactionByTransactionHashResponse.TransactionDto();
-
-            transactionDto.setTransactionHash(transaction.getTransactionHash());
-            transactionDto.setBlockHeight(transaction.getBlockHeight());
-            transactionDto.setConfirmCount(blockChainHeight-block.getHeight());
-            transactionDto.setBlockTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
-
-            transactionDto.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));
-            transactionDto.setTransactionType(transaction.getTransactionType().name());
-            transactionDto.setTransactionInputCount(TransactionTool.getTransactionInputCount(transaction));
-            transactionDto.setTransactionOutputCount(TransactionTool.getTransactionOutputCount(transaction));
-            transactionDto.setTransactionInputValues(TransactionTool.getInputsValue(transaction));
-            transactionDto.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
-
-            List<TransactionInput> inputs = transaction.getInputs();
-            List<QueryTransactionByTransactionHashResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
-            if(inputs != null){
-                for(TransactionInput transactionInput:inputs){
-                    QueryTransactionByTransactionHashResponse.TransactionInputDto transactionInputDto = new QueryTransactionByTransactionHashResponse.TransactionInputDto();
-                    transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
-                    transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
-                    transactionInputDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
-                    transactionInputDto.setTransactionHash(transactionInput.getUnspendTransactionOutput().getTransactionHash());
-                    transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
-                    transactionInputDtoList.add(transactionInputDto);
-                }
-            }
-
-            List<TransactionOutput> outputs = transaction.getOutputs();
-            List<QueryTransactionByTransactionHashResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
-            if(outputs != null){
-                for(TransactionOutput transactionOutput:outputs){
-                    QueryTransactionByTransactionHashResponse.TransactionOutputDto transactionOutputDto = new QueryTransactionByTransactionHashResponse.TransactionOutputDto();
-                    transactionOutputDto.setAddress(transactionOutput.getAddress());
-                    transactionOutputDto.setValue(transactionOutput.getValue());
-                    transactionOutputDto.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
-                    transactionOutputDto.setTransactionHash(transactionOutput.getTransactionHash());
-                    transactionOutputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
-                    transactionOutputDtoList.add(transactionOutputDto);
-                }
-            }
-
-            transactionDto.setTransactionInputDtoList(transactionInputDtoList);
-            transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
-
-
+            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = blockChainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
             QueryTransactionByTransactionHashResponse response = new QueryTransactionByTransactionHashResponse();
             response.setTransactionDto(transactionDto);
             return ServiceResult.createSuccessServiceResult("根据交易哈希查询交易成功",response);
@@ -202,6 +151,23 @@ public class BlockChainBrowserController {
             return ServiceResult.createSuccessServiceResult("根据交易高度查询交易成功",response);
         } catch (Exception e){
             String message = "根据交易高度查询交易失败";
+            logger.error(message,e);
+            return ServiceResult.createFailServiceResult(message);
+        }
+    }
+    @ResponseBody
+    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryTransactionListByAddressResponse> queryTransactionListByAddress(@RequestBody QueryTransactionListByAddressRequest request){
+        try {
+            PageCondition pageCondition = request.getPageCondition();
+            long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
+            long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
+            List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = blockChainBrowserService.queryTransactionListByAddress(request.getAddress(),from,size);
+            QueryTransactionListByAddressResponse response = new QueryTransactionListByAddressResponse();
+            response.setTransactionDtoList(transactionDtoList);
+            return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
+        } catch (Exception e){
+            String message = "[查询交易输出]失败";
             logger.error(message,e);
             return ServiceResult.createFailServiceResult(message);
         }
