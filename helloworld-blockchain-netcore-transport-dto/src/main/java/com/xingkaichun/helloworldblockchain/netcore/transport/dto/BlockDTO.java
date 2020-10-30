@@ -10,10 +10,13 @@ import java.util.List;
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
 public class BlockDTO implements Serializable {
+
     //区块产生的时间戳
     private long timestamp;
+    //上一个区块的哈希
+    private String previousBlockHash;
     //区块里的交易
-    private List<TransactionDTO> transactions;
+    private List<TransactionDTO> transactionDtoList;
     //共识值
     private long nonce;
 
@@ -30,12 +33,12 @@ public class BlockDTO implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public List<TransactionDTO> getTransactions() {
-        return transactions;
+    public List<TransactionDTO> getTransactionDtoList() {
+        return transactionDtoList;
     }
 
-    public void setTransactions(List<TransactionDTO> transactions) {
-        this.transactions = transactions;
+    public void setTransactionDtoList(List<TransactionDTO> transactionDtoList) {
+        this.transactionDtoList = transactionDtoList;
     }
 
     public long getNonce() {
@@ -45,5 +48,14 @@ public class BlockDTO implements Serializable {
     public void setNonce(long nonce) {
         this.nonce = nonce;
     }
+
+    public String getPreviousBlockHash() {
+        return previousBlockHash;
+    }
+
+    public void setPreviousBlockHash(String previousBlockHash) {
+        this.previousBlockHash = previousBlockHash;
+    }
+
     //endregion
 }

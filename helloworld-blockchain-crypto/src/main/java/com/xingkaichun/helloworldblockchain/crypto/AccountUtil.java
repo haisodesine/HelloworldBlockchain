@@ -1,7 +1,6 @@
 package com.xingkaichun.helloworldblockchain.crypto;
 
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
-import com.xingkaichun.helloworldblockchain.util.ByteUtil;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DERSequenceGenerator;
@@ -141,30 +140,52 @@ public class AccountUtil {
     /**
      * 签名
      */
-    public static String signature(String privateKey, String rawData) {
-       try {
-           BigInteger bigIntegerPrivateKey = privateKeyFrom(privateKey);
-           byte[] bytesSignature = signature(bigIntegerPrivateKey, ByteUtil.stringToBytes(rawData));
-           String hexSignature = HexUtil.bytesToHexString(bytesSignature);
-           return hexSignature;
-       } catch (Exception e) {
+    public static String signatureHexString(String privateKey, String message) {
+        try {
+            byte[] bytesMessage = HexUtil.hexStringToBytes(message);
+            byte[] bytesSignature = signature(privateKey,bytesMessage);
+            String signature = HexUtil.bytesToHexString(bytesSignature);
+            return signature;
+        } catch (Exception e) {
             throw new RuntimeException(e);
-       }
+        }
+    }
+    /**
+     * 签名
+     */
+    public static byte[] signature(String privateKey, byte[] message) {
+        try {
+            BigInteger bigIntegerPrivateKey = privateKeyFrom(privateKey);
+            byte[] bytesSignature = signature(bigIntegerPrivateKey,message);
+            return bytesSignature;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 验证签名
      */
-    public static boolean verifySignature(String publicKey, String rawData, String signature) {
+    public static boolean verifySignatureHexString(String publicKey, String message, String signature) {
         try {
-            byte[] bytePublicKey = publicKeyFrom(publicKey);
             byte[] bytesSignature = HexUtil.hexStringToBytes(signature);
-            return verifySignature(bytePublicKey,ByteUtil.stringToBytes(rawData),bytesSignature);
+            byte[] bytesMessage = HexUtil.hexStringToBytes(message);
+            return verifySignature(publicKey,bytesMessage,bytesSignature);
         }catch(Exception e) {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * 验证签名
+     */
+    public static boolean verifySignature(String publicKey, byte[] message, byte[] signature) {
+        try {
+            byte[] bytePublicKey = publicKeyFrom(publicKey);
+            return verifySignature(bytePublicKey,message,signature);
+        }catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
@@ -208,11 +229,11 @@ public class AccountUtil {
     /**
      * 签名
      */
-    private static byte[] signature(BigInteger bigIntegerPrivateKey, byte[] input) {
+    private static byte[] signature(BigInteger bigIntegerPrivateKey, byte[] message) {
         ECDSASigner signer = new ECDSASigner(new HMacDSAKCalculator(new SHA256Digest()));
         ECPrivateKeyParameters ecPrivateKeyParameters = new ECPrivateKeyParameters(bigIntegerPrivateKey, ecParams);
         signer.init(true, ecPrivateKeyParameters);
-        BigInteger[] sigs = signer.generateSignature(input);
+        BigInteger[] sigs = signer.generateSignature(message);
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             DERSequenceGenerator seq = new DERSequenceGenerator(bos);
@@ -221,14 +242,14 @@ public class AccountUtil {
             seq.close();
             return bos.toByteArray();
         } catch (IOException e) {
-            throw new RuntimeException(e);  // Cannot happen.
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * 验证签名
      */
-    private static boolean verifySignature(byte[] pub, byte[] rawData, byte[] signature) {
+    private static boolean verifySignature(byte[] pub, byte[] message, byte[] signature) {
         ECDSASigner signer = new ECDSASigner();
         ECPublicKeyParameters ecPublicKeyParameters = new ECPublicKeyParameters(ecParams.getCurve().decodePoint(pub), ecParams);
         signer.init(false, ecPublicKeyParameters);
@@ -238,7 +259,7 @@ public class AccountUtil {
             ASN1Integer r = (ASN1Integer) seq.getObjectAt(0);
             ASN1Integer s = (ASN1Integer) seq.getObjectAt(1);
             decoder.close();
-            return signer.verifySignature(rawData, r.getValue(), s.getValue());
+            return signer.verifySignature(message, r.getValue(), s.getValue());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -278,7 +299,7 @@ public class AccountUtil {
     }
 
     /**
-     * 前置填零，返回64长度十六进制私钥
+     * 前置填零，返回64长度十六进制私钥 TODO 可以移除？？
      */
     private static String fillZeroTo64LengthPrivateKey(String privateKey) {
         //私钥长度是256bit，64位十六进制的字符串数，前置补充零

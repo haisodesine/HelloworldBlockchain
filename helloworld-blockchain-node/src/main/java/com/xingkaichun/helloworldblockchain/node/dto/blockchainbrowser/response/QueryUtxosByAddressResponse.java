@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.response;
 
-import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTxoByTransactionOutputIdResponse;
 
 import java.util.List;
 
@@ -10,20 +10,13 @@ import java.util.List;
  */
 public class QueryUtxosByAddressResponse {
 
-    private List<TransactionOutput> utxos;
+    private List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList;
 
-
-
-
-    //region get set
-
-    public List<TransactionOutput> getUtxos() {
-        return utxos;
+    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> getTransactionOutputDetailDtoList() {
+        return transactionOutputDetailDtoList;
     }
 
-    public void setUtxos(List<TransactionOutput> utxos) {
-        this.utxos = utxos;
+    public void setTransactionOutputDetailDtoList(List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList) {
+        this.transactionOutputDetailDtoList = transactionOutputDetailDtoList;
     }
-
-    //endregion
 }

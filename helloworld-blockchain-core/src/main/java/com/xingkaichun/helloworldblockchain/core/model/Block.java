@@ -102,7 +102,7 @@ public class Block implements Serializable {
      *
      * 冗余字段，这个值可以由区块链系统推算出来
      */
-    private long startTransactionSequenceNumberInBlockChain;
+    private long startTransactionIndexInBlockChain;
 
     /**
      * 区块中最后一笔交易的序列号
@@ -113,7 +113,7 @@ public class Block implements Serializable {
      *
      * 冗余字段，这个值可以由区块链系统推算出来
      */
-    private long endTransactionSequenceNumberInBlockChain;
+    private long endTransactionIndexInBlockChain;
 
 
 
@@ -192,20 +192,20 @@ public class Block implements Serializable {
         this.transactionQuantity = transactionQuantity;
     }
 
-    public long getStartTransactionSequenceNumberInBlockChain() {
-        return startTransactionSequenceNumberInBlockChain;
+    public long getStartTransactionIndexInBlockChain() {
+        return startTransactionIndexInBlockChain;
     }
 
-    public void setStartTransactionSequenceNumberInBlockChain(long startTransactionSequenceNumberInBlockChain) {
-        this.startTransactionSequenceNumberInBlockChain = startTransactionSequenceNumberInBlockChain;
+    public void setStartTransactionIndexInBlockChain(long startTransactionIndexInBlockChain) {
+        this.startTransactionIndexInBlockChain = startTransactionIndexInBlockChain;
     }
 
-    public long getEndTransactionSequenceNumberInBlockChain() {
-        return endTransactionSequenceNumberInBlockChain;
+    public long getEndTransactionIndexInBlockChain() {
+        return endTransactionIndexInBlockChain;
     }
 
-    public void setEndTransactionSequenceNumberInBlockChain(long endTransactionSequenceNumberInBlockChain) {
-        this.endTransactionSequenceNumberInBlockChain = endTransactionSequenceNumberInBlockChain;
+    public void setEndTransactionIndexInBlockChain(long endTransactionIndexInBlockChain) {
+        this.endTransactionIndexInBlockChain = endTransactionIndexInBlockChain;
     }
 
 //endregion
