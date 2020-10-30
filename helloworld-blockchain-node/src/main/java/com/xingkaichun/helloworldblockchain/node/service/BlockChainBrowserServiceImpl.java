@@ -75,7 +75,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
     @Override
     public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryTxosByAddress(String address, long from, long size) {
-        List<TransactionOutput> utxoList = getBlockChainCore().queryTxoListByAddress(address,from,size);
+        List<TransactionOutput> utxoList = getBlockChainCore().queryTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
@@ -89,7 +89,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
     @Override
     public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryUtxosByAddress(String address, long from, long size) {
-        List<TransactionOutput> utxoList = getBlockChainCore().queryUtxoListByAddress(address,from,size);
+        List<TransactionOutput> utxoList = getBlockChainCore().queryUnspendTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
@@ -172,7 +172,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
     @Override
     public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryStxosByAddress(String address, long from, long size) {
-        List<TransactionOutput> stxoList = getBlockChainCore().queryStxoListByAddress(address,from,size);
+        List<TransactionOutput> stxoList = getBlockChainCore().querySpendTransactionOutputListByAddress(address,from,size);
         if(stxoList == null){
             return null;
         }

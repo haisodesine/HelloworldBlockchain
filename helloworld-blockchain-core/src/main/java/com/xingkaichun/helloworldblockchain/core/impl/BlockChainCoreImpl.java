@@ -106,19 +106,19 @@ public class BlockChainCoreImpl extends BlockChainCore {
     }
 
     @Override
-    public List<TransactionOutput> queryTxoListByAddress(String address,long from,long size) {
+    public List<TransactionOutput> queryTransactionOutputListByAddress(String address,long from,long size) {
         List<TransactionOutput> txo =  blockChainDataBase.queryTransactionOutputListByAddress(address,from,size);
         return txo;
     }
 
     @Override
-    public List<TransactionOutput> queryUtxoListByAddress(String address,long from,long size) {
+    public List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> utxo =  blockChainDataBase.queryUnspendTransactionOutputListByAddress(address,from,size);
         return utxo;
     }
 
     @Override
-    public List<TransactionOutput> queryStxoListByAddress(String address, long from, long size) {
+    public List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> stxo =  blockChainDataBase.querySpendTransactionOutputListByAddress(address,from,size);
         return stxo;
     }

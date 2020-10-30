@@ -87,15 +87,15 @@ public abstract class BlockChainCore {
     /**
      * 根据地址获取[交易输出列表(包含未花费交易输出和已花费交易输出)]。from从0开始。
      */
-    public abstract List<TransactionOutput> queryTxoListByAddress(String address,long from,long size) ;
+    public abstract List<TransactionOutput> queryTransactionOutputListByAddress(String address,long from,long size) ;
     /**
      * 根据地址获取[未花费交易输出列表]。from从0开始。
      */
-    public abstract List<TransactionOutput> queryUtxoListByAddress(String address,long from,long size) ;
+    public abstract List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address, long from, long size) ;
     /**
      * 根据地址获取[已花费交易输出列表]。from从0开始。
      */
-    public abstract List<TransactionOutput> queryStxoListByAddress(String address,long from,long size) ;
+    public abstract List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) ;
 
 
     /**
