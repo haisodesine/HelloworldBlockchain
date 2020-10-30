@@ -57,7 +57,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
                 for(TransactionInput transactionInput:inputs){
                     UnspendTransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
                     if(transactionOutput.getTransactionHash().equals(unspendTransactionOutput.getTransactionHash()) &&
-                            transactionOutput.getTransactionSequenceNumberInBlock()==unspendTransactionOutput.getTransactionOutputIndex()){
+                            transactionOutput.getTransactionIndexInBlock()==unspendTransactionOutput.getTransactionOutputIndex()){
                         transactionOutputDetailDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
                         break;
                     }

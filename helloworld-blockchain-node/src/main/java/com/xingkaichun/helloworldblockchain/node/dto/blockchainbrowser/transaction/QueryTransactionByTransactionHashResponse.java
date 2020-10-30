@@ -145,7 +145,7 @@ public class QueryTransactionByTransactionHashResponse {
         private long value;
         private String scriptKey;
         private String transactionHash;
-        private long transactionOutputSequence;
+        private long transactionOutputIndex;
 
         public String getAddress() {
             return address;
@@ -179,12 +179,12 @@ public class QueryTransactionByTransactionHashResponse {
             this.transactionHash = transactionHash;
         }
 
-        public long getTransactionOutputSequence() {
-            return transactionOutputSequence;
+        public long getTransactionOutputIndex() {
+            return transactionOutputIndex;
         }
 
-        public void setTransactionOutputSequence(long transactionOutputSequence) {
-            this.transactionOutputSequence = transactionOutputSequence;
+        public void setTransactionOutputIndex(long transactionOutputIndex) {
+            this.transactionOutputIndex = transactionOutputIndex;
         }
     }
 
@@ -193,7 +193,7 @@ public class QueryTransactionByTransactionHashResponse {
         private long value;
         private String scriptLock;
         private String transactionHash;
-        private long transactionOutputSequence;
+        private long transactionOutputIndex;
 
         public String getAddress() {
             return address;
@@ -227,12 +227,12 @@ public class QueryTransactionByTransactionHashResponse {
             this.transactionHash = transactionHash;
         }
 
-        public long getTransactionOutputSequence() {
-            return transactionOutputSequence;
+        public long getTransactionOutputIndex() {
+            return transactionOutputIndex;
         }
 
-        public void setTransactionOutputSequence(long transactionOutputSequence) {
-            this.transactionOutputSequence = transactionOutputSequence;
+        public void setTransactionOutputIndex(long transactionOutputIndex) {
+            this.transactionOutputIndex = transactionOutputIndex;
         }
     }
 

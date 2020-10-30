@@ -337,7 +337,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     public List<Transaction> queryTransactionListByTransactionHeight(long from,long size) {
         List<Transaction> transactionList = new ArrayList<>();
         for(long index=from; LongUtil.isLessThan(index,from+size); index++){
-            byte[] byteTransaction = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionSequenceNumberInBlockChainToTransactionKey(index));
+            byte[] byteTransaction = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(index));
             if(byteTransaction == null){
                 break;
             }
@@ -471,7 +471,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         storeBlockHeightToBlock(writeBatch,block,blockChainActionEnum);
         storeBlockHashToBlockHeight(writeBatch,block,blockChainActionEnum);
         storeTransactionHashToTransaction(writeBatch,block,blockChainActionEnum);
-        storeTransactionSequenceNumberInBlockChainToTransaction(writeBatch,block,blockChainActionEnum);
+        storeTransactionIndexInBlockChainToTransaction(writeBatch,block,blockChainActionEnum);
         storeUnspendTransactionOutputIdToUnspendTransactionOutput(writeBatch,block,blockChainActionEnum);
         storeTransactionOutputIdToToTransactionHash(writeBatch,block,blockChainActionEnum);
         storeTransactionOutputIdToTransactionOutput(writeBatch,block,blockChainActionEnum);
@@ -486,24 +486,24 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
      * 补充区块的属性
      */
     private void fillBlockProperty(Block block) {
-        long transactionSequenceNumberInBlock = LongUtil.ZERO;
-        long transactionSequenceNumberInBlockChain = queryTransactionCount();
+        long transactionIndexInBlock = LongUtil.ZERO;
+        long transactionIndexInBlockChain = queryTransactionCount();
         long blockHeight = block.getHeight();
         List<Transaction> transactions = block.getTransactions();
         long transactionQuantity = transactions==null?LongUtil.ZERO:transactions.size();
         block.setTransactionQuantity(transactionQuantity);
-        block.setStartTransactionSequenceNumberInBlockChain(
+        block.setStartTransactionIndexInBlockChain(
                 LongUtil.isEquals(transactionQuantity,LongUtil.ZERO)?
                         LongUtil.ZERO:
-                        (transactionSequenceNumberInBlockChain+LongUtil.ONE));
-        block.setEndTransactionSequenceNumberInBlockChain(transactionSequenceNumberInBlockChain+transactionQuantity);
+                        (transactionIndexInBlockChain+LongUtil.ONE));
+        block.setEndTransactionIndexInBlockChain(transactionIndexInBlockChain+transactionQuantity);
         if(transactions != null){
             for(Transaction transaction:transactions){
-                transactionSequenceNumberInBlock++;
-                transactionSequenceNumberInBlockChain++;
+                transactionIndexInBlock++;
+                transactionIndexInBlockChain++;
                 transaction.setBlockHeight(blockHeight);
-                transaction.setTransactionSequenceNumberInBlock(transactionSequenceNumberInBlock);
-                transaction.setTransactionSequenceNumberInBlockChain(transactionSequenceNumberInBlockChain);
+                transaction.setTransactionIndexInBlock(transactionIndexInBlock);
+                transaction.setTransactionIndexInBlockChain(transactionIndexInBlockChain);
 
                 List<TransactionOutput> outputs = transaction.getOutputs();
                 if(outputs != null){
@@ -512,7 +512,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                         transactionOutput.setBlockHeight(blockHeight);
                         transactionOutput.setTransactionHash(transaction.getTransactionHash());
                         transactionOutput.setTransactionOutputIndex(i);
-                        transactionOutput.setTransactionSequenceNumberInBlock(transaction.getTransactionSequenceNumberInBlock());
+                        transactionOutput.setTransactionIndexInBlock(transaction.getTransactionIndexInBlock());
                     }
                 }
             }
@@ -597,16 +597,16 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     /**
      * 存储交易高度到交易的映射
      */
-    private void storeTransactionSequenceNumberInBlockChainToTransaction(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
+    private void storeTransactionIndexInBlockChainToTransaction(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
         List<Transaction> transactionList = block.getTransactions();
         if(transactionList != null){
             for(Transaction transaction:transactionList){
                 //更新区块链中的交易序列号数据
-                byte[] transactionSequenceNumberInBlockChainToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionSequenceNumberInBlockChainToTransactionKey(transaction.getTransactionSequenceNumberInBlockChain());
+                byte[] transactionIndexInBlockChainToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(transaction.getTransactionIndexInBlockChain());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                    writeBatch.put(transactionSequenceNumberInBlockChainToTransactionKey, EncodeDecodeUtil.encode(transaction));
+                    writeBatch.put(transactionIndexInBlockChainToTransactionKey, EncodeDecodeUtil.encode(transaction));
                 } else {
-                    writeBatch.delete(transactionSequenceNumberInBlockChainToTransactionKey);
+                    writeBatch.delete(transactionIndexInBlockChainToTransactionKey);
                 }
             }
         }

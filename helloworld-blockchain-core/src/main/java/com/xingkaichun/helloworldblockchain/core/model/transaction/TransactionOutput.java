@@ -38,7 +38,7 @@ public class TransactionOutput extends TransactionOutputId implements Serializab
      * 冗余
      * 在这个交易区块中的的排序号
      */
-    private long transactionSequenceNumberInBlock;
+    private long transactionIndexInBlock;
 
 
 
@@ -77,12 +77,12 @@ public class TransactionOutput extends TransactionOutputId implements Serializab
         this.blockHeight = blockHeight;
     }
 
-    public long getTransactionSequenceNumberInBlock() {
-        return transactionSequenceNumberInBlock;
+    public long getTransactionIndexInBlock() {
+        return transactionIndexInBlock;
     }
 
-    public void setTransactionSequenceNumberInBlock(long transactionSequenceNumberInBlock) {
-        this.transactionSequenceNumberInBlock = transactionSequenceNumberInBlock;
+    public void setTransactionIndexInBlock(long transactionIndexInBlock) {
+        this.transactionIndexInBlock = transactionIndexInBlock;
     }
 
     //endregion
