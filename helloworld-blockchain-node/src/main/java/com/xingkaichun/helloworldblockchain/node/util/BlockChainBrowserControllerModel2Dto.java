@@ -3,7 +3,7 @@ package com.xingkaichun.helloworldblockchain.node.util;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTxoByTransactionOutputIdResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.List;
 public class BlockChainBrowserControllerModel2Dto {
 
 
-    public static QueryTxoByTransactionOutputIdResponse.TransactionDto toTransactionDto(Transaction inputTransaction) {
+    public static QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto toTransactionDto(Transaction inputTransaction) {
         String transactionHash = inputTransaction.getTransactionHash();
 
-        List<QueryTxoByTransactionOutputIdResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
+        List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
         List<TransactionInput> transactionInputs = inputTransaction.getInputs();
         if(transactionInputs != null){
             for (TransactionInput transactionInput:transactionInputs) {
-                QueryTxoByTransactionOutputIdResponse.TransactionInputDto transactionInputDto = new QueryTxoByTransactionOutputIdResponse.TransactionInputDto();
+                QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto transactionInputDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto();
                 transactionInputDto.setTransactionHash(transactionHash);
                 transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
                 transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
@@ -30,11 +30,11 @@ public class BlockChainBrowserControllerModel2Dto {
             }
         }
 
-        List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
+        List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
         List<TransactionOutput> transactionOutputs = inputTransaction.getOutputs();
         if(transactionOutputs != null){
             for (TransactionOutput transactionOutput:transactionOutputs) {
-                QueryTxoByTransactionOutputIdResponse.TransactionOutputDto transactionInputDto = new QueryTxoByTransactionOutputIdResponse.TransactionOutputDto();
+                QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto transactionInputDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto();
                 transactionInputDto.setTransactionHash(transactionHash);
                 transactionInputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
                 transactionInputDto.setAddress(transactionOutput.getAddress());
@@ -43,7 +43,7 @@ public class BlockChainBrowserControllerModel2Dto {
             }
         }
 
-        QueryTxoByTransactionOutputIdResponse.TransactionDto transactionDto = new QueryTxoByTransactionOutputIdResponse.TransactionDto();
+        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto transactionDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto();
         transactionDto.setTransactionHash(transactionHash);
         transactionDto.setTransactionInputDtoList(transactionInputDtoList);
         transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);

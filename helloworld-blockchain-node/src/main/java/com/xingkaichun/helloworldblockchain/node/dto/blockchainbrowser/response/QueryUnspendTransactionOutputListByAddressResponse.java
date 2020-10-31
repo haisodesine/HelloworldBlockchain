@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.response;
 
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTxoByTransactionOutputIdResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class QueryUnspendTransactionOutputListByAddressResponse {
 
-    private List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList;
+    private List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList;
 
-    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> getTransactionOutputDetailDtoList() {
+    public List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> getTransactionOutputDetailDtoList() {
         return transactionOutputDetailDtoList;
     }
 
-    public void setTransactionOutputDetailDtoList(List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList) {
+    public void setTransactionOutputDetailDtoList(List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList) {
         this.transactionOutputDetailDtoList = transactionOutputDetailDtoList;
     }
 }

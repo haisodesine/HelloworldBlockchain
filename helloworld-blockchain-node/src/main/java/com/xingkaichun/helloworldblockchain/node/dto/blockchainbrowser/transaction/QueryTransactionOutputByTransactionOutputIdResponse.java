@@ -2,16 +2,16 @@ package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transact
 
 import java.util.List;
 
-public class QueryTxoByTransactionOutputIdResponse {
+public class QueryTransactionOutputByTransactionOutputIdResponse {
 
     private TransactionOutputDetailDto TransactionOutputDetailDto;
 
 
-    public QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto getTransactionOutputDetailDto() {
+    public QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto getTransactionOutputDetailDto() {
         return TransactionOutputDetailDto;
     }
 
-    public void setTransactionOutputDetailDto(QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto) {
+    public void setTransactionOutputDetailDto(QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto) {
         TransactionOutputDetailDto = transactionOutputDetailDto;
     }
 

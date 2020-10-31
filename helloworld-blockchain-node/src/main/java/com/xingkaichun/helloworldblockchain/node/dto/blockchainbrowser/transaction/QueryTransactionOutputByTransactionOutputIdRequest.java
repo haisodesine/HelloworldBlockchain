@@ -2,7 +2,7 @@ package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transact
 
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 
-public class QueryTxoByTransactionOutputIdRequest {
+public class QueryTransactionOutputByTransactionOutputIdRequest {
 
     TransactionOutputId transactionOutputId;
 
