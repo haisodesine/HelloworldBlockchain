@@ -27,7 +27,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     private NetBlockchainCore netBlockchainCore;
 
     @Override
-    public QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto getTransactionOutputDetailDtoByTransactionOutputId(TransactionOutputId transactionOutputId) {
+    public QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto queryTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) {
         TransactionOutput transactionOutput = getBlockChainCore().getBlockChainDataBase().queryTransactionOutputByTransactionOutputId(transactionOutputId);
         if(transactionOutput == null){
             return null;
@@ -74,28 +74,28 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     }
 
     @Override
-    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryTxosByAddress(String address, long from, long size) {
+    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> utxoList = getBlockChainCore().queryTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
         List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = new ArrayList<>();
         for(TransactionOutput transactionOutput:utxoList){
-            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = getTransactionOutputDetailDtoByTransactionOutputId(transactionOutput);
+            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = queryTransactionOutputByTransactionOutputId(transactionOutput);
             transactionOutputDetailDtoList.add(transactionOutputDetailDto);
         }
         return transactionOutputDetailDtoList;
     }
 
     @Override
-    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryUtxosByAddress(String address, long from, long size) {
+    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryUnspendTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> utxoList = getBlockChainCore().queryUnspendTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
         List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = new ArrayList<>();
         for(TransactionOutput transactionOutput:utxoList){
-            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = getTransactionOutputDetailDtoByTransactionOutputId(transactionOutput);
+            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = queryTransactionOutputByTransactionOutputId(transactionOutput);
             transactionOutputDetailDtoList.add(transactionOutputDetailDto);
         }
         return transactionOutputDetailDtoList;
@@ -171,14 +171,14 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     }
 
     @Override
-    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> queryStxosByAddress(String address, long from, long size) {
+    public List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> querySpendTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> stxoList = getBlockChainCore().querySpendTransactionOutputListByAddress(address,from,size);
         if(stxoList == null){
             return null;
         }
         List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = new ArrayList<>();
         for(TransactionOutput transactionOutput:stxoList){
-            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = getTransactionOutputDetailDtoByTransactionOutputId(transactionOutput);
+            QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = queryTransactionOutputByTransactionOutputId(transactionOutput);
             transactionOutputDetailDtoList.add(transactionOutputDetailDto);
         }
         return transactionOutputDetailDtoList;

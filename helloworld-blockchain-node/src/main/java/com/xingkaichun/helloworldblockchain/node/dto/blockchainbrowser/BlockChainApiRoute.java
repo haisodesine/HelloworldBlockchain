@@ -16,7 +16,8 @@ public class BlockChainApiRoute {
     public static final String QUERY_MINING_TRANSACTION_BY_TRANSACTION_HASH = "/Api/BlockChain/QueryMiningTransactionByTransactionHash";
 
     public static final String QUERY_UTXOS_BY_ADDRESS = "/Api/BlockChain/QueryUtxosByAddress";
-    public static final String QUERY_TXOS_BY_ADDRESS = "/Api/BlockChain/QueryTxosByAddress";
+    //TransactionOutputList
+    public static final String QUERY_TRANSACTION_OUTPUT_LIST_BY_ADDRESS = "/Api/BlockChain/QueryTransactionOutputListByAddress";
     public static final String QUERY_STXOS_BY_ADDRESS = "/Api/BlockChain/QueryStxosByAddress";
 
     //根据交易输出ID，查询[交易输出来源所在的]交易和[交易输出去向所在的]交易
