@@ -242,13 +242,13 @@ public class BlockChainBrowserController {
      */
     @ResponseBody
     @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<QueryTxosByAddressResponse> queryTransactionOutputListByAddress(@RequestBody QueryTxosByAddressRequest request){
+    public ServiceResult<QueryTransactionOutputListByAddressResponse> queryTransactionOutputListByAddress(@RequestBody QueryTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
             List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.queryTransactionOutputListByAddress(request.getAddress(),from,size);
-            QueryTxosByAddressResponse response = new QueryTxosByAddressResponse();
+            QueryTransactionOutputListByAddressResponse response = new QueryTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
