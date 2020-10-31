@@ -160,9 +160,15 @@ public class BlockChainCoreImpl extends BlockChainCore {
                 privateKeyList.add(account.getPrivateKey());
             }
         }
-        //创建新的账户，存放找零
-        Account account = wallet.createAccount();
-        wallet.addAccount(account);
+        //存放找零
+        Account account = null;
+        List<Account> queryAllAccount = wallet.queryAllAccount();
+        if(queryAllAccount != null && queryAllAccount.size()>0){
+            account = queryAllAccount.get(0);
+        }else {
+            account = wallet.createAccount();
+            wallet.addAccount(account);
+        }
         return buildTransactionDTO(privateKeyList,account.getAddress(),request.getRecipientList());
     }
 
@@ -197,6 +203,9 @@ public class BlockChainCoreImpl extends BlockChainCore {
         boolean haveFeeToPay = false;
         //序号
         for(String privateKey : payerPrivateKeyList){
+            if(haveFeeToPay){
+                break;
+            }
             //TODO 优化 可能不止100
             String address = AccountUtil.accountFromPrivateKey(privateKey).getAddress();
             List<TransactionOutput> utxoList = blockChainDataBase.queryUnspendTransactionOutputListByAddress(address,0,100);
@@ -218,10 +227,16 @@ public class BlockChainCoreImpl extends BlockChainCore {
         }
 
         if(!haveEnoughMoneyToPay){
-            throw new ClassCastException("账户没有足够的金额去支付。");
+            BuildTransactionResponse buildTransactionResponse = new BuildTransactionResponse();
+            buildTransactionResponse.setBuildTransactionSuccess(false);
+            buildTransactionResponse.setMessage("账户没有足够的金额去支付");
+            return buildTransactionResponse;
         }
         if(!haveFeeToPay){
-            throw new ClassCastException("账户没有足够的手续费去支付。");
+            BuildTransactionResponse buildTransactionResponse = new BuildTransactionResponse();
+            buildTransactionResponse.setBuildTransactionSuccess(false);
+            buildTransactionResponse.setMessage("账户没有足够的手续费去支付");
+            return buildTransactionResponse;
         }
 
         //构建交易输入

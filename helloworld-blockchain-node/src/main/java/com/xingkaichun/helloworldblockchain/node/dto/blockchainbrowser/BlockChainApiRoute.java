@@ -9,7 +9,6 @@ public class BlockChainApiRoute {
     public static final String PING = "/Api/BlockChain/Ping";
     public static final String GENERATE_ACCOUNT = "/Api/BlockChain/GenerateAccount";
 
-    public static final String BUILD_TRANSACTION = "/Api/BlockChain/BuildTransactionDto";
     public static final String SUBMIT_TRANSACTION = "/Api/BlockChain/SubmitTransactionDto";
 
     public static final String QUERY_TRANSACTION_BY_TRANSACTION_HASH = "/Api/BlockChain/QueryTransactionByTransactionHash";

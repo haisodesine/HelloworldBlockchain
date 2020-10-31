@@ -76,31 +76,6 @@ public class BlockChainBrowserController {
     }
 
     /**
-     * 构建交易
-     */
-    @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.BUILD_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<BuildTransactionResponse> buildTransaction(@RequestBody BuildTransactionRequest request){
-        try {
-            List<Recipient> recipientList = request.getRecipientList();
-            if(recipientList == null || recipientList.isEmpty()){
-                return ServiceResult.createFailServiceResult("交易输出不能为空。");
-            }
-            for(Recipient recipient:recipientList){
-                if(Strings.isNullOrEmpty(recipient.getAddress())){
-                    return ServiceResult.createFailServiceResult("交易输出的地址不能为空。");
-                }
-            }
-            BuildTransactionResponse buildTransactionResponse = netBlockchainCore.buildTransaction(request);
-            return ServiceResult.createSuccessServiceResult("构建交易成功",buildTransactionResponse);
-        } catch (Exception e){
-            String message = "构建交易失败";
-            logger.error(message,e);
-            return ServiceResult.createFailServiceResult(message);
-        }
-    }
-
-    /**
      * 提交交易到区块链网络
      */
     @ResponseBody

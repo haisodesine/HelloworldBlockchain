@@ -2,6 +2,9 @@ package com.xingkaichun.helloworldblockchain.node.controller;
 
 import com.google.common.base.Strings;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
+import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.tools.WalletTool;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
@@ -335,7 +338,7 @@ public class AdminConsoleController {
     public ServiceResult<DeleteAccountResponse> deleteAccount(@RequestBody DeleteAccountRequest request){
         try {
             String address = request.getAddress();
-            if(!Strings.isNullOrEmpty(address)){
+            if(Strings.isNullOrEmpty(address)){
                 return ServiceResult.createFailServiceResult("请填写需要删除的地址");
             }
             getBlockChainCore().getWallet().deleteAccountByAddress(address);
@@ -375,6 +378,31 @@ public class AdminConsoleController {
             return ServiceResult.createSuccessServiceResult("[查询所有账户]成功",response);
         } catch (Exception e){
             String message = "[查询所有账户]失败";
+            logger.error(message,e);
+            return ServiceResult.createFailServiceResult(message);
+        }
+    }
+
+    /**
+     * 构建交易
+     */
+    @ResponseBody
+    @RequestMapping(value = AdminConsoleApiRoute.BUILD_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<BuildTransactionResponse> buildTransaction(@RequestBody BuildTransactionRequest request){
+        try {
+            List<Recipient> recipientList = request.getRecipientList();
+            if(recipientList == null || recipientList.isEmpty()){
+                return ServiceResult.createFailServiceResult("交易输出不能为空。");
+            }
+            for(Recipient recipient:recipientList){
+                if(Strings.isNullOrEmpty(recipient.getAddress())){
+                    return ServiceResult.createFailServiceResult("交易输出的地址不能为空。");
+                }
+            }
+            BuildTransactionResponse buildTransactionResponse = netBlockchainCore.buildTransaction(request);
+            return ServiceResult.createSuccessServiceResult("构建交易成功",buildTransactionResponse);
+        } catch (Exception e){
+            String message = "构建交易失败";
             logger.error(message,e);
             return ServiceResult.createFailServiceResult(message);
         }
