@@ -1,13 +1,13 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
-import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
+import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResultDto;
 import com.xingkaichun.helloworldblockchain.netcore.netserver.BlockchainHttpServer;
 import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
@@ -111,14 +111,14 @@ public class NetBlockchainCore {
 
 
 
-    public SubmitTransactionResultDto submitTransaction(SubmitTransactionDto submitTransactionDto) {
-        //构建交易
-        TransactionDTO transactionDTO = blockChainCore.buildTransactionDTO(submitTransactionDto.getPrivateKeyList(),submitTransactionDto.getPayerChangeAddress(),submitTransactionDto.getRecipientList());
-        blockChainCore.submitTransaction(transactionDTO);
+    public BuildTransactionResponse buildTransaction(List<Recipient> recipientList) {
+        BuildTransactionResponse buildTransactionResponse = blockChainCore.buildTransactionDTO(recipientList);
+        return buildTransactionResponse;
+    }
 
-        //提交交易到本地
+    public SubmitTransactionResultDto submitTransaction(TransactionDTO transactionDTO) {
+        //将交易提交到本地区块链
         blockChainCore.submitTransaction(transactionDTO);
-
         //提交交易到网络
         List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
         List<SubmitTransactionResultDto.Node> successSubmitNode = new ArrayList<>();
@@ -138,9 +138,9 @@ public class NetBlockchainCore {
         response.setTransactionDTO(transactionDTO);
         response.setSuccessSubmitNode(successSubmitNode);
         response.setFailSubmitNode(failSubmitNode);
-        response.setTransactionHash(TransactionTool.calculateTransactionHash(transactionDTO));
         return response;
     }
+
 
     //region get set
     public BlockChainCore getBlockChainCore() {

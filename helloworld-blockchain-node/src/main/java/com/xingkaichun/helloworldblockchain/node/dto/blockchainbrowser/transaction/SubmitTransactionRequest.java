@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction;
 
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionDto;
+import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 
 /**
  *
@@ -8,20 +8,21 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransa
  */
 public class SubmitTransactionRequest {
 
-    private SubmitTransactionDto submitTransactionDto;
+    private TransactionDTO transactionDTO;
 
 
 
 
     //region get set
 
-    public SubmitTransactionDto getSubmitTransactionDto() {
-        return submitTransactionDto;
+    public TransactionDTO getTransactionDTO() {
+        return transactionDTO;
     }
 
-    public void setSubmitTransactionDto(SubmitTransactionDto submitTransactionDto) {
-        this.submitTransactionDto = submitTransactionDto;
+    public void setTransactionDTO(TransactionDTO transactionDTO) {
+        this.transactionDTO = transactionDTO;
     }
+
 
     //endregion
 }

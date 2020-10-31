@@ -3,8 +3,12 @@ package com.xingkaichun.helloworldblockchain.node.controller;
 import com.google.common.base.Strings;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
-import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
@@ -13,7 +17,6 @@ import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.page.PageCondition;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResultDto;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.BlockChainApiRoute;
@@ -71,24 +74,13 @@ public class BlockChainBrowserController {
     }
 
     /**
-     * 提交交易到区块链网络
+     * 构建交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<SubmitTransactionResponseDto> submitTransaction(@RequestBody SubmitTransactionRequest request){
+    @RequestMapping(value = BlockChainApiRoute.BUILD_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<BuildTransactionResponse> buildTransaction(@RequestBody BuildTransactionRequest request){
         try {
-            SubmitTransactionDto submitTransactionDto = request.getSubmitTransactionDto();
-            List<String> privateKeyList = submitTransactionDto.getPrivateKeyList();
-            if(privateKeyList != null){
-                try {
-                    for(String privateKey:privateKeyList){
-                        AccountUtil.accountFromPrivateKey(privateKey);
-                    }
-                } catch (Exception e){
-                    return ServiceResult.createFailServiceResult("私钥不正确，请检查输入的私钥");
-                }
-            }
-            List<Recipient> recipientList = submitTransactionDto.getRecipientList();
+            List<Recipient> recipientList = request.getRecipientList();
             if(recipientList == null || recipientList.isEmpty()){
                 return ServiceResult.createFailServiceResult("交易输出不能为空。");
             }
@@ -97,13 +89,24 @@ public class BlockChainBrowserController {
                     return ServiceResult.createFailServiceResult("交易输出的地址不能为空。");
                 }
             }
-            SubmitTransactionResultDto submitTransactionResultDto = netBlockchainCore.submitTransaction(request.getSubmitTransactionDto());
-            SubmitTransactionResponseDto response = new SubmitTransactionResponseDto();
-            response.setTransactionHash(submitTransactionResultDto.getTransactionHash());
-            response.setTransactionDTO(submitTransactionResultDto.getTransactionDTO());
-            response.setSuccessSubmitNode(submitTransactionResultDto.getSuccessSubmitNode());
-            response.setFailSubmitNode(submitTransactionResultDto.getFailSubmitNode());
-            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功",response);
+            BuildTransactionResponse buildTransactionResponse = netBlockchainCore.buildTransaction(request.getRecipientList());
+            return ServiceResult.createSuccessServiceResult("构建交易成功",buildTransactionResponse);
+        } catch (Exception e){
+            String message = "构建交易失败";
+            logger.error(message,e);
+            return ServiceResult.createFailServiceResult(message);
+        }
+    }
+
+    /**
+     * 提交交易到区块链网络
+     */
+    @ResponseBody
+    @RequestMapping(value = BlockChainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<SubmitTransactionResultDto> submitTransaction(@RequestBody SubmitTransactionRequest request){
+        try {
+            SubmitTransactionResultDto submitTransactionResultDto = netBlockchainCore.submitTransaction(request.getTransactionDTO());
+            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功",submitTransactionResultDto);
         } catch (Exception e){
             String message = "提交交易到区块链网络失败";
             logger.error(message,e);

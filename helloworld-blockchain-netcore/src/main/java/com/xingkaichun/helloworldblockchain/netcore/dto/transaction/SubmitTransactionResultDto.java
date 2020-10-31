@@ -10,10 +10,7 @@ import java.util.List;
  */
 public class SubmitTransactionResultDto {
 
-    //交易Hash
-    private String transactionHash;
-
-    //经过处理后的交易
+    //交易
     private TransactionDTO transactionDTO;
 
     //交易成功提交的节点
@@ -33,9 +30,6 @@ public class SubmitTransactionResultDto {
             this.ip = ip;
             this.port = port;
         }
-
-
-
 
         //region get set
 
@@ -85,14 +79,6 @@ public class SubmitTransactionResultDto {
 
     public void setFailSubmitNode(List<Node> failSubmitNode) {
         this.failSubmitNode = failSubmitNode;
-    }
-
-    public String getTransactionHash() {
-        return transactionHash;
-    }
-
-    public void setTransactionHash(String transactionHash) {
-        this.transactionHash = transactionHash;
     }
 
     //endregion

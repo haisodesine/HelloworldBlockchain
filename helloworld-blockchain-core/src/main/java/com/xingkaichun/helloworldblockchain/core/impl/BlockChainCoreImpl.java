@@ -2,6 +2,7 @@ package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.xingkaichun.helloworldblockchain.core.*;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.script.ScriptKey;
 import com.xingkaichun.helloworldblockchain.core.model.script.ScriptLock;
@@ -150,7 +151,7 @@ public class BlockChainCoreImpl extends BlockChainCore {
 
 
 
-    public TransactionDTO buildTransactionDTO(List<Recipient> recipientList) {
+    public BuildTransactionResponse buildTransactionDTO(List<Recipient> recipientList) {
         List<Account> allAccountList = wallet.queryAllAccount();
         List<String> privateKeyList = new ArrayList<>();
         if(allAccountList != null){
@@ -164,7 +165,7 @@ public class BlockChainCoreImpl extends BlockChainCore {
         return buildTransactionDTO(privateKeyList,account.getAddress(),recipientList);
     }
 
-    public TransactionDTO buildTransactionDTO(List<String> payerPrivateKeyList,String payerChangeAddress,List<Recipient> recipientList) {
+    public BuildTransactionResponse buildTransactionDTO(List<String> payerPrivateKeyList,String payerChangeAddress,List<Recipient> recipientList) {
         //理应支付总金额
         long outputValues = 0;
         if(recipientList != null){
@@ -262,7 +263,25 @@ public class BlockChainCoreImpl extends BlockChainCore {
             ScriptKey scriptKey = StackBasedVirtualMachine.createPayToPublicKeyHashInputScript(signature, publicKey);
             transactionInputDTO.setScriptKeyDTO(Model2DtoTool.scriptKey2ScriptKeyDTO(scriptKey));
         }
-        return transactionDTO;
+
+
+        BuildTransactionResponse buildTransactionResponse = new BuildTransactionResponse();
+        buildTransactionResponse.setBuildTransactionSuccess(true);
+        buildTransactionResponse.setMessage("构建交易成功");
+        buildTransactionResponse.setTransactionHash(TransactionTool.calculateTransactionHash(transactionDTO));
+        buildTransactionResponse.setFee(feeValues);
+        if(change > 0){
+            buildTransactionResponse.setPayerChangeAddress(payerChangeAddress);
+            buildTransactionResponse.setPayerChangeValue(change);
+        }
+        buildTransactionResponse.setTransactionInputList(inputs);
+        List<TransactionOutputDTO> transactionOutputDtoList2 = new ArrayList<>();
+        for(TransactionOutputDTO transactionOutputDTO:transactionOutputDtoList){
+            transactionOutputDtoList2.add(transactionOutputDTO);
+        }
+        buildTransactionResponse.setTransactionOutpuDtoList(transactionOutputDtoList2);
+        buildTransactionResponse.setTransactionDTO(transactionDTO);
+        return buildTransactionResponse;
     }
 
     @Override
