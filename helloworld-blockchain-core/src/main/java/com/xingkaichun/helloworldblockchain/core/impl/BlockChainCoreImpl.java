@@ -2,6 +2,7 @@ package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.xingkaichun.helloworldblockchain.core.*;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.script.ScriptKey;
@@ -151,7 +152,7 @@ public class BlockChainCoreImpl extends BlockChainCore {
 
 
 
-    public BuildTransactionResponse buildTransactionDTO(List<Recipient> recipientList) {
+    public BuildTransactionResponse buildTransactionDTO(BuildTransactionRequest request) {
         List<Account> allAccountList = wallet.queryAllAccount();
         List<String> privateKeyList = new ArrayList<>();
         if(allAccountList != null){
@@ -162,7 +163,7 @@ public class BlockChainCoreImpl extends BlockChainCore {
         //创建新的账户，存放找零
         Account account = wallet.createAccount();
         wallet.addAccount(account);
-        return buildTransactionDTO(privateKeyList,account.getAddress(),recipientList);
+        return buildTransactionDTO(privateKeyList,account.getAddress(),request.getRecipientList());
     }
 
     public BuildTransactionResponse buildTransactionDTO(List<String> payerPrivateKeyList,String payerChangeAddress,List<Recipient> recipientList) {

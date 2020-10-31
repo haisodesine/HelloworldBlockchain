@@ -3,6 +3,7 @@ package com.xingkaichun.helloworldblockchain.node.controller;
 import com.google.common.base.Strings;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
@@ -89,7 +90,7 @@ public class BlockChainBrowserController {
                     return ServiceResult.createFailServiceResult("交易输出的地址不能为空。");
                 }
             }
-            BuildTransactionResponse buildTransactionResponse = netBlockchainCore.buildTransaction(request.getRecipientList());
+            BuildTransactionResponse buildTransactionResponse = netBlockchainCore.buildTransaction(request);
             return ServiceResult.createSuccessServiceResult("构建交易成功",buildTransactionResponse);
         } catch (Exception e){
             String message = "构建交易失败";

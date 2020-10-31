@@ -1,6 +1,4 @@
-package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction;
-
-import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
+package com.xingkaichun.helloworldblockchain.core.model.pay;
 
 import java.util.List;
 

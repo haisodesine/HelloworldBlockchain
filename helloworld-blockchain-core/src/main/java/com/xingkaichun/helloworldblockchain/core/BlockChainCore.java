@@ -1,6 +1,7 @@
 package com.xingkaichun.helloworldblockchain.core;
 
 import com.xingkaichun.helloworldblockchain.core.model.Block;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
@@ -102,7 +103,7 @@ public abstract class BlockChainCore {
     /**
      * 构建交易。使用钱包里的账户。
      */
-    public abstract BuildTransactionResponse buildTransactionDTO(List<Recipient> recipientList) ;
+    public abstract BuildTransactionResponse buildTransactionDTO(BuildTransactionRequest request) ;
     /**
      * 构建交易。使用提供的账户。
      * @param payerPrivateKeyList 付款方私钥列表

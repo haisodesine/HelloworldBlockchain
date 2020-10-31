@@ -1,6 +1,7 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
@@ -111,8 +112,8 @@ public class NetBlockchainCore {
 
 
 
-    public BuildTransactionResponse buildTransaction(List<Recipient> recipientList) {
-        BuildTransactionResponse buildTransactionResponse = blockChainCore.buildTransactionDTO(recipientList);
+    public BuildTransactionResponse buildTransaction(BuildTransactionRequest request) {
+        BuildTransactionResponse buildTransactionResponse = blockChainCore.buildTransactionDTO(request);
         return buildTransactionResponse;
     }
 
