@@ -79,15 +79,14 @@ public class BlockChainBrowserController {
         try {
             SubmitTransactionDto submitTransactionDto = request.getSubmitTransactionDto();
             List<String> privateKeyList = submitTransactionDto.getPrivateKeyList();
-            if(privateKeyList == null || privateKeyList.isEmpty()){
-                return ServiceResult.createFailServiceResult("私钥不能为空");
-            }
-            try {
-                for(String privateKey:privateKeyList){
-                    AccountUtil.accountFromPrivateKey(privateKey);
+            if(privateKeyList != null){
+                try {
+                    for(String privateKey:privateKeyList){
+                        AccountUtil.accountFromPrivateKey(privateKey);
+                    }
+                } catch (Exception e){
+                    return ServiceResult.createFailServiceResult("私钥不正确，请检查输入的私钥");
                 }
-            } catch (Exception e){
-                return ServiceResult.createFailServiceResult("私钥不正确，请检查输入的私钥");
             }
             List<Recipient> recipientList = submitTransactionDto.getRecipientList();
             if(recipientList == null || recipientList.isEmpty()){
