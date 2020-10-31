@@ -18,7 +18,8 @@ import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.page.PageCondition;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResultDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.BlockChainApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.block.*;
@@ -104,10 +105,10 @@ public class BlockChainBrowserController {
      */
     @ResponseBody
     @RequestMapping(value = BlockChainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<SubmitTransactionResultDto> submitTransaction(@RequestBody SubmitTransactionRequest request){
+    public ServiceResult<SubmitTransactionResponse> submitTransaction(@RequestBody SubmitTransactionRequest request){
         try {
-            SubmitTransactionResultDto submitTransactionResultDto = netBlockchainCore.submitTransaction(request.getTransactionDTO());
-            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功",submitTransactionResultDto);
+            SubmitTransactionResponse submitTransactionResponse = netBlockchainCore.submitTransaction(request);
+            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功", submitTransactionResponse);
         } catch (Exception e){
             String message = "提交交易到区块链网络失败";
             logger.error(message,e);
