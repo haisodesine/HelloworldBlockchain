@@ -201,14 +201,14 @@ public class BlockChainBrowserController {
      * 根据地址获取未花费交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_UTXOS_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<QueryUtxosByAddressResponse> queryUtxosByAddress(@RequestBody QueryUtxosByAddressRequest request){
+    @RequestMapping(value = BlockChainApiRoute.QUERY_UNSPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryUnspendTransactionOutputListByAddressResponse> queryUnspendTransactionOutputListByAddress(@RequestBody QueryUnspendTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
             List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.queryUnspendTransactionOutputListByAddress(request.getAddress(),from,size);
-            QueryUtxosByAddressResponse response = new QueryUtxosByAddressResponse();
+            QueryUnspendTransactionOutputListByAddressResponse response = new QueryUnspendTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
@@ -221,14 +221,14 @@ public class BlockChainBrowserController {
      * 根据地址获取未花费交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_STXOS_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<QueryStxosByAddressResponse> queryStxosByAddress(@RequestBody QueryStxosByAddressRequest request){
+    @RequestMapping(value = BlockChainApiRoute.QUERY_SPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QuerySpendTransactionOutputListByAddressResponse> querySpendTransactionOutputListByAddress(@RequestBody QuerySpendTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
             List<QueryTxoByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.querySpendTransactionOutputListByAddress(request.getAddress(),from,size);
-            QueryStxosByAddressResponse response = new QueryStxosByAddressResponse();
+            QuerySpendTransactionOutputListByAddressResponse response = new QuerySpendTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
