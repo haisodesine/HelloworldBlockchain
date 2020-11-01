@@ -30,9 +30,7 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
 
         this.transactionPoolDB = LevelDBUtil.createDB(new File(blockchainDataPath,MinerTransaction_DataBase_DirectName));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            LevelDBUtil.closeDB(transactionPoolDB);
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> LevelDBUtil.closeDB(transactionPoolDB)));
     }
 
     public void insertTransactionDTO(TransactionDTO transactionDTO) {

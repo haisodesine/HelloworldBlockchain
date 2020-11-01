@@ -1,10 +1,23 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
+import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
+import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
+import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.netserver.BlockchainHttpServer;
+import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
+import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
+import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 网络版区块链核心，代表一个完整的网络版区块链核心系统。
@@ -32,12 +45,13 @@ public class NetBlockchainCore {
     private BlockBroadcaster blockBroadcaster;
 
     private ConfigurationService configurationService;
-
-
+    private NodeService nodeService;
+    private BlockchainNodeClientService blockchainNodeClientService;
     public NetBlockchainCore(BlockChainCore blockChainCore
             , BlockchainHttpServer blockchainHttpServer, ConfigurationService configurationService
             , NodeSearcher nodeSearcher, NodeBroadcaster nodeBroadcaster
-            , BlockSearcher blockSearcher , BlockBroadcaster blockBroadcaster) {
+            , BlockSearcher blockSearcher , BlockBroadcaster blockBroadcaster
+            , NodeService nodeService, BlockchainNodeClientService blockchainNodeClientService) {
 
         this.blockChainCore = blockChainCore;
         this.blockchainHttpServer = blockchainHttpServer;
@@ -46,6 +60,9 @@ public class NetBlockchainCore {
         this.nodeBroadcaster = nodeBroadcaster;
         this.blockSearcher = blockSearcher;
         this.blockBroadcaster = blockBroadcaster;
+
+        this.nodeService = nodeService;
+        this.blockchainNodeClientService = blockchainNodeClientService;
         restoreConfiguration();
     }
 
@@ -91,6 +108,42 @@ public class NetBlockchainCore {
 
 
 
+
+
+
+
+    public BuildTransactionResponse buildTransaction(BuildTransactionRequest request) {
+        BuildTransactionResponse buildTransactionResponse = blockChainCore.buildTransactionDTO(request);
+        return buildTransactionResponse;
+    }
+
+    public SubmitTransactionResponse submitTransaction(SubmitTransactionRequest request) {
+        TransactionDTO transactionDTO = request.getTransactionDTO();
+        //将交易提交到本地区块链
+        blockChainCore.submitTransaction(transactionDTO);
+        //提交交易到网络
+        List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
+        List<SubmitTransactionResponse.Node> successSubmitNode = new ArrayList<>();
+        List<SubmitTransactionResponse.Node> failSubmitNode = new ArrayList<>();
+        if(nodes != null){
+            for(NodeDto node:nodes){
+                ServiceResult<EmptyResponse> submitSuccess = blockchainNodeClientService.sumiteTransaction(node,transactionDTO);
+                if(ServiceResult.isSuccess(submitSuccess)){
+                    successSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
+                } else {
+                    failSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
+                }
+            }
+        }
+
+        SubmitTransactionResponse response = new SubmitTransactionResponse();
+        response.setTransactionDTO(transactionDTO);
+        response.setSuccessSubmitNode(successSubmitNode);
+        response.setFailSubmitNode(failSubmitNode);
+        return response;
+    }
+
+
     //region get set
     public BlockChainCore getBlockChainCore() {
         return blockChainCore;
@@ -114,6 +167,18 @@ public class NetBlockchainCore {
 
     public ConfigurationService getConfigurationService() {
         return configurationService;
+    }
+
+    public NodeBroadcaster getNodeBroadcaster() {
+        return nodeBroadcaster;
+    }
+
+    public NodeService getNodeService() {
+        return nodeService;
+    }
+
+    public BlockchainNodeClientService getBlockchainNodeClientService() {
+        return blockchainNodeClientService;
     }
     //end
 }
