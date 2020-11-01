@@ -37,7 +37,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
 				}
 			}
 		}
-		logger.debug("该IP无操作权限!");
-		return false;
+		throw new RuntimeException("该IP无操作权限!");
 	}
 }
