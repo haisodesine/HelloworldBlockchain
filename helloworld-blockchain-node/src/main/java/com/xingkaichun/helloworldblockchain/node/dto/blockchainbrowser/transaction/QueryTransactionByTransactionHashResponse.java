@@ -1,162 +1,27 @@
 package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction;
 
-import java.util.List;
-
 /**
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
 public class QueryTransactionByTransactionHashResponse {
 
-    private TransactionDto transactionDto;
+    private TransactionView transactionView;
 
 
 
 
     //region get set
 
-    public TransactionDto getTransactionDto() {
-        return transactionDto;
+    public TransactionView getTransactionView() {
+        return transactionView;
     }
 
-    public void setTransactionDto(TransactionDto transactionDto) {
-        this.transactionDto = transactionDto;
+    public void setTransactionView(TransactionView transactionView) {
+        this.transactionView = transactionView;
     }
 
 
     //endregion
 
-
-    public static class TransactionDto {
-        private long blockHeight;
-        private long confirmCount;
-        private String transactionHash;
-        private String blockTime;
-
-        private long transactionFee;
-        private String transactionType;
-        private long transactionInputCount;
-        private long transactionOutputCount;
-        private long transactionInputValues;
-        private long transactionOutputValues;
-
-        private List<TransactionInputView> transactionInputViewList;
-        private List<TransactionOutputView> transactionOutputViewList;
-
-        private List<String> scriptKeyList;
-        private List<String> scriptLockList;
-
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public long getBlockHeight() {
-            return blockHeight;
-        }
-
-        public void setBlockHeight(long blockHeight) {
-            this.blockHeight = blockHeight;
-        }
-
-        public long getConfirmCount() {
-            return confirmCount;
-        }
-
-        public void setConfirmCount(long confirmCount) {
-            this.confirmCount = confirmCount;
-        }
-
-        public String getBlockTime() {
-            return blockTime;
-        }
-
-        public void setBlockTime(String blockTime) {
-            this.blockTime = blockTime;
-        }
-
-        public long getTransactionFee() {
-            return transactionFee;
-        }
-
-        public void setTransactionFee(long transactionFee) {
-            this.transactionFee = transactionFee;
-        }
-
-        public String getTransactionType() {
-            return transactionType;
-        }
-
-        public void setTransactionType(String transactionType) {
-            this.transactionType = transactionType;
-        }
-
-        public long getTransactionInputCount() {
-            return transactionInputCount;
-        }
-
-        public void setTransactionInputCount(long transactionInputCount) {
-            this.transactionInputCount = transactionInputCount;
-        }
-
-        public long getTransactionOutputCount() {
-            return transactionOutputCount;
-        }
-
-        public void setTransactionOutputCount(long transactionOutputCount) {
-            this.transactionOutputCount = transactionOutputCount;
-        }
-
-        public long getTransactionInputValues() {
-            return transactionInputValues;
-        }
-
-        public void setTransactionInputValues(long transactionInputValues) {
-            this.transactionInputValues = transactionInputValues;
-        }
-
-        public long getTransactionOutputValues() {
-            return transactionOutputValues;
-        }
-
-        public void setTransactionOutputValues(long transactionOutputValues) {
-            this.transactionOutputValues = transactionOutputValues;
-        }
-
-        public List<TransactionInputView> getTransactionInputViewList() {
-            return transactionInputViewList;
-        }
-
-        public void setTransactionInputViewList(List<TransactionInputView> transactionInputViewList) {
-            this.transactionInputViewList = transactionInputViewList;
-        }
-
-        public List<TransactionOutputView> getTransactionOutputViewList() {
-            return transactionOutputViewList;
-        }
-
-        public void setTransactionOutputViewList(List<TransactionOutputView> transactionOutputViewList) {
-            this.transactionOutputViewList = transactionOutputViewList;
-        }
-
-        public List<String> getScriptKeyList() {
-            return scriptKeyList;
-        }
-
-        public void setScriptKeyList(List<String> scriptKeyList) {
-            this.scriptKeyList = scriptKeyList;
-        }
-
-        public List<String> getScriptLockList() {
-            return scriptLockList;
-        }
-
-        public void setScriptLockList(List<String> scriptLockList) {
-            this.scriptLockList = scriptLockList;
-        }
-    }
 }

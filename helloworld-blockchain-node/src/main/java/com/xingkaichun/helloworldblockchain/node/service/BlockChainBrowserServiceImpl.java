@@ -6,10 +6,10 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
 import com.xingkaichun.helloworldblockchain.node.tool.BlockChainBrowserControllerModel2DtoTool;
 import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,14 +49,14 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
         //来源
         Transaction inputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionOutputId.getTransactionHash());
-        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto inputTransactionDto = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(inputTransaction);
+        TransactionView inputTransactionView = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(inputTransaction);
 
         //去向
-        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto outputTransactionDto = null;
+        TransactionView outputTransactionView = null;
         if(transactionOutputTemp==null){
             String transactionHash = getBlockChainCore().getBlockChainDataBase().queryToTransactionHashByTransactionOutputId(transactionOutputId);
             Transaction outputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionHash);
-            outputTransactionDto = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(outputTransaction);
+            outputTransactionView = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(outputTransaction);
 
             List<TransactionInput> inputs = outputTransaction.getInputs();
             if(inputs != null){
@@ -70,8 +70,8 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
                 }
             }
         }
-        transactionOutputDetailDto.setInputTransaction(inputTransactionDto);
-        transactionOutputDetailDto.setOutputTransaction(outputTransactionDto);
+        transactionOutputDetailDto.setInputTransaction(inputTransactionView);
+        transactionOutputDetailDto.setOutputTransaction(outputTransactionView);
         return transactionOutputDetailDto;
     }
 
@@ -104,55 +104,55 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     }
 
     @Override
-    public List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByAddress(String address, long from, long size) {
+    public List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> queryTransactionListByAddress(String address, long from, long size) {
         List<Transaction> transactionList = getBlockChainCore().queryTransactionListByAddress(address,from,size);
         if(transactionList == null){
             return null;
         }
-        List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
+        List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> transactionViewList = new ArrayList<>();
         for(Transaction transaction:transactionList){
-            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = queryTransactionByTransactionHash(transaction.getTransactionHash());
-            transactionDtoList.add(transactionDto);
+            com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
+            transactionViewList.add(transactionView);
         }
-        return transactionDtoList;
+        return transactionViewList;
     }
 
     @Override
-    public List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
+    public List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
         Block block = getBlockChainCore().queryBlockByBlockHash(blockHash);
         long fromUpdate = block.getStartTransactionIndexInBlockChain() + from;
         List<Transaction> transactionList = getBlockChainCore().queryTransactionListByTransactionHeight(fromUpdate,size);
-        List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
+        List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> transactionViewList = new ArrayList<>();
         for(Transaction transaction:transactionList){
-            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = queryTransactionByTransactionHash(transaction.getTransactionHash());
-            transactionDtoList.add(transactionDto);
+            com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
+            transactionViewList.add(transactionView);
         }
-        return transactionDtoList;
+        return transactionViewList;
     }
 
 
 
     @Override
-    public QueryTransactionByTransactionHashResponse.TransactionDto queryTransactionByTransactionHash(String transactionHash) {
+    public com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView queryTransactionByTransactionHash(String transactionHash) {
         Transaction transaction = getBlockChainCore().queryTransactionByTransactionHash(transactionHash);
         if(transaction == null){
             return null;
         }
         long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
         Block block = getBlockChainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
-        QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = new QueryTransactionByTransactionHashResponse.TransactionDto();
+        com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = new com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView();
 
-        transactionDto.setTransactionHash(transaction.getTransactionHash());
-        transactionDto.setBlockHeight(transaction.getBlockHeight());
-        transactionDto.setConfirmCount(blockChainHeight-block.getHeight());
-        transactionDto.setBlockTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
+        transactionView.setTransactionHash(transaction.getTransactionHash());
+        transactionView.setBlockHeight(transaction.getBlockHeight());
+        transactionView.setConfirmCount(blockChainHeight-block.getHeight());
+        transactionView.setBlockTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
 
-        transactionDto.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));
-        transactionDto.setTransactionType(transaction.getTransactionType().name());
-        transactionDto.setTransactionInputCount(TransactionTool.getTransactionInputCount(transaction));
-        transactionDto.setTransactionOutputCount(TransactionTool.getTransactionOutputCount(transaction));
-        transactionDto.setTransactionInputValues(TransactionTool.getInputsValue(transaction));
-        transactionDto.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
+        transactionView.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));
+        transactionView.setTransactionType(transaction.getTransactionType().name());
+        transactionView.setTransactionInputCount(TransactionTool.getTransactionInputCount(transaction));
+        transactionView.setTransactionOutputCount(TransactionTool.getTransactionOutputCount(transaction));
+        transactionView.setTransactionInputValues(TransactionTool.getInputsValue(transaction));
+        transactionView.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
 
         List<TransactionInput> inputs = transaction.getInputs();
         List<TransactionInputView> transactionInputViewList = new ArrayList<>();
@@ -182,24 +182,24 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
             }
         }
 
-        transactionDto.setTransactionInputViewList(transactionInputViewList);
-        transactionDto.setTransactionOutputViewList(transactionOutputViewList);
+        transactionView.setTransactionInputViewList(transactionInputViewList);
+        transactionView.setTransactionOutputViewList(transactionOutputViewList);
 
         if(transactionInputViewList != null){
             List<String> scriptKeyList = new ArrayList<>();
             for (TransactionInputView transactionInputView : transactionInputViewList){
                 scriptKeyList.add(transactionInputView.getScriptKey());
             }
-            transactionDto.setScriptKeyList(scriptKeyList);
+            transactionView.setScriptKeyList(scriptKeyList);
         }
         if(transactionOutputViewList != null){
             List<String> scriptLockList = new ArrayList<>();
             for (TransactionOutputView transactionOutputView : transactionOutputViewList){
                 scriptLockList.add(transactionOutputView.getScriptLock());
             }
-            transactionDto.setScriptLockList(scriptLockList);
+            transactionView.setScriptLockList(scriptLockList);
         }
-        return transactionDto;
+        return transactionView;
     }
 
     @Override

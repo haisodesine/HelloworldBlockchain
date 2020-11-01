@@ -3,12 +3,8 @@ package com.xingkaichun.helloworldblockchain.node.controller;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
-import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
-import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
-import com.xingkaichun.helloworldblockchain.core.tools.StructureSizeTool;
-import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.core.utils.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
@@ -96,9 +92,9 @@ public class BlockChainBrowserController {
     @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionByTransactionHashResponse> queryTransactionByTransactionHash(@RequestBody QueryTransactionByTransactionHashRequest request){
         try {
-            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = blockChainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
+            TransactionView transactionView = blockChainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
             QueryTransactionByTransactionHashResponse response = new QueryTransactionByTransactionHashResponse();
-            response.setTransactionDto(transactionDto);
+            response.setTransactionView(transactionView);
             return ServiceResult.createSuccessServiceResult("根据交易哈希查询交易成功",response);
         } catch (Exception e){
             String message = "根据交易哈希查询交易失败";
@@ -144,9 +140,9 @@ public class BlockChainBrowserController {
             if(StringUtil.isEmpty(request.getBlockHash())){
                 return ServiceResult.createFailServiceResult("区块哈希不能是空");
             }
-            List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = blockChainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);
+            List<TransactionView> transactionViewList = blockChainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);
             QueryTransactionListByBlockHashTransactionHeightResponse response = new QueryTransactionListByBlockHashTransactionHeightResponse();
-            response.setTransactionDtoList(transactionDtoList);
+            response.setTransactionViewList(transactionViewList);
             return ServiceResult.createSuccessServiceResult("根据交易高度查询交易成功",response);
         } catch (Exception e){
             String message = "根据交易高度查询交易失败";
@@ -162,9 +158,9 @@ public class BlockChainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = blockChainBrowserService.queryTransactionListByAddress(request.getAddress(),from,size);
+            List<TransactionView> transactionViewList = blockChainBrowserService.queryTransactionListByAddress(request.getAddress(),from,size);
             QueryTransactionListByAddressResponse response = new QueryTransactionListByAddressResponse();
-            response.setTransactionDtoList(transactionDtoList);
+            response.setTransactionViewList(transactionViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
             String message = "[查询交易输出]失败";
@@ -366,11 +362,11 @@ public class BlockChainBrowserController {
             blockDto.setMerkleTreeRoot(block.getMerkleTreeRoot());
 
 
-            /*List<QueryBlockDtoByBlockHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
+            /*List<QueryBlockDtoByBlockHashResponse.TransactionView> transactionDtoList = new ArrayList<>();
             List<Transaction> transactions = block.getTransactions();
             if(transactions != null){
                 for(Transaction transaction:transactions){
-                    QueryBlockDtoByBlockHashResponse.TransactionDto transactionDto = new QueryBlockDtoByBlockHashResponse.TransactionDto();
+                    QueryBlockDtoByBlockHashResponse.TransactionView transactionDto = new QueryBlockDtoByBlockHashResponse.TransactionView();
                     transactionDto.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));
                     transactionDto.setTransactionHash(transaction.getTransactionHash());
                     transactionDto.setTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
@@ -405,7 +401,7 @@ public class BlockChainBrowserController {
                     transactionDtoList.add(transactionDto);
                 }
             }
-            blockDto.setTransactionDtoList(transactionDtoList);*/
+            blockDto.setTransactionViewList(transactionDtoList);*/
 
 
             QueryBlockDtoByBlockHashResponse response = new QueryBlockDtoByBlockHashResponse();

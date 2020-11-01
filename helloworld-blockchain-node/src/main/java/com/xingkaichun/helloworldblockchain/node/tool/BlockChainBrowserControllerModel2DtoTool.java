@@ -4,9 +4,9 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.UnspendTransactionOutput;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 public class BlockChainBrowserControllerModel2DtoTool {
 
 
-    public static QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto toTransactionDto(Transaction inputTransaction) {
+    public static TransactionView toTransactionDto(Transaction inputTransaction) {
         String transactionHash = inputTransaction.getTransactionHash();
 
         List<TransactionInputView> transactionInputViewList = new ArrayList<>();
@@ -47,11 +47,11 @@ public class BlockChainBrowserControllerModel2DtoTool {
             }
         }
 
-        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto transactionDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto();
-        transactionDto.setTransactionHash(transactionHash);
-        transactionDto.setTransactionInputViewList(transactionInputViewList);
-        transactionDto.setTransactionOutputViewList(transactionOutputViewList);
-        return transactionDto;
+        TransactionView transactionView = new TransactionView();
+        transactionView.setTransactionHash(transactionHash);
+        transactionView.setTransactionInputViewList(transactionInputViewList);
+        transactionView.setTransactionOutputViewList(transactionOutputViewList);
+        return transactionView;
     }
 
 

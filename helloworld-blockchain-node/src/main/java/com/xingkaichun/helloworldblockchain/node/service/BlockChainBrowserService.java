@@ -3,6 +3,7 @@ package com.xingkaichun.helloworldblockchain.node.service;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public interface BlockChainBrowserService {
     List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> queryUnspendTransactionOutputListByAddress(String address, long from, long size);
     List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> querySpendTransactionOutputListByAddress(String address, long from, long size);
 
-    QueryTransactionByTransactionHashResponse.TransactionDto queryTransactionByTransactionHash(String transactionHash);
-    List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByAddress(String address, long from, long size);
+    TransactionView queryTransactionByTransactionHash(String transactionHash);
+    List<TransactionView> queryTransactionListByAddress(String address, long from, long size);
 
-    List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size);
+    List<TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size);
 }

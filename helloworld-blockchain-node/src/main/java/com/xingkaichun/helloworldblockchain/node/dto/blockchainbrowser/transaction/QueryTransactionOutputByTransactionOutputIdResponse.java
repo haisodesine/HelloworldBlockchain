@@ -1,7 +1,5 @@
 package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction;
 
-import java.util.List;
-
 public class QueryTransactionOutputByTransactionOutputIdResponse {
 
     private TransactionOutputDetailDto TransactionOutputDetailDto;
@@ -15,39 +13,6 @@ public class QueryTransactionOutputByTransactionOutputIdResponse {
         TransactionOutputDetailDto = transactionOutputDetailDto;
     }
 
-
-    public static class TransactionDto {
-        private String transactionHash;
-
-        private List<TransactionInputView> transactionInputViewList;
-        private List<TransactionOutputView> transactionOutputViewList;
-
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public List<TransactionInputView> getTransactionInputViewList() {
-            return transactionInputViewList;
-        }
-
-        public void setTransactionInputViewList(List<TransactionInputView> transactionInputViewList) {
-            this.transactionInputViewList = transactionInputViewList;
-        }
-
-        public List<TransactionOutputView> getTransactionOutputViewList() {
-            return transactionOutputViewList;
-        }
-
-        public void setTransactionOutputViewList(List<TransactionOutputView> transactionOutputViewList) {
-            this.transactionOutputViewList = transactionOutputViewList;
-        }
-    }
-
     public static class TransactionOutputDetailDto {
         private long blockHeight;
         private String blockHash;
@@ -58,8 +23,8 @@ public class QueryTransactionOutputByTransactionOutputIdResponse {
         private String scriptLock;
         private String scriptKey;
 
-        private TransactionDto inputTransaction;
-        private TransactionDto outputTransaction;
+        private TransactionView inputTransaction;
+        private TransactionView outputTransaction;
 
         public String getBlockHash() {
             return blockHash;
@@ -125,19 +90,19 @@ public class QueryTransactionOutputByTransactionOutputIdResponse {
             this.transactionOutputIndex = transactionOutputIndex;
         }
 
-        public TransactionDto getInputTransaction() {
+        public TransactionView getInputTransaction() {
             return inputTransaction;
         }
 
-        public void setInputTransaction(TransactionDto inputTransaction) {
+        public void setInputTransaction(TransactionView inputTransaction) {
             this.inputTransaction = inputTransaction;
         }
 
-        public TransactionDto getOutputTransaction() {
+        public TransactionView getOutputTransaction() {
             return outputTransaction;
         }
 
-        public void setOutputTransaction(TransactionDto outputTransaction) {
+        public void setOutputTransaction(TransactionView outputTransaction) {
             this.outputTransaction = outputTransaction;
         }
     }

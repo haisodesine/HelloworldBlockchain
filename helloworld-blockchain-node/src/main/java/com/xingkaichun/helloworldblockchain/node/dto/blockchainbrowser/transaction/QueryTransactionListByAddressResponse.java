@@ -7,19 +7,19 @@ import java.util.List;
  */
 public class QueryTransactionListByAddressResponse {
 
-    private List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList;
+    private List<TransactionView> transactionViewList;
 
 
 
 
     //region get set
 
-    public List<QueryTransactionByTransactionHashResponse.TransactionDto> getTransactionDtoList() {
-        return transactionDtoList;
+    public List<TransactionView> getTransactionViewList() {
+        return transactionViewList;
     }
 
-    public void setTransactionDtoList(List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList) {
-        this.transactionDtoList = transactionDtoList;
+    public void setTransactionViewList(List<TransactionView> transactionViewList) {
+        this.transactionViewList = transactionViewList;
     }
 
 
