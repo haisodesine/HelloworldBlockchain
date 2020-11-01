@@ -379,10 +379,10 @@ public class BlockChainBrowserController {
                     transactionDto.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
 
                     List<TransactionInput> inputs = transaction.getInputs();
-                    List<QueryBlockDtoByBlockHashResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
+                    List<QueryBlockDtoByBlockHashResponse.TransactionInputView> transactionInputDtoList = new ArrayList<>();
                     if(inputs != null){
                         for(TransactionInput transactionInput:inputs){
-                            QueryBlockDtoByBlockHashResponse.TransactionInputDto transactionInputDto = new QueryBlockDtoByBlockHashResponse.TransactionInputDto();
+                            QueryBlockDtoByBlockHashResponse.TransactionInputView transactionInputDto = new QueryBlockDtoByBlockHashResponse.TransactionInputView();
                             transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
                             transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
                             transactionInputDtoList.add(transactionInputDto);
@@ -390,18 +390,18 @@ public class BlockChainBrowserController {
                     }
 
                     List<TransactionOutput> outputs = transaction.getOutputs();
-                    List<QueryBlockDtoByBlockHashResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
+                    List<QueryBlockDtoByBlockHashResponse.TransactionOutputView> transactionOutputDtoList = new ArrayList<>();
                     if(outputs != null){
                         for(TransactionOutput transactionOutput:outputs){
-                            QueryBlockDtoByBlockHashResponse.TransactionOutputDto transactionOutputDto = new QueryBlockDtoByBlockHashResponse.TransactionOutputDto();
+                            QueryBlockDtoByBlockHashResponse.TransactionOutputView transactionOutputDto = new QueryBlockDtoByBlockHashResponse.TransactionOutputView();
                             transactionOutputDto.setAddress(transactionOutput.getAddress());
                             transactionOutputDto.setValue(transactionOutput.getValue());
                             transactionOutputDtoList.add(transactionOutputDto);
                         }
                     }
 
-                    transactionDto.setTransactionInputDtoList(transactionInputDtoList);
-                    transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
+                    transactionDto.setTransactionInputViewList(transactionInputDtoList);
+                    transactionDto.setTransactionOutputViewList(transactionOutputDtoList);
                     transactionDtoList.add(transactionDto);
                 }
             }

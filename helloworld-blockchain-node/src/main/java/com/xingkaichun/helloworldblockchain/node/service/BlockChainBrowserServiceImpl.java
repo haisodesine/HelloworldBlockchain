@@ -6,9 +6,10 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.block.QueryBlockDtoByBlockHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
 import com.xingkaichun.helloworldblockchain.node.tool.BlockChainBrowserControllerModel2DtoTool;
 import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,47 +155,47 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
         transactionDto.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
 
         List<TransactionInput> inputs = transaction.getInputs();
-        List<QueryTransactionByTransactionHashResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
+        List<TransactionInputView> transactionInputViewList = new ArrayList<>();
         if(inputs != null){
             for(TransactionInput transactionInput:inputs){
-                QueryTransactionByTransactionHashResponse.TransactionInputDto transactionInputDto = new QueryTransactionByTransactionHashResponse.TransactionInputDto();
-                transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
-                transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
-                transactionInputDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
-                transactionInputDto.setTransactionHash(transactionInput.getUnspendTransactionOutput().getTransactionHash());
-                transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
-                transactionInputDtoList.add(transactionInputDto);
+                TransactionInputView transactionInputView = new TransactionInputView();
+                transactionInputView.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
+                transactionInputView.setValue(transactionInput.getUnspendTransactionOutput().getValue());
+                transactionInputView.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
+                transactionInputView.setTransactionHash(transactionInput.getUnspendTransactionOutput().getTransactionHash());
+                transactionInputView.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
+                transactionInputViewList.add(transactionInputView);
             }
         }
 
         List<TransactionOutput> outputs = transaction.getOutputs();
-        List<QueryTransactionByTransactionHashResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
+        List<TransactionOutputView> transactionOutputViewList = new ArrayList<>();
         if(outputs != null){
             for(TransactionOutput transactionOutput:outputs){
-                QueryTransactionByTransactionHashResponse.TransactionOutputDto transactionOutputDto = new QueryTransactionByTransactionHashResponse.TransactionOutputDto();
-                transactionOutputDto.setAddress(transactionOutput.getAddress());
-                transactionOutputDto.setValue(transactionOutput.getValue());
-                transactionOutputDto.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
-                transactionOutputDto.setTransactionHash(transactionOutput.getTransactionHash());
-                transactionOutputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
-                transactionOutputDtoList.add(transactionOutputDto);
+                TransactionOutputView transactionOutputView = new TransactionOutputView();
+                transactionOutputView.setAddress(transactionOutput.getAddress());
+                transactionOutputView.setValue(transactionOutput.getValue());
+                transactionOutputView.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
+                transactionOutputView.setTransactionHash(transactionOutput.getTransactionHash());
+                transactionOutputView.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
+                transactionOutputViewList.add(transactionOutputView);
             }
         }
 
-        transactionDto.setTransactionInputDtoList(transactionInputDtoList);
-        transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
+        transactionDto.setTransactionInputViewList(transactionInputViewList);
+        transactionDto.setTransactionOutputViewList(transactionOutputViewList);
 
-        if(transactionInputDtoList != null){
+        if(transactionInputViewList != null){
             List<String> scriptKeyList = new ArrayList<>();
-            for (QueryTransactionByTransactionHashResponse.TransactionInputDto transactionInputDto : transactionInputDtoList){
-                scriptKeyList.add(transactionInputDto.getScriptKey());
+            for (TransactionInputView transactionInputView : transactionInputViewList){
+                scriptKeyList.add(transactionInputView.getScriptKey());
             }
             transactionDto.setScriptKeyList(scriptKeyList);
         }
-        if(transactionOutputDtoList != null){
+        if(transactionOutputViewList != null){
             List<String> scriptLockList = new ArrayList<>();
-            for (QueryTransactionByTransactionHashResponse.TransactionOutputDto transactionOutputDto : transactionOutputDtoList){
-                scriptLockList.add(transactionOutputDto.getScriptLock());
+            for (TransactionOutputView transactionOutputView : transactionOutputViewList){
+                scriptLockList.add(transactionOutputView.getScriptLock());
             }
             transactionDto.setScriptLockList(scriptLockList);
         }

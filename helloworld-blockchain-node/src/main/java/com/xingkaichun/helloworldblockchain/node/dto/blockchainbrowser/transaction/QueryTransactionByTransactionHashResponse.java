@@ -40,8 +40,8 @@ public class QueryTransactionByTransactionHashResponse {
         private long transactionInputValues;
         private long transactionOutputValues;
 
-        private List<TransactionInputDto> transactionInputDtoList;
-        private List<TransactionOutputDto> transactionOutputDtoList;
+        private List<TransactionInputView> transactionInputViewList;
+        private List<TransactionOutputView> transactionOutputViewList;
 
         private List<String> scriptKeyList;
         private List<String> scriptLockList;
@@ -127,20 +127,20 @@ public class QueryTransactionByTransactionHashResponse {
             this.transactionOutputValues = transactionOutputValues;
         }
 
-        public List<TransactionInputDto> getTransactionInputDtoList() {
-            return transactionInputDtoList;
+        public List<TransactionInputView> getTransactionInputViewList() {
+            return transactionInputViewList;
         }
 
-        public void setTransactionInputDtoList(List<TransactionInputDto> transactionInputDtoList) {
-            this.transactionInputDtoList = transactionInputDtoList;
+        public void setTransactionInputViewList(List<TransactionInputView> transactionInputViewList) {
+            this.transactionInputViewList = transactionInputViewList;
         }
 
-        public List<TransactionOutputDto> getTransactionOutputDtoList() {
-            return transactionOutputDtoList;
+        public List<TransactionOutputView> getTransactionOutputViewList() {
+            return transactionOutputViewList;
         }
 
-        public void setTransactionOutputDtoList(List<TransactionOutputDto> transactionOutputDtoList) {
-            this.transactionOutputDtoList = transactionOutputDtoList;
+        public void setTransactionOutputViewList(List<TransactionOutputView> transactionOutputViewList) {
+            this.transactionOutputViewList = transactionOutputViewList;
         }
 
         public List<String> getScriptKeyList() {
@@ -159,101 +159,4 @@ public class QueryTransactionByTransactionHashResponse {
             this.scriptLockList = scriptLockList;
         }
     }
-
-    public static class TransactionInputDto {
-        private String address;
-        private long value;
-        private String scriptKey;
-        private String transactionHash;
-        private long transactionOutputIndex;
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public long getValue() {
-            return value;
-        }
-
-        public void setValue(long value) {
-            this.value = value;
-        }
-
-        public String getScriptKey() {
-            return scriptKey;
-        }
-
-        public void setScriptKey(String scriptKey) {
-            this.scriptKey = scriptKey;
-        }
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public long getTransactionOutputIndex() {
-            return transactionOutputIndex;
-        }
-
-        public void setTransactionOutputIndex(long transactionOutputIndex) {
-            this.transactionOutputIndex = transactionOutputIndex;
-        }
-    }
-
-    public static class TransactionOutputDto {
-        private String address;
-        private long value;
-        private String scriptLock;
-        private String transactionHash;
-        private long transactionOutputIndex;
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public long getValue() {
-            return value;
-        }
-
-        public void setValue(long value) {
-            this.value = value;
-        }
-
-        public String getScriptLock() {
-            return scriptLock;
-        }
-
-        public void setScriptLock(String scriptLock) {
-            this.scriptLock = scriptLock;
-        }
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public long getTransactionOutputIndex() {
-            return transactionOutputIndex;
-        }
-
-        public void setTransactionOutputIndex(long transactionOutputIndex) {
-            this.transactionOutputIndex = transactionOutputIndex;
-        }
-    }
-
 }
