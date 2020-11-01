@@ -10,7 +10,6 @@ import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transacti
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
-import com.xingkaichun.helloworldblockchain.node.tool.BlockChainBrowserControllerModel2DtoTool;
 import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,14 +48,14 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
         //来源
         Transaction inputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionOutputId.getTransactionHash());
-        TransactionView inputTransactionView = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(inputTransaction);
+        TransactionView inputTransactionView = queryTransactionByTransactionHash(inputTransaction.getTransactionHash());
 
         //去向
         TransactionView outputTransactionView = null;
         if(transactionOutputTemp==null){
             String transactionHash = getBlockChainCore().getBlockChainDataBase().queryToTransactionHashByTransactionOutputId(transactionOutputId);
             Transaction outputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionHash);
-            outputTransactionView = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(outputTransaction);
+            outputTransactionView = queryTransactionByTransactionHash(outputTransaction.getTransactionHash());
 
             List<TransactionInput> inputs = outputTransaction.getInputs();
             if(inputs != null){
