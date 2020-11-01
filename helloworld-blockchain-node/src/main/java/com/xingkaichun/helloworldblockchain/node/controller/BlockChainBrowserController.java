@@ -201,9 +201,9 @@ public class BlockChainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.queryUnspendTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.queryUnspendTransactionOutputListByAddress(request.getAddress(),from,size);
             QueryUnspendTransactionOutputListByAddressResponse response = new QueryUnspendTransactionOutputListByAddressResponse();
-            response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
+            response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
             String message = "[查询交易输出]失败";
@@ -221,9 +221,9 @@ public class BlockChainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.querySpendTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.querySpendTransactionOutputListByAddress(request.getAddress(),from,size);
             QuerySpendTransactionOutputListByAddressResponse response = new QuerySpendTransactionOutputListByAddressResponse();
-            response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
+            response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
             String message = "[查询交易输出]失败";
@@ -241,9 +241,9 @@ public class BlockChainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto> transactionOutputDetailDtoList = blockChainBrowserService.queryTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.queryTransactionOutputListByAddress(request.getAddress(),from,size);
             QueryTransactionOutputListByAddressResponse response = new QueryTransactionOutputListByAddressResponse();
-            response.setTransactionOutputDetailDtoList(transactionOutputDetailDtoList);
+            response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
             String message = "[查询交易输出]失败";
@@ -259,9 +259,9 @@ public class BlockChainBrowserController {
     public ServiceResult<QueryTransactionOutputByTransactionOutputIdResponse> queryTransactionOutputByTransactionOutputId(@RequestBody QueryTransactionOutputByTransactionOutputIdRequest request){
         try {
             TransactionOutputId transactionOutputId = request.getTransactionOutputId();
-            QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = blockChainBrowserService.queryTransactionOutputByTransactionOutputId(transactionOutputId);
+            TransactionOutputDetailView transactionOutputDetailView = blockChainBrowserService.queryTransactionOutputByTransactionOutputId(transactionOutputId);
             QueryTransactionOutputByTransactionOutputIdResponse response = new QueryTransactionOutputByTransactionOutputIdResponse();
-            response.setTransactionOutputDetailDto(transactionOutputDetailDto);
+            response.setTransactionOutputDetailView(transactionOutputDetailView);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
         } catch (Exception e){
             String message = "[查询交易输出]失败";
