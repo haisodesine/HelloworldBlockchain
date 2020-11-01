@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.node.util;
+package com.xingkaichun.helloworldblockchain.node.tool;
 
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author xingkaichun@ceair.com
  */
-public class BlockChainBrowserControllerModel2Dto {
+public class BlockChainBrowserControllerModel2DtoTool {
 
 
     public static QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto toTransactionDto(Transaction inputTransaction) {

@@ -8,7 +8,7 @@ import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
-import com.xingkaichun.helloworldblockchain.node.util.BlockChainBrowserControllerModel2Dto;
+import com.xingkaichun.helloworldblockchain.node.tool.BlockChainBrowserControllerModel2DtoTool;
 import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,14 +47,14 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
         //来源
         Transaction inputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionOutputId.getTransactionHash());
-        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto inputTransactionDto = BlockChainBrowserControllerModel2Dto.toTransactionDto(inputTransaction);
+        QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto inputTransactionDto = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(inputTransaction);
 
         //去向
         QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto outputTransactionDto = null;
         if(transactionOutputTemp==null){
             String transactionHash = getBlockChainCore().getBlockChainDataBase().queryToTransactionHashByTransactionOutputId(transactionOutputId);
             Transaction outputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionHash);
-            outputTransactionDto = BlockChainBrowserControllerModel2Dto.toTransactionDto(outputTransaction);
+            outputTransactionDto = BlockChainBrowserControllerModel2DtoTool.toTransactionDto(outputTransaction);
 
             List<TransactionInput> inputs = outputTransaction.getInputs();
             if(inputs != null){

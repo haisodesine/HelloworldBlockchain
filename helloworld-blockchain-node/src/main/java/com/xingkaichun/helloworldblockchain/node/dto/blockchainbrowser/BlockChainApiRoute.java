@@ -12,7 +12,7 @@ public class BlockChainApiRoute {
     public static final String SUBMIT_TRANSACTION = "/Api/BlockChain/SubmitTransactionDto";
 
     public static final String QUERY_TRANSACTION_BY_TRANSACTION_HASH = "/Api/BlockChain/QueryTransactionByTransactionHash";
-    public static final String QUERY_TRANSACTION_BY_TRANSACTION_HEIGHT = "/Api/BlockChain/QueryTransactionByTransactionHeight";
+    public static final String QUERY_TRANSACTION_LIST_BY_TRANSACTION_HEIGHT = "/Api/BlockChain/QueryTransactionListByTransactionHeight";
     public static final String QUERY_TRANSACTION_LIST_BY_ADDRESS = "/Api/BlockChain/QueryTransactionListByAddress";
 
     public static final String QUERY_TRANSACTION_OUTPUT_LIST_BY_ADDRESS = "/Api/BlockChain/QueryTransactionOutputListByAddress";

@@ -1,11 +1,7 @@
 package com.xingkaichun.helloworldblockchain.node.controller;
 
-import com.google.common.base.Strings;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
-import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
-import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
-import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
@@ -113,8 +109,8 @@ public class BlockChainBrowserController {
      * 根据交易高度查询交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<QueryTransactionByTransactionHeightResponse> queryTransactionByTransactionHeight(@RequestBody QueryTransactionByTransactionHeightRequest request){
+    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryTransactionListByTransactionHeightResponse> queryTransactionListByTransactionHeight(@RequestBody QueryTransactionListByTransactionHeightRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 1L : pageCondition.getFrom();
@@ -123,7 +119,7 @@ public class BlockChainBrowserController {
             if(transactionList == null){
                 return ServiceResult.createFailServiceResult(String.format("区块链中不存在交易高度[%s]，请检查输入的交易哈希。",request.getPageCondition().getFrom()));
             }
-            QueryTransactionByTransactionHeightResponse response = new QueryTransactionByTransactionHeightResponse();
+            QueryTransactionListByTransactionHeightResponse response = new QueryTransactionListByTransactionHeightResponse();
             response.setTransactionList(transactionList);
             return ServiceResult.createSuccessServiceResult("根据交易高度查询交易成功",response);
         } catch (Exception e){
