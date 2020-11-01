@@ -19,8 +19,8 @@ public class QueryTransactionOutputByTransactionOutputIdResponse {
     public static class TransactionDto {
         private String transactionHash;
 
-        private List<TransactionInputDto> transactionInputDtoList;
-        private List<TransactionOutputDto> transactionOutputDtoList;
+        private List<TransactionInputView> transactionInputViewList;
+        private List<TransactionOutputView> transactionOutputViewList;
 
 
         public String getTransactionHash() {
@@ -31,98 +31,20 @@ public class QueryTransactionOutputByTransactionOutputIdResponse {
             this.transactionHash = transactionHash;
         }
 
-        public List<TransactionInputDto> getTransactionInputDtoList() {
-            return transactionInputDtoList;
+        public List<TransactionInputView> getTransactionInputViewList() {
+            return transactionInputViewList;
         }
 
-        public void setTransactionInputDtoList(List<TransactionInputDto> transactionInputDtoList) {
-            this.transactionInputDtoList = transactionInputDtoList;
+        public void setTransactionInputViewList(List<TransactionInputView> transactionInputViewList) {
+            this.transactionInputViewList = transactionInputViewList;
         }
 
-        public List<TransactionOutputDto> getTransactionOutputDtoList() {
-            return transactionOutputDtoList;
+        public List<TransactionOutputView> getTransactionOutputViewList() {
+            return transactionOutputViewList;
         }
 
-        public void setTransactionOutputDtoList(List<TransactionOutputDto> transactionOutputDtoList) {
-            this.transactionOutputDtoList = transactionOutputDtoList;
-        }
-    }
-
-    public static class TransactionInputDto {
-        private String transactionHash;
-        private long transactionOutputIndex;
-        private String address;
-        private long value;
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public long getValue() {
-            return value;
-        }
-
-        public void setValue(long value) {
-            this.value = value;
-        }
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public long getTransactionOutputIndex() {
-            return transactionOutputIndex;
-        }
-
-        public void setTransactionOutputIndex(long transactionOutputIndex) {
-            this.transactionOutputIndex = transactionOutputIndex;
-        }
-    }
-
-    public static class TransactionOutputDto {
-        private String transactionHash;
-        private long transactionOutputIndex;
-        private String address;
-        private long value;
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public long getValue() {
-            return value;
-        }
-
-        public void setValue(long value) {
-            this.value = value;
-        }
-
-        public String getTransactionHash() {
-            return transactionHash;
-        }
-
-        public void setTransactionHash(String transactionHash) {
-            this.transactionHash = transactionHash;
-        }
-
-        public long getTransactionOutputIndex() {
-            return transactionOutputIndex;
-        }
-
-        public void setTransactionOutputIndex(long transactionOutputIndex) {
-            this.transactionOutputIndex = transactionOutputIndex;
+        public void setTransactionOutputViewList(List<TransactionOutputView> transactionOutputViewList) {
+            this.transactionOutputViewList = transactionOutputViewList;
         }
     }
 

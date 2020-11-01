@@ -5,6 +5,8 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionIn
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.UnspendTransactionOutput;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,37 +20,37 @@ public class BlockChainBrowserControllerModel2DtoTool {
     public static QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto toTransactionDto(Transaction inputTransaction) {
         String transactionHash = inputTransaction.getTransactionHash();
 
-        List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto> transactionInputDtoList = new ArrayList<>();
+        List<TransactionInputView> transactionInputViewList = new ArrayList<>();
         List<TransactionInput> transactionInputs = inputTransaction.getInputs();
         if(transactionInputs != null){
             for (TransactionInput transactionInput:transactionInputs) {
-                QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto transactionInputDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto();
+                TransactionInputView transactionInputView = new TransactionInputView();
                 UnspendTransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
-                transactionInputDto.setTransactionHash(unspendTransactionOutput.getTransactionHash());
-                transactionInputDto.setTransactionOutputIndex(unspendTransactionOutput.getTransactionOutputIndex());
-                transactionInputDto.setAddress(unspendTransactionOutput.getAddress());
-                transactionInputDto.setValue(unspendTransactionOutput.getValue());
-                transactionInputDtoList.add(transactionInputDto);
+                transactionInputView.setTransactionHash(unspendTransactionOutput.getTransactionHash());
+                transactionInputView.setTransactionOutputIndex(unspendTransactionOutput.getTransactionOutputIndex());
+                transactionInputView.setAddress(unspendTransactionOutput.getAddress());
+                transactionInputView.setValue(unspendTransactionOutput.getValue());
+                transactionInputViewList.add(transactionInputView);
             }
         }
 
-        List<QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto> transactionOutputDtoList = new ArrayList<>();
+        List<TransactionOutputView> transactionOutputViewList = new ArrayList<>();
         List<TransactionOutput> transactionOutputs = inputTransaction.getOutputs();
         if(transactionOutputs != null){
             for (TransactionOutput transactionOutput:transactionOutputs) {
-                QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto transactionInputDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDto();
+                TransactionOutputView transactionInputDto = new TransactionOutputView();
                 transactionInputDto.setTransactionHash(transactionHash);
                 transactionInputDto.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
                 transactionInputDto.setAddress(transactionOutput.getAddress());
                 transactionInputDto.setValue(transactionOutput.getValue());
-                transactionOutputDtoList.add(transactionInputDto);
+                transactionOutputViewList.add(transactionInputDto);
             }
         }
 
         QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto transactionDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionDto();
         transactionDto.setTransactionHash(transactionHash);
-        transactionDto.setTransactionInputDtoList(transactionInputDtoList);
-        transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
+        transactionDto.setTransactionInputViewList(transactionInputViewList);
+        transactionDto.setTransactionOutputViewList(transactionOutputViewList);
         return transactionDto;
     }
 
