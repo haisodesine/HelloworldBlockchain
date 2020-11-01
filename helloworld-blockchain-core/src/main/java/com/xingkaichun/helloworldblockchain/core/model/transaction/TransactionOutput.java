@@ -34,6 +34,11 @@ public class TransactionOutput extends TransactionOutputId implements Serializab
      */
     private long blockHeight;
     /**
+     * 交易所在区块的区块哈希
+     * 冗余
+     */
+    private String blockHash;
+    /**
      * 交易输出在的交易在所在的区块中的交易序列号
      * 冗余
      * 在这个交易区块中的的排序号
@@ -44,14 +49,6 @@ public class TransactionOutput extends TransactionOutputId implements Serializab
 
 
     //region get set
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public long getValue() {
         return value;
@@ -69,12 +66,28 @@ public class TransactionOutput extends TransactionOutputId implements Serializab
         this.scriptLock = scriptLock;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public long getBlockHeight() {
         return blockHeight;
     }
 
     public void setBlockHeight(long blockHeight) {
         this.blockHeight = blockHeight;
+    }
+
+    public String getBlockHash() {
+        return blockHash;
+    }
+
+    public void setBlockHash(String blockHash) {
+        this.blockHash = blockHash;
     }
 
     public long getTransactionIndexInBlock() {

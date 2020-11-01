@@ -35,7 +35,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
         QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto transactionOutputDetailDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionOutputDetailDto();
         transactionOutputDetailDto.setBlockHeight(transactionOutput.getBlockHeight());
-        transactionOutputDetailDto.setBlockHash("");//TODO
+        transactionOutputDetailDto.setBlockHash(transactionOutput.getBlockHash());
         transactionOutputDetailDto.setTransactionHash(transactionOutput.getTransactionHash());
         transactionOutputDetailDto.setValue(transactionOutput.getValue());
         transactionOutputDetailDto.setScriptLock(ScriptTool.toString(transactionOutput.getScriptLock()));
@@ -61,7 +61,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
                 for(TransactionInput transactionInput:inputs){
                     UnspendTransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
                     if(transactionOutput.getTransactionHash().equals(unspendTransactionOutput.getTransactionHash()) &&
-                            transactionOutput.getTransactionIndexInBlock()==unspendTransactionOutput.getTransactionOutputIndex()){
+                            transactionOutput.getTransactionOutputIndex()==unspendTransactionOutput.getTransactionOutputIndex()){
                         transactionOutputDetailDto.setScriptKey(ScriptTool.toString(transactionInput.getScriptKey()));
                         break;
                     }

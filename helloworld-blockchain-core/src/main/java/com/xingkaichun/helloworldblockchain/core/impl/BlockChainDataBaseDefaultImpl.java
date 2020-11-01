@@ -519,6 +519,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         long transactionIndexInBlock = LongUtil.ZERO;
         long transactionIndexInBlockChain = queryTransactionCount();
         long blockHeight = block.getHeight();
+        String blockHash = block.getHash();
         List<Transaction> transactions = block.getTransactions();
         long transactionQuantity = transactions==null?LongUtil.ZERO:transactions.size();
         block.setTransactionQuantity(transactionQuantity);
@@ -540,6 +541,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                     for (int i=0; i <outputs.size(); i++){
                         TransactionOutput transactionOutput = outputs.get(i);
                         transactionOutput.setBlockHeight(blockHeight);
+                        transactionOutput.setBlockHash(blockHash);
                         transactionOutput.setTransactionHash(transaction.getTransactionHash());
                         transactionOutput.setTransactionOutputIndex(i);
                         transactionOutput.setTransactionIndexInBlock(transaction.getTransactionIndexInBlock());

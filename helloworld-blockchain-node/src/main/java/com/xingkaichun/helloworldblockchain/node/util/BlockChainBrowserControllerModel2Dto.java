@@ -3,6 +3,7 @@ package com.xingkaichun.helloworldblockchain.node.util;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
+import com.xingkaichun.helloworldblockchain.core.model.transaction.UnspendTransactionOutput;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 
 import java.util.ArrayList;
@@ -22,10 +23,11 @@ public class BlockChainBrowserControllerModel2Dto {
         if(transactionInputs != null){
             for (TransactionInput transactionInput:transactionInputs) {
                 QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto transactionInputDto = new QueryTransactionOutputByTransactionOutputIdResponse.TransactionInputDto();
-                transactionInputDto.setTransactionHash(transactionHash);
-                transactionInputDto.setTransactionOutputIndex(transactionInput.getUnspendTransactionOutput().getTransactionOutputIndex());
-                transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
-                transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
+                UnspendTransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
+                transactionInputDto.setTransactionHash(unspendTransactionOutput.getTransactionHash());
+                transactionInputDto.setTransactionOutputIndex(unspendTransactionOutput.getTransactionOutputIndex());
+                transactionInputDto.setAddress(unspendTransactionOutput.getAddress());
+                transactionInputDto.setValue(unspendTransactionOutput.getValue());
                 transactionInputDtoList.add(transactionInputDto);
             }
         }
