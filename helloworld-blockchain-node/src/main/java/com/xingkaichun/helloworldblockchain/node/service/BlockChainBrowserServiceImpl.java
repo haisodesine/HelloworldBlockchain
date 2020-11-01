@@ -6,6 +6,7 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
+import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.block.QueryBlockDtoByBlockHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionByTransactionHashResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.QueryTransactionOutputByTransactionOutputIdResponse;
 import com.xingkaichun.helloworldblockchain.node.tool.BlockChainBrowserControllerModel2DtoTool;
@@ -116,6 +117,21 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     }
 
     @Override
+    public List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
+        Block block = getBlockChainCore().queryBlockByBlockHash(blockHash);
+        long fromUpdate = block.getStartTransactionIndexInBlockChain() + from;
+        List<Transaction> transactionList = getBlockChainCore().queryTransactionListByTransactionHeight(fromUpdate,size);
+        List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
+        for(Transaction transaction:transactionList){
+            QueryTransactionByTransactionHashResponse.TransactionDto transactionDto = queryTransactionByTransactionHash(transaction.getTransactionHash());
+            transactionDtoList.add(transactionDto);
+        }
+        return transactionDtoList;
+    }
+
+
+
+    @Override
     public QueryTransactionByTransactionHashResponse.TransactionDto queryTransactionByTransactionHash(String transactionHash) {
         Transaction transaction = getBlockChainCore().queryTransactionByTransactionHash(transactionHash);
         if(transaction == null){
@@ -167,6 +183,21 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
         transactionDto.setTransactionInputDtoList(transactionInputDtoList);
         transactionDto.setTransactionOutputDtoList(transactionOutputDtoList);
+
+        if(transactionInputDtoList != null){
+            List<String> scriptKeyList = new ArrayList<>();
+            for (QueryTransactionByTransactionHashResponse.TransactionInputDto transactionInputDto : transactionInputDtoList){
+                scriptKeyList.add(transactionInputDto.getScriptKey());
+            }
+            transactionDto.setScriptKeyList(scriptKeyList);
+        }
+        if(transactionOutputDtoList != null){
+            List<String> scriptLockList = new ArrayList<>();
+            for (QueryTransactionByTransactionHashResponse.TransactionOutputDto transactionOutputDto : transactionOutputDtoList){
+                scriptLockList.add(transactionOutputDto.getScriptLock());
+            }
+            transactionDto.setScriptLockList(scriptLockList);
+        }
         return transactionDto;
     }
 

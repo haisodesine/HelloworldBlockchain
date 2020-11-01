@@ -112,6 +112,7 @@ public class Block implements Serializable {
      * 区块中有交易，值等于 高度低于当前区块的所有区块中包含的交易数量之和+当前区块中包含的交易数量
      *
      * 冗余字段，这个值可以由区块链系统推算出来
+     * //TODO 可以删除
      */
     private long endTransactionIndexInBlockChain;
 

@@ -43,6 +43,10 @@ public class QueryTransactionByTransactionHashResponse {
         private List<TransactionInputDto> transactionInputDtoList;
         private List<TransactionOutputDto> transactionOutputDtoList;
 
+        private List<String> scriptKeyList;
+        private List<String> scriptLockList;
+
+
         public String getTransactionHash() {
             return transactionHash;
         }
@@ -137,6 +141,22 @@ public class QueryTransactionByTransactionHashResponse {
 
         public void setTransactionOutputDtoList(List<TransactionOutputDto> transactionOutputDtoList) {
             this.transactionOutputDtoList = transactionOutputDtoList;
+        }
+
+        public List<String> getScriptKeyList() {
+            return scriptKeyList;
+        }
+
+        public void setScriptKeyList(List<String> scriptKeyList) {
+            this.scriptKeyList = scriptKeyList;
+        }
+
+        public List<String> getScriptLockList() {
+            return scriptLockList;
+        }
+
+        public void setScriptLockList(List<String> scriptLockList) {
+            this.scriptLockList = scriptLockList;
         }
     }
 

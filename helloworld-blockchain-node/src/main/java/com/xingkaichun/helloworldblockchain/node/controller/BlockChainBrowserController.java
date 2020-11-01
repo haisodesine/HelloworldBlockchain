@@ -7,7 +7,9 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionIn
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
+import com.xingkaichun.helloworldblockchain.core.tools.StructureSizeTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
+import com.xingkaichun.helloworldblockchain.core.utils.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
@@ -128,6 +130,31 @@ public class BlockChainBrowserController {
             return ServiceResult.createFailServiceResult(message);
         }
     }
+
+    /**
+     * 根据交易高度查询交易
+     */
+    @ResponseBody
+    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_BLOCK_HASH_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryTransactionListByBlockHashTransactionHeightResponse> queryTransactionListByBlockHashTransactionHeight(@RequestBody QueryTransactionListByBlockHashTransactionHeightRequest request){
+        try {
+            PageCondition pageCondition = request.getPageCondition();
+            long from = pageCondition.getFrom() == null ? 1L : pageCondition.getFrom();
+            long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
+            if(StringUtil.isEmpty(request.getBlockHash())){
+                return ServiceResult.createFailServiceResult("区块哈希不能是空");
+            }
+            List<QueryTransactionByTransactionHashResponse.TransactionDto> transactionDtoList = blockChainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);
+            QueryTransactionListByBlockHashTransactionHeightResponse response = new QueryTransactionListByBlockHashTransactionHeightResponse();
+            response.setTransactionDtoList(transactionDtoList);
+            return ServiceResult.createSuccessServiceResult("根据交易高度查询交易成功",response);
+        } catch (Exception e){
+            String message = "根据交易高度查询交易失败";
+            logger.error(message,e);
+            return ServiceResult.createFailServiceResult(message);
+        }
+    }
+
     @ResponseBody
     @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionListByAddressResponse> queryTransactionListByAddress(@RequestBody QueryTransactionListByAddressRequest request){
@@ -339,7 +366,7 @@ public class BlockChainBrowserController {
             blockDto.setMerkleTreeRoot(block.getMerkleTreeRoot());
 
 
-            List<QueryBlockDtoByBlockHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
+            /*List<QueryBlockDtoByBlockHashResponse.TransactionDto> transactionDtoList = new ArrayList<>();
             List<Transaction> transactions = block.getTransactions();
             if(transactions != null){
                 for(Transaction transaction:transactions){
@@ -378,7 +405,7 @@ public class BlockChainBrowserController {
                     transactionDtoList.add(transactionDto);
                 }
             }
-            blockDto.setTransactionDtoList(transactionDtoList);
+            blockDto.setTransactionDtoList(transactionDtoList);*/
 
 
             QueryBlockDtoByBlockHashResponse response = new QueryBlockDtoByBlockHashResponse();

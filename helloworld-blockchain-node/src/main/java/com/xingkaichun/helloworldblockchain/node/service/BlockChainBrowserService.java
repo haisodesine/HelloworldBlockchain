@@ -21,4 +21,5 @@ public interface BlockChainBrowserService {
     QueryTransactionByTransactionHashResponse.TransactionDto queryTransactionByTransactionHash(String transactionHash);
     List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByAddress(String address, long from, long size);
 
+    List<QueryTransactionByTransactionHashResponse.TransactionDto> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size);
 }
