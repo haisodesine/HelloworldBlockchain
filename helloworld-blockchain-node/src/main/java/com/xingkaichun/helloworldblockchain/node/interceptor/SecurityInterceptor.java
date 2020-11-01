@@ -2,6 +2,7 @@ package com.xingkaichun.helloworldblockchain.node.interceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,11 +19,23 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
 
+	@Value("#{'${permit.ip}'.split(',')}")
+	private String[] permitIp;
+
 	@Override
 	public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object){
-		String remoteHost = httpServletRequest.getRemoteHost();
-		if("localhost".equals(remoteHost) || "127.0.0.1".equals(remoteHost) || "0:0:0:0:0:0:0:1".equals(remoteHost)){
-			return true;
+		if(permitIp != null){
+			String remoteHost = httpServletRequest.getRemoteHost();
+			for(String ip:permitIp){
+				//0.0.0.0代表允许所有ip访问
+				if("0.0.0.0".equals(ip)){
+					return true;
+				}
+				//允许访问的ip
+				if(remoteHost.equals(ip)){
+					return true;
+				}
+			}
 		}
 		logger.debug("该IP无操作权限!");
 		return false;
