@@ -125,7 +125,7 @@ public class TransactionTool {
      */
     public static String calculateTransactionHash(TransactionDTO transactionDTO){
         byte[] bytesTransaction = bytesTransaction(transactionDTO);
-        byte[] sha256Digest = SHA256Util.digest(bytesTransaction);
+        byte[] sha256Digest = SHA256Util.digestTwice(bytesTransaction);
         return HexUtil.bytesToHexString(sha256Digest);
     }
 

@@ -43,7 +43,7 @@ public class BlockTool {
                                     ByteUtil.concatLengthBytes(bytesPreviousBlockHash),
                                     ByteUtil.concatLengthBytes(bytesMerkleTreeRoot),
                                     ByteUtil.concatLengthBytes(bytesNonce));
-        byte[] sha256Digest = SHA256Util.digest(bytesData);
+        byte[] sha256Digest = SHA256Util.digestTwice(bytesData);
         return HexUtil.bytesToHexString(sha256Digest);
     }
 

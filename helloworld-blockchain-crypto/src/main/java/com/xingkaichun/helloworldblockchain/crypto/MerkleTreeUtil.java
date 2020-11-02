@@ -18,7 +18,7 @@ public class MerkleTreeUtil {
      * https://blog.csdn.net/jason_cuijiahui/article/details/79011118
      * https://www.cnblogs.com/web-java/articles/5544093.html
      * 摘抄于bitcoinj-core-0.15.8.jar!\org\bitcoinj\core\Block.java MerkleRoot()方法
-     *
+     * //TODO 代码添加注释
      * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
      */
     public static byte[] calculateMerkleTreeRoot(List<byte[]> dataList) {
@@ -36,7 +36,6 @@ public class MerkleTreeUtil {
                 int right = Math.min(left + 1, levelSize - 1);
                 byte[] leftBytes = tree.get(levelOffset + left);
                 byte[] rightBytes = tree.get(levelOffset + right);
-                //TODO 外面一次digest 这里两次 合适吗？交易哈希需要两次digest?
                 tree.add(SHA256Util.digestTwice(Arrays.concatenate(leftBytes, rightBytes)));
             }
             levelOffset += levelSize;
