@@ -82,7 +82,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
             }
             String blockHash = queryBlockHashByBlockHeightResponseServiceResult.getResult().getBlockHash();
             //远程节点的高度没有本地大
-            if(StringUtil.isEmpty(blockHash)){
+            if(StringUtil.isNullOrEmpty(blockHash)){
                 return;
             } else {
                 //没有分叉

@@ -138,7 +138,7 @@ public class BlockChainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 1L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            if(StringUtil.isEmpty(request.getBlockHash())){
+            if(StringUtil.isNullOrEmpty(request.getBlockHash())){
                 return ServiceResult.createFailServiceResult("区块哈希不能是空");
             }
             List<TransactionView> transactionViewList = blockChainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);

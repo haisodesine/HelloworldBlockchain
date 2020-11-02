@@ -24,7 +24,7 @@ public class ProofOfWorkConsensusImpl extends Consensus {
     @Override
     public boolean isReachConsensus(BlockChainDataBase blockChainDataBase,Block block) {
         String bits = block.getBits();
-        if(StringUtil.isEmpty(bits)){
+        if(StringUtil.isNullOrEmpty(bits)){
             bits = calculateDifficult(blockChainDataBase,block);
             block.setBits(bits);
         }

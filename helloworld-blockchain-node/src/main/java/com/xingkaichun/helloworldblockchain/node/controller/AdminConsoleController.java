@@ -1,11 +1,11 @@
 package com.xingkaichun.helloworldblockchain.node.controller;
 
-import com.google.common.base.Strings;
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.tools.WalletTool;
+import com.xingkaichun.helloworldblockchain.core.utils.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
@@ -179,7 +179,7 @@ public class AdminConsoleController {
     public ServiceResult<AddNodeResponse> addNode(@RequestBody AddNodeRequest request){
         try {
             NodeDto node = request.getNode();
-            if(Strings.isNullOrEmpty(node.getIp())){
+            if(StringUtil.isNullOrEmpty(node.getIp())){
                 return ServiceResult.createFailServiceResult("节点IP不能为空");
             }
             if(netBlockchainCore.getNodeService().queryNode(node) != null){
@@ -318,7 +318,7 @@ public class AdminConsoleController {
     public ServiceResult<AddAccountResponse> addAccount(@RequestBody AddAccountRequest request){
         try {
             String privateKey = request.getPrivateKey();
-            if(Strings.isNullOrEmpty(privateKey)){
+            if(StringUtil.isNullOrEmpty(privateKey)){
                 return ServiceResult.createFailServiceResult("账户私钥不能为空。");
             }
             Account account = AccountUtil.accountFromPrivateKey(privateKey);
@@ -338,7 +338,7 @@ public class AdminConsoleController {
     public ServiceResult<DeleteAccountResponse> deleteAccount(@RequestBody DeleteAccountRequest request){
         try {
             String address = request.getAddress();
-            if(Strings.isNullOrEmpty(address)){
+            if(StringUtil.isNullOrEmpty(address)){
                 return ServiceResult.createFailServiceResult("请填写需要删除的地址");
             }
             getBlockChainCore().getWallet().deleteAccountByAddress(address);
@@ -395,7 +395,7 @@ public class AdminConsoleController {
                 return ServiceResult.createFailServiceResult("交易输出不能为空。");
             }
             for(Recipient recipient:recipientList){
-                if(Strings.isNullOrEmpty(recipient.getAddress())){
+                if(StringUtil.isNullOrEmpty(recipient.getAddress())){
                     return ServiceResult.createFailServiceResult("交易输出的地址不能为空。");
                 }
             }
