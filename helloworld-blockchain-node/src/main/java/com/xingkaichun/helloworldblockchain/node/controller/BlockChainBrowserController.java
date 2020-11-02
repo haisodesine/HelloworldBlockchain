@@ -5,6 +5,7 @@ import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
+import com.xingkaichun.helloworldblockchain.core.tools.StructureSizeTool;
 import com.xingkaichun.helloworldblockchain.core.utils.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
@@ -349,60 +350,16 @@ public class BlockChainBrowserController {
             QueryBlockDtoByBlockHashResponse.BlockDto blockDto = new QueryBlockDtoByBlockHashResponse.BlockDto();
             blockDto.setHeight(block.getHeight());
             blockDto.setConfirmCount(BlockTool.getTransactionCount(block));
-            blockDto.setBlockSize("12K");//TODO
+            blockDto.setBlockSize(StructureSizeTool.calculateBlockTextSize(block)+"字符");
             blockDto.setTransactionCount(BlockTool.getTransactionCount(block));
             blockDto.setTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
             blockDto.setMinerIncentiveValue(BlockTool.getMinerIncentiveValue(block));
-
             blockDto.setMinerDifficulty(block.getBits());
             blockDto.setNonce(String.valueOf(block.getNonce()));
             blockDto.setHash(block.getHash());
             blockDto.setPreviousBlockHash(block.getPreviousBlockHash());
             blockDto.setNextBlockHash(nextBlock==null?null:nextBlock.getHash());
             blockDto.setMerkleTreeRoot(block.getMerkleTreeRoot());
-
-
-            /*List<QueryBlockDtoByBlockHashResponse.TransactionView> transactionDtoList = new ArrayList<>();
-            List<Transaction> transactions = block.getTransactions();
-            if(transactions != null){
-                for(Transaction transaction:transactions){
-                    QueryBlockDtoByBlockHashResponse.TransactionView transactionDto = new QueryBlockDtoByBlockHashResponse.TransactionView();
-                    transactionDto.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));
-                    transactionDto.setTransactionHash(transaction.getTransactionHash());
-                    transactionDto.setTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
-                    transactionDto.setTransactionType(transaction.getTransactionType().name());
-                    transactionDto.setTransactionInputValues(TransactionTool.getInputsValue(transaction));
-                    transactionDto.setTransactionOutputValues(TransactionTool.getOutputsValue(transaction));
-
-                    List<TransactionInput> inputs = transaction.getInputs();
-                    List<QueryBlockDtoByBlockHashResponse.TransactionInputView> transactionInputDtoList = new ArrayList<>();
-                    if(inputs != null){
-                        for(TransactionInput transactionInput:inputs){
-                            QueryBlockDtoByBlockHashResponse.TransactionInputView transactionInputDto = new QueryBlockDtoByBlockHashResponse.TransactionInputView();
-                            transactionInputDto.setAddress(transactionInput.getUnspendTransactionOutput().getAddress());
-                            transactionInputDto.setValue(transactionInput.getUnspendTransactionOutput().getValue());
-                            transactionInputDtoList.add(transactionInputDto);
-                        }
-                    }
-
-                    List<TransactionOutput> outputs = transaction.getOutputs();
-                    List<QueryBlockDtoByBlockHashResponse.TransactionOutputView> transactionOutputDtoList = new ArrayList<>();
-                    if(outputs != null){
-                        for(TransactionOutput transactionOutput:outputs){
-                            QueryBlockDtoByBlockHashResponse.TransactionOutputView transactionOutputDto = new QueryBlockDtoByBlockHashResponse.TransactionOutputView();
-                            transactionOutputDto.setAddress(transactionOutput.getAddress());
-                            transactionOutputDto.setValue(transactionOutput.getValue());
-                            transactionOutputDtoList.add(transactionOutputDto);
-                        }
-                    }
-
-                    transactionDto.setTransactionInputViewList(transactionInputDtoList);
-                    transactionDto.setTransactionOutputViewList(transactionOutputDtoList);
-                    transactionDtoList.add(transactionDto);
-                }
-            }
-            blockDto.setTransactionViewList(transactionDtoList);*/
-
 
             QueryBlockDtoByBlockHashResponse response = new QueryBlockDtoByBlockHashResponse();
             response.setBlockDto(blockDto);
@@ -435,7 +392,7 @@ public class BlockChainBrowserController {
             for(Block block : blockList){
                 QueryLast10BlockDtoResponse.BlockDto blockDto = new QueryLast10BlockDtoResponse.BlockDto();
                 blockDto.setHeight(block.getHeight());
-                blockDto.setBlockSize("12K");//TODO
+                blockDto.setBlockSize(StructureSizeTool.calculateBlockTextSize(block)+"字符");
                 blockDto.setTransactionCount(BlockTool.getTransactionCount(block));
                 blockDto.setMinerIncentiveValue(BlockTool.getMinerIncentiveValue(block));
                 blockDto.setTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));

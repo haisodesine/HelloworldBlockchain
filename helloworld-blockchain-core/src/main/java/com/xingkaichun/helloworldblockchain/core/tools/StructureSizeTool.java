@@ -127,7 +127,7 @@ public class StructureSizeTool {
 
 
     //region 计算文本大小
-    private static long calculateBlockTextSize(Block block) {
+    public static long calculateBlockTextSize(Block block) {
         long size = 0;
         long timestamp = block.getTimestamp();
         size += String.valueOf(timestamp).length();
