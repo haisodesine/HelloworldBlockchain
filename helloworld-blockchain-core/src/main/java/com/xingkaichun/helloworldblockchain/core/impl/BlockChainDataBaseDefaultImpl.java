@@ -527,7 +527,6 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                 LongUtil.isEquals(transactionQuantity,LongUtil.ZERO)?
                         LongUtil.ZERO:
                         (transactionIndexInBlockChain+LongUtil.ONE));
-        block.setEndTransactionIndexInBlockChain(transactionIndexInBlockChain+transactionQuantity);
         if(transactions != null){
             for(Transaction transaction:transactions){
                 transactionIndexInBlock++;
