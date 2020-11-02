@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Collections;
 
 /**
  * 账户工具类
@@ -73,8 +74,8 @@ public class AccountUtil {
         try {
             privateKey = fillZeroTo64LengthPrivateKey(privateKey);
 
-            BigInteger priv = privateKeyFrom(privateKey);
-            byte[] ecPublicKey = publicKeyFromPrivateKey(priv);
+            BigInteger bigIntegerPrivateKey = privateKeyFrom(privateKey);
+            byte[] ecPublicKey = publicKeyFromPrivateKey(bigIntegerPrivateKey);
 
             String publicKey = encodePublicKey(ecPublicKey);
             String address = addressFromPublicKey(publicKey);
@@ -302,9 +303,10 @@ public class AccountUtil {
      * 前置填零，返回64长度十六进制私钥 TODO 可以移除？？
      */
     private static String fillZeroTo64LengthPrivateKey(String privateKey) {
-        //私钥长度是256bit，64位十六进制的字符串数，前置补充零
-        if(privateKey.length()<64){
-            privateKey = ("0000000000000000000000000000000000000000000000000000000000000000").substring(0,64-privateKey.length())+privateKey;
+        //私钥长度是256bit，64位十六进制的字符串数，如果传入的私钥长度不够，这里进行前置补充零操作。
+        final int length = 64;
+        if(privateKey.length()<length){
+            privateKey = (String.join("", Collections.nCopies(length-privateKey.length(), "0")))+privateKey;
         }
         return privateKey;
     }
