@@ -23,12 +23,11 @@ public class MerkleTreeUtil {
      */
     public static byte[] calculateMerkleTreeRoot(List<byte[]> dataList) {
         if(dataList == null || dataList.size() == 0){
-            throw new RuntimeException("hash数组不能为空");
+            throw new RuntimeException("数据不能为空");
         }
         if(dataList.size() == 1){
             return dataList.get(0);
         }
-        //TODO 强制校验长度
         List<byte[]> tree = new ArrayList<>(dataList);
         int size = tree.size();
         int levelOffset = 0;
