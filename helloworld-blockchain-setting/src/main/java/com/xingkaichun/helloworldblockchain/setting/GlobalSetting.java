@@ -127,8 +127,6 @@ public class GlobalSetting {
         public static final long TRANSACTION_TEXT_TIMESTAMP_MIN_SIZE = 13;
         //交易时间戳最大存储容量
         public static final long TRANSACTION_TEXT_TIMESTAMP_MAX_SIZE = 13;
-        //交易手续费 每个交易输出
-        public static final long TRANSACTION_FEE_PER_OUTPUT = 1;
     }
 
     /**

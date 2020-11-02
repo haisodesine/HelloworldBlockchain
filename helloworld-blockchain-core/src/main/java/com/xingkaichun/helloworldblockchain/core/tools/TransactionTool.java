@@ -252,39 +252,6 @@ public class TransactionTool {
     }
 
     /**
-     * 转账手续费是否正确
-     */
-    public static boolean isTransactionFeeRight(Transaction transaction) {
-        long inputsValue = TransactionTool.getInputsValue(transaction);
-        long outputsValue = TransactionTool.getOutputsValue(transaction);
-        long fee = inputsValue - outputsValue;
-        long targetFee = calculateTransactionFee(transaction);
-        //交易手续费
-        if(fee < targetFee){
-            logger.debug(String.format("交易校验失败：交易手续费小于计算的最小手续费。"));
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 计算转账手续费
-     */
-    public static long calculateTransactionFee(Transaction transaction) {
-        List<TransactionInput> inputs = transaction.getInputs();
-        List<TransactionOutput> outputs = transaction.getOutputs();
-        long size = (inputs==null?0:inputs.size()) + (outputs==null?0:outputs.size());
-        return calculateTransactionFee(size);
-    }
-
-    /**
-     * 计算转账手续费
-     */
-    public static long calculateTransactionFee(long size) {
-        return GlobalSetting.TransactionConstant.TRANSACTION_FEE_PER_OUTPUT * size;
-    }
-
-    /**
      * 交易输入必须要大于交易输出
      */
     public static boolean isTransactionInputsGreatEqualThanOutputsRight(Transaction transaction) {
@@ -314,5 +281,14 @@ public class TransactionTool {
         List<TransactionOutput> outputs = transaction.getOutputs();
         long transactionOutputCount = outputs==null?0:outputs.size();
         return transactionOutputCount;
+    }
+
+    public static long calculateTransactionFee(Transaction transaction) {
+        long transactionInputCount = getTransactionInputCount(transaction);
+        long transactionOutputCount = getTransactionOutputCount(transaction);
+        if(transactionInputCount <= 0){
+            return 0;
+        }
+        return transactionInputCount-transactionOutputCount;
     }
 }

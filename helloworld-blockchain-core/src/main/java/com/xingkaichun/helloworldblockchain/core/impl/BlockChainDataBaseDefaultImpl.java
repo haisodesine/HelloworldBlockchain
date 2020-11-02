@@ -232,11 +232,6 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                 logger.debug("交易校验失败：交易输入必须要大于交易输出。");
                 return false;
             }
-            //转账手续费
-            if(!TransactionTool.isTransactionFeeRight(transaction)) {
-                logger.debug("交易校验失败：手续费不正确。");
-                return false;
-            }
             //脚本
             if(!TransactionTool.verifyScript(transaction)) {
                 logger.debug("交易校验失败：交易脚本钥匙解锁交易脚本锁异常。");

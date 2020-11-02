@@ -10,7 +10,6 @@ import com.xingkaichun.helloworldblockchain.core.model.script.ScriptLock;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.script.StackBasedVirtualMachine;
-import com.xingkaichun.helloworldblockchain.core.tools.Dto2ModelTool;
 import com.xingkaichun.helloworldblockchain.core.tools.Model2DtoTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
@@ -200,12 +199,8 @@ public class BlockChainCoreImpl extends BlockChainCore {
         long inputValues = 0;
         long feeValues = 0;
         boolean haveEnoughMoneyToPay = false;
-        boolean haveFeeToPay = false;
         //序号
         for(String privateKey : payerPrivateKeyList){
-            if(haveFeeToPay){
-                break;
-            }
             //TODO 优化 可能不止100
             String address = AccountUtil.accountFromPrivateKey(privateKey).getAddress();
             List<TransactionOutput> utxoList = blockChainDataBase.queryUnspendTransactionOutputListByAddress(address,0,100);
@@ -217,11 +212,6 @@ public class BlockChainCoreImpl extends BlockChainCore {
                 //大于的一部分可以用于交易手续费
                 if(inputValues > outputValues){
                     haveEnoughMoneyToPay = true;
-                    feeValues = TransactionTool.calculateTransactionFee(inputs.size()+transactionOutputDtoList.size()+1);
-                    if(feeValues < inputValues - outputValues){
-                        haveFeeToPay = true;
-                        break;
-                    }
                 }
             }
         }
@@ -230,12 +220,6 @@ public class BlockChainCoreImpl extends BlockChainCore {
             BuildTransactionResponse buildTransactionResponse = new BuildTransactionResponse();
             buildTransactionResponse.setBuildTransactionSuccess(false);
             buildTransactionResponse.setMessage("账户没有足够的金额去支付");
-            return buildTransactionResponse;
-        }
-        if(!haveFeeToPay){
-            BuildTransactionResponse buildTransactionResponse = new BuildTransactionResponse();
-            buildTransactionResponse.setBuildTransactionSuccess(false);
-            buildTransactionResponse.setMessage("账户没有足够的手续费去支付");
             return buildTransactionResponse;
         }
 
@@ -252,13 +236,6 @@ public class BlockChainCoreImpl extends BlockChainCore {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setTransactionInputDtoList(transactionInputDtoList);
         transactionDTO.setTransactionOutputDtoList(transactionOutputDtoList);
-
-        //校验校验手续费够不够，如果不够的话，继续补充交易手续费
-        Transaction transaction = Dto2ModelTool.transactionDto2Transaction(blockChainDataBase,transactionDTO);
-        if(TransactionTool.isTransactionFeeRight(transaction)){
-
-        }
-
 
         //找零
         long change = inputValues - outputValues - feeValues;
