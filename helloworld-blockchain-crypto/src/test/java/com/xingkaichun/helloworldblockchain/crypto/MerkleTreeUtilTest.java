@@ -39,7 +39,7 @@ public class MerkleTreeUtilTest {
     @Test
     public void calculateMerkleRootByHashTest()
     {
-        byte[] merkleRoot = MerkleTreeUtil.calculateMerkleRoot(hashList);
+        byte[] merkleRoot = MerkleTreeUtil.calculateMerkleTreeRoot(hashList);
         assertArrayEquals(Utils.reverseBytes(HexUtil.hexStringToBytes(merkleTreeRoot)),merkleRoot);
     }
 }

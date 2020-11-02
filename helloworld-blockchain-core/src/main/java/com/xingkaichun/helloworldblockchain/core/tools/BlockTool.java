@@ -59,7 +59,7 @@ public class BlockTool {
                 bytesTransactionHashList.add(bytesTransactionHash);
             }
         }
-        return HexUtil.bytesToHexString(MerkleTreeUtil.calculateMerkleRoot(bytesTransactionHashList));
+        return HexUtil.bytesToHexString(MerkleTreeUtil.calculateMerkleTreeRoot(bytesTransactionHashList));
     }
 
     /**

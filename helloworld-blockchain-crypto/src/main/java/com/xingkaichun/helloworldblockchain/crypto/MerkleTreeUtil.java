@@ -21,14 +21,15 @@ public class MerkleTreeUtil {
      *
      * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
      */
-    public static byte[] calculateMerkleRoot(List<byte[]> hashList) {
-        if(hashList == null || hashList.size() == 0){
+    public static byte[] calculateMerkleTreeRoot(List<byte[]> dataList) {
+        if(dataList == null || dataList.size() == 0){
             throw new RuntimeException("hash数组不能为空");
         }
-        if(hashList.size() == 1){
-            return hashList.get(0);
+        if(dataList.size() == 1){
+            return dataList.get(0);
         }
-        List<byte[]> tree = new ArrayList<>(hashList);
+        //TODO 强制校验长度
+        List<byte[]> tree = new ArrayList<>(dataList);
         int size = tree.size();
         int levelOffset = 0;
         for (int levelSize = size; levelSize > 1; levelSize = (levelSize + 1) / 2) {
