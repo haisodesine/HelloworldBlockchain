@@ -21,7 +21,7 @@ public class MerkleTreeUtil {
      *
      * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
      */
-    public static byte[] calculateMerkleRootByHash(List<byte[]> hashList) {
+    public static byte[] calculateMerkleRoot(List<byte[]> hashList) {
         if(hashList == null || hashList.size() == 0){
             throw new RuntimeException("hash数组不能为空");
         }
@@ -36,7 +36,7 @@ public class MerkleTreeUtil {
                 int right = Math.min(left + 1, levelSize - 1);
                 byte[] leftBytes = tree.get(levelOffset + left);
                 byte[] rightBytes = tree.get(levelOffset + right);
-                //TODO 外面一次diget 这里两次 合适吗？
+                //TODO 外面一次digest 这里两次 合适吗？交易哈希需要两次digest?
                 tree.add(SHA256Util.digestTwice(Arrays.concatenate(leftBytes, rightBytes)));
             }
             levelOffset += levelSize;
