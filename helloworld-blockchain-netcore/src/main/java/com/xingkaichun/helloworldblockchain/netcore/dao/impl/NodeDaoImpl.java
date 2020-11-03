@@ -5,7 +5,7 @@ import com.xingkaichun.helloworldblockchain.util.FileUtil;
 import com.xingkaichun.helloworldblockchain.util.JdbcUtil;
 import com.xingkaichun.helloworldblockchain.util.SqliteUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dao.NodeDao;
-import com.xingkaichun.helloworldblockchain.netcore.model.NodeEntity;
+import com.xingkaichun.helloworldblockchain.netcore.entity.NodeEntity;
 
 import java.io.File;
 import java.sql.*;

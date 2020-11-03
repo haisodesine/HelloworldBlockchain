@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore.dao;
 
-import com.xingkaichun.helloworldblockchain.netcore.model.NodeEntity;
+import com.xingkaichun.helloworldblockchain.netcore.entity.NodeEntity;
 
 import java.util.List;
 

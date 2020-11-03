@@ -5,7 +5,7 @@ import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dao.ConfigurationDao;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
-import com.xingkaichun.helloworldblockchain.netcore.model.ConfigurationEntity;
+import com.xingkaichun.helloworldblockchain.netcore.entity.ConfigurationEntity;
 
 /**
  *

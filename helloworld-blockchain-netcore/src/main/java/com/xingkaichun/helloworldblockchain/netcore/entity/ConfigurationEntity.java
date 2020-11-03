@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.model;
+package com.xingkaichun.helloworldblockchain.netcore.entity;
 
 /**
  *
