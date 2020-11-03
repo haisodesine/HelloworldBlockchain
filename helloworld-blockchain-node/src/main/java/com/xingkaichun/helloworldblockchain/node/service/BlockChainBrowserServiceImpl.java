@@ -6,10 +6,10 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionInputView;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputDetailView;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionInputView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionOutputDetailView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionOutputView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView;
 import com.xingkaichun.helloworldblockchain.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,27 +103,27 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
     }
 
     @Override
-    public List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> queryTransactionListByAddress(String address, long from, long size) {
+    public List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> queryTransactionListByAddress(String address, long from, long size) {
         List<Transaction> transactionList = getBlockChainCore().queryTransactionListByAddress(address,from,size);
         if(transactionList == null){
             return null;
         }
-        List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> transactionViewList = new ArrayList<>();
+        List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> transactionViewList = new ArrayList<>();
         for(Transaction transaction:transactionList){
-            com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
+            com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
             transactionViewList.add(transactionView);
         }
         return transactionViewList;
     }
 
     @Override
-    public List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
+    public List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
         Block block = getBlockChainCore().queryBlockByBlockHash(blockHash);
         long fromUpdate = block.getStartTransactionIndexInBlockChain() + from;
         List<Transaction> transactionList = getBlockChainCore().queryTransactionListByTransactionHeight(fromUpdate,size);
-        List<com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView> transactionViewList = new ArrayList<>();
+        List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> transactionViewList = new ArrayList<>();
         for(Transaction transaction:transactionList){
-            com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
+            com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
             transactionViewList.add(transactionView);
         }
         return transactionViewList;
@@ -132,14 +132,14 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
 
 
     @Override
-    public com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView queryTransactionByTransactionHash(String transactionHash) {
+    public com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView queryTransactionByTransactionHash(String transactionHash) {
         Transaction transaction = getBlockChainCore().queryTransactionByTransactionHash(transactionHash);
         if(transaction == null){
             return null;
         }
         long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
         Block block = getBlockChainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
-        com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView transactionView = new com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView();
+        com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = new com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView();
 
         transactionView.setTransactionHash(transaction.getTransactionHash());
         transactionView.setBlockHeight(transaction.getBlockHeight());

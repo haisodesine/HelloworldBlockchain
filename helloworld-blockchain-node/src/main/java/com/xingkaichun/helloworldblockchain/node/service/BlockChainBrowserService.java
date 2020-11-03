@@ -1,8 +1,8 @@
 package com.xingkaichun.helloworldblockchain.node.service;
 
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputDetailView;
-import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionOutputDetailView;
+import com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView;
 
 import java.util.List;
 
