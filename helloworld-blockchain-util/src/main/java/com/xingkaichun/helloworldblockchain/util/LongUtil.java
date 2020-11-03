@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.core.utils;
+package com.xingkaichun.helloworldblockchain.util;
 
 /**
  * Long工具类

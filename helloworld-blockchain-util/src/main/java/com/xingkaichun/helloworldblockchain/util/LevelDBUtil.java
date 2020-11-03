@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.core.utils;
+package com.xingkaichun.helloworldblockchain.util;
 
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;

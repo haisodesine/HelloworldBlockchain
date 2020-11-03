@@ -1,7 +1,7 @@
 package com.xingkaichun.helloworldblockchain.netcore.service;
 
 import com.google.common.base.Strings;
-import com.xingkaichun.helloworldblockchain.core.utils.StringUtil;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dao.ConfigurationDao;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;

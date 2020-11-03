@@ -8,9 +8,9 @@ import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.enums.BlockChainActionEnum;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.*;
-import com.xingkaichun.helloworldblockchain.core.utils.EncodeDecodeUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.LevelDBUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.LongUtil;
+import com.xingkaichun.helloworldblockchain.core.tools.EncodeDecodeTool;
+import com.xingkaichun.helloworldblockchain.util.LevelDBUtil;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
@@ -282,7 +282,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         if(bytesTransactionHash == null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToTransactionHash(bytesTransactionHash);
+        return EncodeDecodeTool.decodeToTransactionHash(bytesTransactionHash);
     }
     //endregion
 
@@ -303,7 +303,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         if(bytesBlock==null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToBlock(bytesBlock);
+        return EncodeDecodeTool.decodeToBlock(bytesBlock);
     }
     @Override
     public Block queryBlockByBlockHash(String blockHash) {
@@ -325,7 +325,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         if(bytesTransaction==null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToTransaction(bytesTransaction);
+        return EncodeDecodeTool.decodeToTransaction(bytesTransaction);
     }
 
     @Override
@@ -336,7 +336,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
             if(byteTransaction == null){
                 break;
             }
-            Transaction transaction = EncodeDecodeUtil.decodeToTransaction(byteTransaction);
+            Transaction transaction = EncodeDecodeTool.decodeToTransaction(byteTransaction);
             transactionList.add(transaction);
         }
         return transactionList;
@@ -351,7 +351,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         if(bytesTransactionOutput == null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToTransactionOutput(bytesTransactionOutput);
+        return EncodeDecodeTool.decodeToTransactionOutput(bytesTransactionOutput);
     }
 
     @Override
@@ -360,7 +360,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         if(bytesUtxo == null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToTransactionOutput(bytesUtxo);
+        return EncodeDecodeTool.decodeToTransactionOutput(bytesUtxo);
     }
 
     @Override
@@ -381,7 +381,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
             }
             currentFrom++;
             if(currentFrom>=from && currentSize<size){
-                TransactionOutput transactionOutput = EncodeDecodeUtil.decodeToTransactionOutput(byteValue);
+                TransactionOutput transactionOutput = EncodeDecodeTool.decodeToTransactionOutput(byteValue);
                 transactionOutputList.add(transactionOutput);
                 currentSize++;
             }
@@ -410,7 +410,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
             }
             currentFrom++;
             if(currentFrom>=from && currentSize<size){
-                TransactionOutput transactionOutput = EncodeDecodeUtil.decodeToTransactionOutput(byteValue);
+                TransactionOutput transactionOutput = EncodeDecodeTool.decodeToTransactionOutput(byteValue);
                 transactionOutputList.add(transactionOutput);
                 currentSize++;
             }
@@ -439,7 +439,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
             }
             currentFrom++;
             if(currentFrom>=from && currentSize<size){
-                TransactionOutput transactionOutput = EncodeDecodeUtil.decodeToTransactionOutput(byteValue);
+                TransactionOutput transactionOutput = EncodeDecodeTool.decodeToTransactionOutput(byteValue);
                 transactionOutputList.add(transactionOutput);
                 currentSize++;
             }
@@ -557,7 +557,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                         TransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
                         byte[] transactionOutputIdToToTransactionHashKey = BlockChainDataBaseKeyTool.buildTransactionOutputIdToToTransactionHashKey(unspendTransactionOutput);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                            writeBatch.put(transactionOutputIdToToTransactionHashKey,EncodeDecodeUtil.encodeTransactionHash(transaction.getTransactionHash()));
+                            writeBatch.put(transactionOutputIdToToTransactionHashKey, EncodeDecodeTool.encodeTransactionHash(transaction.getTransactionHash()));
                         } else {
                             writeBatch.delete(transactionOutputIdToToTransactionHashKey);
                         }
@@ -578,7 +578,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                     for(TransactionOutput output:outputs){
                         byte[] transactionOutputIdToTransactionOutputKey = BlockChainDataBaseKeyTool.buildTransactionOutputIdToTransactionOutputKey(output);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                            writeBatch.put(transactionOutputIdToTransactionOutputKey, EncodeDecodeUtil.encode(output));
+                            writeBatch.put(transactionOutputIdToTransactionOutputKey, EncodeDecodeTool.encode(output));
                         } else {
                             writeBatch.delete(transactionOutputIdToTransactionOutputKey);
                         }
@@ -602,7 +602,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                             writeBatch.delete(unspendTransactionOutputIdToUnspendTransactionOutputKey);
                         } else {
-                            writeBatch.put(unspendTransactionOutputIdToUnspendTransactionOutputKey, EncodeDecodeUtil.encode(unspendTransactionOutput));
+                            writeBatch.put(unspendTransactionOutputIdToUnspendTransactionOutputKey, EncodeDecodeTool.encode(unspendTransactionOutput));
                         }
                     }
                 }
@@ -611,7 +611,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                     for(TransactionOutput output:outputs){
                         byte[] unspendTransactionOutputIdToUnspendTransactionOutputKey = BlockChainDataBaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(output);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                            writeBatch.put(unspendTransactionOutputIdToUnspendTransactionOutputKey, EncodeDecodeUtil.encode(output));
+                            writeBatch.put(unspendTransactionOutputIdToUnspendTransactionOutputKey, EncodeDecodeTool.encode(output));
                         } else {
                             writeBatch.delete(unspendTransactionOutputIdToUnspendTransactionOutputKey);
                         }
@@ -630,7 +630,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                 //更新区块链中的交易序列号数据
                 byte[] transactionIndexInBlockChainToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(transaction.getTransactionIndexInBlockChain());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                    writeBatch.put(transactionIndexInBlockChainToTransactionKey, EncodeDecodeUtil.encode(transaction));
+                    writeBatch.put(transactionIndexInBlockChainToTransactionKey, EncodeDecodeTool.encode(transaction));
                 } else {
                     writeBatch.delete(transactionIndexInBlockChainToTransactionKey);
                 }
@@ -646,7 +646,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
             for(Transaction transaction:transactionList){
                 byte[] transactionHashToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionHashToTransactionKey(transaction.getTransactionHash());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-                    writeBatch.put(transactionHashToTransactionKey, EncodeDecodeUtil.encode(transaction));
+                    writeBatch.put(transactionHashToTransactionKey, EncodeDecodeTool.encode(transaction));
                 } else {
                     writeBatch.delete(transactionHashToTransactionKey);
                 }
@@ -693,7 +693,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     private void storeBlockHeightToBlock(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
         byte[] blockHeightKey = BlockChainDataBaseKeyTool.buildBlockHeightToBlockKey(block.getHeight());
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-            writeBatch.put(blockHeightKey, EncodeDecodeUtil.encode(block));
+            writeBatch.put(blockHeightKey, EncodeDecodeTool.encode(block));
         }else{
             writeBatch.delete(blockHeightKey);
         }
@@ -737,7 +737,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         writeBatch.delete(addressToUnspendTransactionOutputListKey);
                     }else{
-                        writeBatch.put(addressToUnspendTransactionOutputListKey, EncodeDecodeUtil.encode(utxo));
+                        writeBatch.put(addressToUnspendTransactionOutputListKey, EncodeDecodeTool.encode(utxo));
                     }
                 }
             }
@@ -746,7 +746,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                 for (TransactionOutput transactionOutput:outputs){
                     byte[] addressToUnspendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToUnspendTransactionOutputListKey(transactionOutput);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
-                        byte[] byteTransactionOutput = EncodeDecodeUtil.encode(transactionOutput);
+                        byte[] byteTransactionOutput = EncodeDecodeTool.encode(transactionOutput);
                         writeBatch.put(addressToUnspendTransactionOutputListKey,byteTransactionOutput);
                     }else{
                         writeBatch.delete(addressToUnspendTransactionOutputListKey);
@@ -768,7 +768,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                 for (TransactionOutput transactionOutput:outputs){
                     byte[] addressToTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToTransactionOutputListKey(transactionOutput);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
-                        byte[] byteTransactionOutput = EncodeDecodeUtil.encode(transactionOutput);
+                        byte[] byteTransactionOutput = EncodeDecodeTool.encode(transactionOutput);
                         writeBatch.put(addressToTransactionOutputListKey,byteTransactionOutput);
                     }else{
                         writeBatch.delete(addressToTransactionOutputListKey);
@@ -793,7 +793,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         writeBatch.delete(addressToSpendTransactionOutputListKey);
                     }else{
-                        writeBatch.put(addressToSpendTransactionOutputListKey, EncodeDecodeUtil.encode(utxo));
+                        writeBatch.put(addressToSpendTransactionOutputListKey, EncodeDecodeTool.encode(utxo));
                     }
                 }
             }

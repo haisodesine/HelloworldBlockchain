@@ -2,8 +2,8 @@ package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.xingkaichun.helloworldblockchain.core.MinerTransactionDtoDataBase;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
-import com.xingkaichun.helloworldblockchain.core.utils.EncodeDecodeUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.LevelDBUtil;
+import com.xingkaichun.helloworldblockchain.core.tools.EncodeDecodeTool;
+import com.xingkaichun.helloworldblockchain.util.LevelDBUtil;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.DBIterator;
@@ -37,7 +37,7 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
         //交易已经持久化进交易池数据库 丢弃交易
         synchronized (MinerTransactionDtoDtoDataBaseDefaultImpl.class){
             String transactionHash = TransactionTool.calculateTransactionHash(transactionDTO);
-            LevelDBUtil.put(transactionPoolDB,transactionHash, EncodeDecodeUtil.encode(transactionDTO));
+            LevelDBUtil.put(transactionPoolDB,transactionHash, EncodeDecodeTool.encode(transactionDTO));
         }
     }
 
@@ -54,7 +54,7 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
                 }
                 cunrrentFrom++;
                 if(cunrrentFrom>=from && cunrrentSize<size){
-                    TransactionDTO transactionDTO = EncodeDecodeUtil.decodeToTransactionDTO(byteValue);
+                    TransactionDTO transactionDTO = EncodeDecodeTool.decodeToTransactionDTO(byteValue);
                     transactionDtoList.add(transactionDTO);
                     cunrrentSize++;
                 }
@@ -77,6 +77,6 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
         if(byteTransactionDTO == null){
             return null;
         }
-        return EncodeDecodeUtil.decodeToTransactionDTO(byteTransactionDTO);
+        return EncodeDecodeTool.decodeToTransactionDTO(byteTransactionDTO);
     }
 }

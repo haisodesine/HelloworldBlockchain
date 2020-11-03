@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.core.utils;
+package com.xingkaichun.helloworldblockchain.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

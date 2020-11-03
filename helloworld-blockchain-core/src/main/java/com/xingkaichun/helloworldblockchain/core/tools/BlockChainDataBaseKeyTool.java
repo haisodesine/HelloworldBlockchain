@@ -2,7 +2,7 @@ package com.xingkaichun.helloworldblockchain.core.tools;
 
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
-import com.xingkaichun.helloworldblockchain.core.utils.LevelDBUtil;
+import com.xingkaichun.helloworldblockchain.util.LevelDBUtil;
 
 /**
  * 区块链数据库主键工具类

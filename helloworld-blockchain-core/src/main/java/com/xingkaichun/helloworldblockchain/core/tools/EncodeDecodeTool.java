@@ -1,8 +1,7 @@
-package com.xingkaichun.helloworldblockchain.core.utils;
+package com.xingkaichun.helloworldblockchain.core.tools;
 
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
-import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import org.slf4j.Logger;
@@ -15,9 +14,9 @@ import java.io.*;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class EncodeDecodeUtil {
+public class EncodeDecodeTool {
 
-    private static final Logger logger = LoggerFactory.getLogger(EncodeDecodeUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(EncodeDecodeTool.class);
 
     public static byte[] encode(Transaction transaction) {
         try {

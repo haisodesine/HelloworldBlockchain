@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.tools;
+package com.xingkaichun.helloworldblockchain.util;
 
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -13,9 +13,9 @@ import java.net.URL;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class NetTool {
+public class NetUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(NetTool.class);
+    private static final Logger logger = LoggerFactory.getLogger(NetUtil.class);
 
     private static Gson gson = new Gson();
 

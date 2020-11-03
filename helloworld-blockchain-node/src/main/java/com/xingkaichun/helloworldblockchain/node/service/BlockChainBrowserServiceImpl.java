@@ -10,7 +10,7 @@ import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transacti
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputDetailView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionOutputView;
 import com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.transaction.TransactionView;
-import com.xingkaichun.helloworldblockchain.node.util.DateUtil;
+import com.xingkaichun.helloworldblockchain.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

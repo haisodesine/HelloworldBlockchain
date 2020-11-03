@@ -2,9 +2,9 @@ package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.xingkaichun.helloworldblockchain.core.SynchronizerDataBase;
 import com.xingkaichun.helloworldblockchain.core.tools.Model2DtoTool;
-import com.xingkaichun.helloworldblockchain.core.utils.FileUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.JdbcUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.LongUtil;
+import com.xingkaichun.helloworldblockchain.util.FileUtil;
+import com.xingkaichun.helloworldblockchain.util.JdbcUtil;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.BlockDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

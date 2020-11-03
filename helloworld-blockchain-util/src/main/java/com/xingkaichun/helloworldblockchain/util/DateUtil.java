@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.node.util;
+package com.xingkaichun.helloworldblockchain.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

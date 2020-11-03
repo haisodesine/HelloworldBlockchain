@@ -2,7 +2,7 @@ package com.xingkaichun.helloworldblockchain.core.tools;
 
 import com.google.common.primitives.Bytes;
 import com.xingkaichun.helloworldblockchain.core.model.script.OperationCodeEnum;
-import com.xingkaichun.helloworldblockchain.core.utils.ByteUtil;
+import com.xingkaichun.helloworldblockchain.util.ByteUtil;
 import com.xingkaichun.helloworldblockchain.crypto.HexUtil;
 
 import java.util.Arrays;
