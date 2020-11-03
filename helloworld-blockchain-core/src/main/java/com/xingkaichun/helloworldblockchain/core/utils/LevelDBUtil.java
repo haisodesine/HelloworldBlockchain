@@ -64,9 +64,9 @@ public class LevelDBUtil {
         }
     }
 
-    public static void closeDB(DB blockChainDB){
+    public static void closeDB(DB dB){
         try {
-            blockChainDB.close();
+            dB.close();
         } catch (Exception e) {
             logger.error("LevelDB数据库关闭异常",e);
         }
