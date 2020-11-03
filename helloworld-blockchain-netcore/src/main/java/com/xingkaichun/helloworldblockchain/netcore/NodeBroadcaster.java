@@ -4,7 +4,7 @@ import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import org.slf4j.Logger;
@@ -27,14 +27,14 @@ public class NodeBroadcaster {
 
     private ConfigurationService configurationService;
     private NodeService nodeService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
 
     public NodeBroadcaster(ConfigurationService configurationService, NodeService nodeService
-            , BlockchainNodeClientService blockchainNodeClientService) {
+            , BlockchainNodeClient blockchainNodeClient) {
 
         this.configurationService = configurationService;
         this.nodeService = nodeService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
     }
 
     public void start() {
@@ -58,7 +58,7 @@ public class NodeBroadcaster {
     private void broadcastMyself() {
         List<NodeDto> nodes = nodeService.queryAllNodeList();
         for(NodeDto node:nodes){
-            blockchainNodeClientService.pingNode(node);
+            blockchainNodeClient.pingNode(node);
         }
     }
 }

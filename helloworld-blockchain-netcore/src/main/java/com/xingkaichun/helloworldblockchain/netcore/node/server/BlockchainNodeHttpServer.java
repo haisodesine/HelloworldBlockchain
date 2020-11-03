@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.netserver;
+package com.xingkaichun.helloworldblockchain.netcore.node.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -14,14 +14,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class BlockchainHttpServer {
+public class BlockchainNodeHttpServer {
 
-	private static final Logger logger = LoggerFactory.getLogger(BlockchainHttpServer.class);
+	private static final Logger logger = LoggerFactory.getLogger(BlockchainNodeHttpServer.class);
 
 	private int serverPort;
 	private HttpServerHandlerResolver httpServerHandlerResolver;
 
-	public BlockchainHttpServer(int serverPort, HttpServerHandlerResolver httpServerHandlerResolver) {
+	public BlockchainNodeHttpServer(int serverPort, HttpServerHandlerResolver httpServerHandlerResolver) {
 		super();
 		this.serverPort = serverPort;
 		this.httpServerHandlerResolver = httpServerHandlerResolver;

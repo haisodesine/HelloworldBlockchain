@@ -10,8 +10,8 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.Configurat
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
-import com.xingkaichun.helloworldblockchain.netcore.netserver.BlockchainHttpServer;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
+import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHttpServer;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
@@ -38,7 +38,7 @@ import java.util.List;
 public class NetBlockchainCore {
 
     private BlockChainCore blockChainCore;
-    private BlockchainHttpServer blockchainHttpServer;
+    private BlockchainNodeHttpServer blockchainNodeHttpServer;
     private NodeSearcher nodeSearcher;
     private NodeBroadcaster nodeBroadcaster;
     private BlockSearcher blockSearcher;
@@ -46,15 +46,15 @@ public class NetBlockchainCore {
 
     private ConfigurationService configurationService;
     private NodeService nodeService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
     public NetBlockchainCore(BlockChainCore blockChainCore
-            , BlockchainHttpServer blockchainHttpServer, ConfigurationService configurationService
+            , BlockchainNodeHttpServer blockchainNodeHttpServer, ConfigurationService configurationService
             , NodeSearcher nodeSearcher, NodeBroadcaster nodeBroadcaster
             , BlockSearcher blockSearcher , BlockBroadcaster blockBroadcaster
-            , NodeService nodeService, BlockchainNodeClientService blockchainNodeClientService) {
+            , NodeService nodeService, BlockchainNodeClient blockchainNodeClient) {
 
         this.blockChainCore = blockChainCore;
-        this.blockchainHttpServer = blockchainHttpServer;
+        this.blockchainNodeHttpServer = blockchainNodeHttpServer;
         this.configurationService = configurationService;
         this.nodeSearcher = nodeSearcher;
         this.nodeBroadcaster = nodeBroadcaster;
@@ -62,7 +62,7 @@ public class NetBlockchainCore {
         this.blockBroadcaster = blockBroadcaster;
 
         this.nodeService = nodeService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
         restoreConfiguration();
     }
 
@@ -93,7 +93,7 @@ public class NetBlockchainCore {
         //启动本地的单机区块链
         blockChainCore.start();
         //启动区块链节点服务器
-        blockchainHttpServer.start();
+        blockchainNodeHttpServer.start();
 
         //启动节点搜寻器
         nodeSearcher.start();
@@ -127,7 +127,7 @@ public class NetBlockchainCore {
         List<SubmitTransactionResponse.Node> failSubmitNode = new ArrayList<>();
         if(nodes != null){
             for(NodeDto node:nodes){
-                ServiceResult<EmptyResponse> submitSuccess = blockchainNodeClientService.sumiteTransaction(node,transactionDTO);
+                ServiceResult<EmptyResponse> submitSuccess = blockchainNodeClient.sumiteTransaction(node,transactionDTO);
                 if(ServiceResult.isSuccess(submitSuccess)){
                     successSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
                 } else {
@@ -149,8 +149,8 @@ public class NetBlockchainCore {
         return blockChainCore;
     }
 
-    public BlockchainHttpServer getBlockchainHttpServer() {
-        return blockchainHttpServer;
+    public BlockchainNodeHttpServer getBlockchainNodeHttpServer() {
+        return blockchainNodeHttpServer;
     }
 
     public NodeSearcher getNodeSearcher() {
@@ -177,8 +177,8 @@ public class NetBlockchainCore {
         return nodeService;
     }
 
-    public BlockchainNodeClientService getBlockchainNodeClientService() {
-        return blockchainNodeClientService;
+    public BlockchainNodeClient getBlockchainNodeClient() {
+        return blockchainNodeClient;
     }
     //end
 }

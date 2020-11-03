@@ -6,7 +6,7 @@ import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import org.slf4j.Logger;
@@ -33,15 +33,15 @@ public class BlockBroadcaster {
     private ConfigurationService configurationService;
     private NodeService nodeService;
     private BlockChainCore blockChainCore;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
 
     public BlockBroadcaster(ConfigurationService configurationService, NodeService nodeService
-            , BlockChainCore blockChainCore, BlockchainNodeClientService blockchainNodeClientService) {
+            , BlockChainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
 
         this.configurationService = configurationService;
         this.nodeService = nodeService;
         this.blockChainCore = blockChainCore;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
     }
 
     public void start() {
@@ -101,7 +101,7 @@ public class BlockBroadcaster {
                 if(LongUtil.isLessEqualThan(blockChainHeight,node.getBlockChainHeight())){
                     continue;
                 }
-                blockchainNodeClientService.unicastLocalBlockChainHeight(node,blockChainHeight);
+                blockchainNodeClient.unicastLocalBlockChainHeight(node,blockChainHeight);
                 ++broadcastNodeCount;
                 if(broadcastNodeCount > 20){
                     return;

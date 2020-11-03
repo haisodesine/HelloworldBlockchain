@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.netserver;
+package com.xingkaichun.helloworldblockchain.netcore.node.server;
 
 import com.google.gson.Gson;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeServerApiRoute;

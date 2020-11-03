@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.service;
+package com.xingkaichun.helloworldblockchain.netcore.node.client;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,14 +21,14 @@ import java.lang.reflect.Type;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class BlockchainNodeClientServiceImpl implements BlockchainNodeClientService {
+public class BlockchainNodeClientImpl implements BlockchainNodeClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(BlockchainNodeClientServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlockchainNodeClientImpl.class);
 
     private Gson gson;
     private int serverPort;
 
-    public BlockchainNodeClientServiceImpl(int serverPort) {
+    public BlockchainNodeClientImpl(int serverPort) {
         this.serverPort = serverPort;
         this.gson = new Gson();
     }

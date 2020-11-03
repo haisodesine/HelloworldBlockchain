@@ -6,6 +6,7 @@ import com.xingkaichun.helloworldblockchain.core.Synchronizer;
 import com.xingkaichun.helloworldblockchain.core.SynchronizerDataBase;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.Dto2ModelTool;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
@@ -33,7 +34,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     private BlockChainCore blockChainCore;
     private NodeService nodeService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
     private ConfigurationService configurationService;
     /**
      * 若是有分叉时，一次同步的最后一个区块的高度至少要比本地区块链的高度大于N个。
@@ -44,10 +45,10 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     private static final long SYNCHRONIZE_BLOCK_SIZE_FROM_LOCAL_BLOCKCHAIN_HEIGHT = 10;
 
 
-    public SynchronizeRemoteNodeBlockServiceImpl(BlockChainCore blockChainCore, NodeService nodeService, BlockchainNodeClientService blockchainNodeClientService, ConfigurationService configurationService) {
+    public SynchronizeRemoteNodeBlockServiceImpl(BlockChainCore blockChainCore, NodeService nodeService, BlockchainNodeClient blockchainNodeClient, ConfigurationService configurationService) {
         this.blockChainCore = blockChainCore;
         this.nodeService = nodeService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
         this.configurationService = configurationService;
     }
 
@@ -76,7 +77,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
             fork = false;
         } else {
             localBlockChainHeight = tailBlock.getHeight();
-            ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClientService.queryBlockHashByBlockHeight(node,localBlockChainHeight);
+            ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,localBlockChainHeight);
             if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                 return;
             }
@@ -112,7 +113,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                     break;
                 }
 
-                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClientService.queryBlockHashByBlockHeight(node,tempBlockHeight);
+                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,tempBlockHeight);
                 if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                     break;
                 }
@@ -135,7 +136,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                     break;
                 }
 
-                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClientService.queryBlockHashByBlockHeight(node,tempBlockHeight);
+                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,tempBlockHeight);
                 if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                     break;
                 }
@@ -156,7 +157,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                     return;
                 }
 
-                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClientService.queryBlockHashByBlockHeight(node,tempBlockHeight);
+                ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,tempBlockHeight);
                 if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                     break;
                 }
@@ -196,7 +197,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
      */
     private boolean isBlockChainIdRight(NodeDto node) {
         String currentBlockChainId = GlobalSetting.BLOCK_CHAIN_ID;
-        ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClientService.pingNode(node);
+        ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
         if(!ServiceResult.isSuccess(pingResponseServiceResult)){
             return false;
         }
@@ -221,7 +222,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
         if(localBlockDTO != null){
             return localBlockDTO;
         }
-        ServiceResult<QueryBlockDtoByBlockHeightResponse> blockDtoServiceResult = blockchainNodeClientService.queryBlockDtoByBlockHeight(node,blockHeight);
+        ServiceResult<QueryBlockDtoByBlockHeightResponse> blockDtoServiceResult = blockchainNodeClient.queryBlockDtoByBlockHeight(node,blockHeight);
         if(!ServiceResult.isSuccess(blockDtoServiceResult)){
             return null;
         }

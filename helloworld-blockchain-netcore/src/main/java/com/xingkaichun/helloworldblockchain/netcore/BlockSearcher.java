@@ -8,7 +8,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.Configurat
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.netcore.service.SynchronizeRemoteNodeBlockService;
@@ -32,17 +32,17 @@ public class BlockSearcher {
     private SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService;
     private BlockChainCore blockChainCore;
     private ConfigurationService configurationService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
 
 
     public BlockSearcher(NodeService nodeService
             , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockChainCore blockChainCore
-            , ConfigurationService configurationService,BlockchainNodeClientService blockchainNodeClientService) {
+            , ConfigurationService configurationService, BlockchainNodeClient blockchainNodeClient) {
         this.nodeService = nodeService;
         this.synchronizeRemoteNodeBlockService = synchronizeRemoteNodeBlockService;
         this.blockChainCore = blockChainCore;
         this.configurationService = configurationService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
     }
 
     public void start() {
@@ -106,7 +106,7 @@ public class BlockSearcher {
     private void searchBlocks() {
         List<NodeDto> nodes = nodeService.queryAllNoForkNodeList();
         for(NodeDto node:nodes){
-            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClientService.pingNode(node);
+            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
             boolean isPingSuccess = ServiceResult.isSuccess(pingResponseServiceResult);
             node.setIsNodeAvailable(isPingSuccess);
             if(isPingSuccess){

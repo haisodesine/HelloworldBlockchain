@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.netserver;
+package com.xingkaichun.helloworldblockchain.netcore.node.server;
 
 import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;

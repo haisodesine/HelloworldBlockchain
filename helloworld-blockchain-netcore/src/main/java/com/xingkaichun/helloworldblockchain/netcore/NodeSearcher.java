@@ -7,7 +7,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.Configurat
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
@@ -29,14 +29,14 @@ public class NodeSearcher {
 
     private ConfigurationService configurationService;
     private NodeService nodeService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainNodeClient blockchainNodeClient;
 
     public NodeSearcher(ConfigurationService configurationService, NodeService nodeService
-            , BlockchainNodeClientService blockchainNodeClientService) {
+            , BlockchainNodeClient blockchainNodeClient) {
 
         this.configurationService = configurationService;
         this.nodeService = nodeService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockchainNodeClient = blockchainNodeClient;
     }
 
     public void start() {
@@ -89,7 +89,7 @@ public class NodeSearcher {
             if(!configurationService.autoSearchNodeOption()){
                 return;
             }
-            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClientService.pingNode(node);
+            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
             boolean isPingSuccess = ServiceResult.isSuccess(pingResponseServiceResult);
             node.setIsNodeAvailable(isPingSuccess);
             if(isPingSuccess){
@@ -137,7 +137,7 @@ public class NodeSearcher {
         }
         NodeDto localNode = nodeService.queryNode(node);
         if(localNode == null){
-            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClientService.pingNode(node);
+            ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
             if(ServiceResult.isSuccess(pingResponseServiceResult)){
                 node.setIsNodeAvailable(true);
                 node.setBlockChainHeight(pingResponseServiceResult.getResult().getBlockChainHeight());

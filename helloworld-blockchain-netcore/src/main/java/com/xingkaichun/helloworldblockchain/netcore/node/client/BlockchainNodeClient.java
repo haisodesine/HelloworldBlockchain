@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.service;
+package com.xingkaichun.helloworldblockchain.netcore.node.client;
 
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
@@ -14,7 +14,7 @@ import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO
  * 向其它节点请求、提交数据
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public interface BlockchainNodeClientService {
+public interface BlockchainNodeClient {
 
     /**
      * 提交交易至其它节点
