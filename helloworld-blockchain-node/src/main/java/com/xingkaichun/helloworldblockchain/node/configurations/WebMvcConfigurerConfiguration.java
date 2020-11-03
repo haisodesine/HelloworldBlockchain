@@ -35,14 +35,14 @@ public class WebMvcConfigurerConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(securityInterceptor).addPathPatterns("/Api/AdminConsole/**");
+		registry.addInterceptor(securityInterceptor).addPathPatterns("/**");
 	}
 
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
 		exceptionResolvers.add((httpServletRequest, httpServletResponse, handler, ex) -> {
 			responseResult(httpServletResponse,ex);
-			logger.error("统一异常拦截",ex);
+			logger.error("统一异常拦截。",ex);
 			return new ModelAndView();
 		});
 	}
@@ -56,7 +56,7 @@ public class WebMvcConfigurerConfiguration implements WebMvcConfigurer {
 			String jsonServiceResult = gson.toJson(serviceResult);
 			httpServletResponse.getWriter().write(jsonServiceResult);
 		} catch (Exception e) {
-			logger.error("返回统一异常处理出现错误",e);
+			logger.error("将统一异常写入到HttpServletResponse出现错误。",e);
 		}
 	}
 }

@@ -17,9 +17,7 @@ public interface BlockChainBrowserService {
     List<TransactionOutputDetailView> queryTransactionOutputListByAddress(String address, long from, long size);
     List<TransactionOutputDetailView> queryUnspendTransactionOutputListByAddress(String address, long from, long size);
     List<TransactionOutputDetailView> querySpendTransactionOutputListByAddress(String address, long from, long size);
-
     TransactionView queryTransactionByTransactionHash(String transactionHash);
     List<TransactionView> queryTransactionListByAddress(String address, long from, long size);
-
     List<TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size);
 }

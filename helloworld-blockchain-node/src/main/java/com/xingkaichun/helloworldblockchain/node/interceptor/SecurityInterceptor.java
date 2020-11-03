@@ -1,13 +1,12 @@
 package com.xingkaichun.helloworldblockchain.node.interceptor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Security过滤器
@@ -17,26 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class SecurityInterceptor implements HandlerInterceptor {
 
-	private static final Logger logger = LoggerFactory.getLogger(SecurityInterceptor.class);
-
+	//允许的ip列表，多个ip之间以逗号(,)分隔。0.0.0.0代表允许所有ip访问。
 	@Value("#{'${permit.ip}'.split(',')}")
-	private String[] permitIp;
+	private List<String> permitIpList;
 
 	@Override
 	public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object){
-		if(permitIp != null){
+		if(permitIpList != null){
+			//0.0.0.0代表允许所有ip访问
+			if(permitIpList.contains("0.0.0.0")){
+				return true;
+			}
 			String remoteHost = httpServletRequest.getRemoteHost();
-			for(String ip:permitIp){
-				//0.0.0.0代表允许所有ip访问
-				if("0.0.0.0".equals(ip)){
-					return true;
-				}
-				//允许访问的ip
-				if(remoteHost.equals(ip)){
-					return true;
-				}
+			if(permitIpList.contains(remoteHost)){
+				return true;
 			}
 		}
-		throw new RuntimeException("该IP无操作权限!");
+		throw new RuntimeException("该IP无访问权限!");
 	}
 }
