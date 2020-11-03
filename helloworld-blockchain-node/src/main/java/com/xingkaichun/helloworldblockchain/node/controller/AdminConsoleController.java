@@ -5,6 +5,7 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionReque
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.tools.WalletTool;
+import com.xingkaichun.helloworldblockchain.node.dto.block.DeleteBlockResponse;
 import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
@@ -15,8 +16,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.Configurat
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.node.dto.AdminConsoleApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.account.*;
-import com.xingkaichun.helloworldblockchain.node.dto.block.RemoveBlockRequest;
-import com.xingkaichun.helloworldblockchain.node.dto.block.RemoveBlockResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.block.DeleteBlockRequest;
 import com.xingkaichun.helloworldblockchain.node.dto.miner.*;
 import com.xingkaichun.helloworldblockchain.node.dto.node.*;
 import com.xingkaichun.helloworldblockchain.node.dto.synchronizer.*;
@@ -298,13 +298,13 @@ public class AdminConsoleController {
      */
     @ResponseBody
     @RequestMapping(value = AdminConsoleApiRoute.REMOVE_BLOCK,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<RemoveBlockResponse> removeBlock(@RequestBody RemoveBlockRequest request){
+    public ServiceResult<DeleteBlockResponse> removeBlock(@RequestBody DeleteBlockRequest request){
         try {
             if(request.getBlockHeight() == null){
                 return ServiceResult.createFailServiceResult("删除区块失败，区块高度不能空。");
             }
             getBlockChainCore().removeBlocksUtilBlockHeightLessThan(request.getBlockHeight());
-            RemoveBlockResponse response = new RemoveBlockResponse();
+            DeleteBlockResponse response = new DeleteBlockResponse();
             return ServiceResult.createSuccessServiceResult("删除区块成功",response);
         } catch (Exception e){
             String message = "删除区块失败";
