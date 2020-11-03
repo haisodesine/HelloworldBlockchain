@@ -1,6 +1,7 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.utils.ThreadUtil;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
+import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
@@ -94,7 +95,7 @@ public class NodeSearcher {
             if(isPingSuccess){
                 PingResponse pingResponse = pingResponseServiceResult.getResult();
                 //链ID不同
-                if(!GlobalSetting.BLOCK_CHAIN_ID.equals(pingResponse.getBlockChainId())){
+                if(!StringUtil.isEquals(GlobalSetting.BLOCK_CHAIN_ID,pingResponse.getBlockChainId())){
                     nodeService.deleteNode(node);
                 }else {
                     node.setBlockChainHeight(pingResponse.getBlockChainHeight());

@@ -28,7 +28,6 @@
 	<ul class="my_menu">
 		<li><a href="/my.html">设置</a></li>
 		<li><a href="/my/my_node.html" class="on">节点管理</a></li>
-		<li><a href="/my/my_password.html">修改账户</a></li>
 	</ul>
 	<div class="my_miner">
 		<dl class="my_node" id="node_list">
@@ -58,12 +57,6 @@
 </body>
 <script type="text/javascript" src="/js/jQuery.js"></script>
 <script type="text/javascript" src="/js/template.js"></script>
-<script type="text/javascript" src="/js/islogin.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/my/my_node.js"></script>
-<script type="text/javascript">
-	if(login_state.state == "FAIL"){
-		window.location = "/login.html";
-	}
-</script>
 </html>
