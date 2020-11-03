@@ -41,11 +41,11 @@ public abstract class BlockChainDataBase {
     /**
      * 删除区块链的尾巴区块(最后一个区块)
      */
-    public abstract void removeTailBlock() ;
+    public abstract void deleteTailBlock() ;
     /**
      * 删除区块高度大于等于@blockHeight@的区块
      */
-    public abstract void removeBlocksUtilBlockHeightLessThan(long blockHeight) ;
+    public abstract void deleteBlocksUtilBlockHeightLessThan(long blockHeight) ;
     //endregion
 
 

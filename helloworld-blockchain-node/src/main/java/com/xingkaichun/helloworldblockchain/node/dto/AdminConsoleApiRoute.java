@@ -23,7 +23,7 @@ public class AdminConsoleApiRoute {
     public static final String SET_AUTO_SEARCH_NODE = "/Api/AdminConsole/SetAutoSearchNode";
 
 
-    public static final String REMOVE_BLOCK = "/Api/AdminConsole/RemoveBlock";
+    public static final String DELETE_BLOCK = "/Api/AdminConsole/DeleteBlock";
 
 
     public static final String ADD_ACCOUNT = "/Api/AdminConsole/AddAccount";

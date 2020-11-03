@@ -297,13 +297,13 @@ public class AdminConsoleController {
      * 删除区块
      */
     @ResponseBody
-    @RequestMapping(value = AdminConsoleApiRoute.REMOVE_BLOCK,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<DeleteBlockResponse> removeBlock(@RequestBody DeleteBlockRequest request){
+    @RequestMapping(value = AdminConsoleApiRoute.DELETE_BLOCK,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<DeleteBlockResponse> deleteBlock(@RequestBody DeleteBlockRequest request){
         try {
             if(request.getBlockHeight() == null){
                 return ServiceResult.createFailServiceResult("删除区块失败，区块高度不能空。");
             }
-            getBlockChainCore().removeBlocksUtilBlockHeightLessThan(request.getBlockHeight());
+            getBlockChainCore().deleteBlocksUtilBlockHeightLessThan(request.getBlockHeight());
             DeleteBlockResponse response = new DeleteBlockResponse();
             return ServiceResult.createSuccessServiceResult("删除区块成功",response);
         } catch (Exception e){

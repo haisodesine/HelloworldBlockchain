@@ -46,7 +46,7 @@ public class NodeServiceImpl implements NodeService {
             return;
         }
         int errorConnectionTimes = nodeEntity.getErrorConnectionTimes()+1;
-        ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.NODE_ERROR_CONNECTION_TIMES_REMOVE_THRESHOLD.name());
+        ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD.name());
         if(errorConnectionTimes >= Long.parseLong(configurationDto.getConfValue())){
             nodeDao.deleteNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
         } else {

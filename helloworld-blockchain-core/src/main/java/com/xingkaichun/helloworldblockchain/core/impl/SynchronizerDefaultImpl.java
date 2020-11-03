@@ -99,7 +99,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         long minBlockHeight = synchronizerDataBase.getMinBlockHeight(availableSynchronizeNodeId);
         BlockDTO blockDTO = synchronizerDataBase.getBlockDto(availableSynchronizeNodeId,minBlockHeight);
         if(blockDTO != null){
-            temporaryBlockChainDataBase.removeBlocksUtilBlockHeightLessThan(minBlockHeight);
+            temporaryBlockChainDataBase.deleteBlocksUtilBlockHeightLessThan(minBlockHeight);
             while(blockDTO != null){
                 Block block = Dto2ModelTool.blockDto2Block(temporaryBlockChainDataBase,blockDTO);
                 boolean isAddBlockToBlockChainSuccess = temporaryBlockChainDataBase.addBlock(block);
@@ -155,7 +155,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
                     StringUtil.isEquals(targetBlock.getPreviousBlockHash(),temporaryBlock.getPreviousBlockHash())){
                 break;
             }
-            targetBlockChainDataBase.removeTailBlock();
+            targetBlockChainDataBase.deleteTailBlock();
             noForkBlockHeight = targetBlockChainDataBase.queryBlockChainHeight();
         }
 
@@ -181,7 +181,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         Block temporaryBlockChainTailBlock = temporaryBlockChainDataBase.queryTailBlock() ;
         if(targetBlockChainTailBlock == null){
             //清空temporary
-            temporaryBlockChainDataBase.removeBlocksUtilBlockHeightLessThan(LongUtil.ONE);
+            temporaryBlockChainDataBase.deleteBlocksUtilBlockHeightLessThan(LongUtil.ONE);
             return;
         }
         //删除Temporary区块链直到尚未分叉位置停止
@@ -193,7 +193,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
             if(BlockTool.isBlockEquals(targetBlockChainBlock,temporaryBlockChainTailBlock)){
                 break;
             }
-            temporaryBlockChainDataBase.removeTailBlock();
+            temporaryBlockChainDataBase.deleteTailBlock();
             temporaryBlockChainTailBlock = temporaryBlockChainDataBase.queryTailBlock();
         }
         //复制target数据至temporary

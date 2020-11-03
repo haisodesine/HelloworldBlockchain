@@ -35,7 +35,7 @@ function queryBlockHeight() {
 }
 queryBlockHeight();
 //删除区块
-function removeBlock() {
+function deleteBlock() {
 	var getContent = '<dl><dt><h2>删除区块</h2></dt>' +
 				     '<dd><font>输入区块高度:</font><input name="block_height" type="text" class="c_txt"></dd></dl>';
 	var nextStaff = function(){
@@ -46,7 +46,7 @@ function removeBlock() {
 		var height = $(".n_popbox_msg input[name=block_height]").val();
 		$.ajax({
 		    type: "post",
-		    url: url + "/Api/AdminConsole/RemoveBlock",
+		    url: url + "/Api/AdminConsole/DeleteBlock",
 		    contentType: "application/json",
 		    data: `{
 				"blockHeight":"${height}"

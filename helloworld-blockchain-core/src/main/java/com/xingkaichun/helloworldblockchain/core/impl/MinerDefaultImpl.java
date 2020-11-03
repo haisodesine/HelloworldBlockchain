@@ -115,7 +115,7 @@ public class MinerDefaultImpl extends Miner {
                 }
             }
         }
-        removeExceptionTransaction_PointOfBlockView(forMineBlockTransactionList);
+        deleteExceptionTransaction_PointOfBlockView(forMineBlockTransactionList);
         Block nextMineBlock = buildNextMineBlock(forMineBlockTransactionList,minerAccount);
         return nextMineBlock;
     }
@@ -123,11 +123,11 @@ public class MinerDefaultImpl extends Miner {
     /**
      * 打包处理过程: 将异常的交易丢弃掉【站在区块的角度校验交易】
      */
-    private void removeExceptionTransaction_PointOfBlockView(List<Transaction> packingTransactionList) {
+    private void deleteExceptionTransaction_PointOfBlockView(List<Transaction> packingTransactionList) {
         if(packingTransactionList==null || packingTransactionList.size()==0){
             return;
         }
-        removeExceptionTransaction_PointOfTransactionView(packingTransactionList);
+        deleteExceptionTransaction_PointOfTransactionView(packingTransactionList);
 
         Set<String> idSet = new HashSet<>();
         Iterator<Transaction> iterator = packingTransactionList.iterator();
@@ -156,7 +156,7 @@ public class MinerDefaultImpl extends Miner {
     /**
      * 打包处理过程: 将异常的交易丢弃掉【站在单笔交易的角度校验交易】
      */
-    private void removeExceptionTransaction_PointOfTransactionView(List<Transaction> transactionList) {
+    private void deleteExceptionTransaction_PointOfTransactionView(List<Transaction> transactionList) {
         if(transactionList==null || transactionList.size()==0){
             return;
         }

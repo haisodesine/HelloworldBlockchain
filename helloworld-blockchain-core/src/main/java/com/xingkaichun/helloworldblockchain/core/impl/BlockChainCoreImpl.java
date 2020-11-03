@@ -145,8 +145,8 @@ public class BlockChainCoreImpl extends BlockChainCore {
 
 
     @Override
-    public void removeBlocksUtilBlockHeightLessThan(long blockHeight) {
-        blockChainDataBase.removeBlocksUtilBlockHeightLessThan(blockHeight);
+    public void deleteBlocksUtilBlockHeightLessThan(long blockHeight) {
+        blockChainDataBase.deleteBlocksUtilBlockHeightLessThan(blockHeight);
     }
 
 

@@ -78,7 +78,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         }
     }
     @Override
-    public void removeTailBlock() {
+    public void deleteTailBlock() {
         Lock writeLock = readWriteLock.writeLock();
         writeLock.lock();
         try{
@@ -93,7 +93,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         }
     }
     @Override
-    public void removeBlocksUtilBlockHeightLessThan(long blockHeight) {
+    public void deleteBlocksUtilBlockHeightLessThan(long blockHeight) {
         Lock writeLock = readWriteLock.writeLock();
         writeLock.lock();
         try{
