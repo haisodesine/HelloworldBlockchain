@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.request;
+package com.xingkaichun.helloworldblockchain.node.dto.adminconsole.account;
 
 /**
  *

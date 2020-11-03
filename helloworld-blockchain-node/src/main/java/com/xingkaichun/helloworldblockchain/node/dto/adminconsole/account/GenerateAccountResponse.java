@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.node.dto.blockchainbrowser.response;
+package com.xingkaichun.helloworldblockchain.node.dto.adminconsole.account;
 
 
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;

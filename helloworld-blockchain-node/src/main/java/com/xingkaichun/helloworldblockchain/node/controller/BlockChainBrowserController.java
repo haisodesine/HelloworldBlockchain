@@ -6,6 +6,8 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
 import com.xingkaichun.helloworldblockchain.core.tools.StructureSizeTool;
+import com.xingkaichun.helloworldblockchain.node.dto.adminconsole.account.GenerateAccountRequest;
+import com.xingkaichun.helloworldblockchain.node.dto.adminconsole.account.GenerateAccountResponse;
 import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
