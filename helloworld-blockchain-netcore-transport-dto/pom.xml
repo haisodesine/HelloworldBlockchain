@@ -12,9 +12,7 @@
     <artifactId>helloworld-blockchain-netcore-transport-dto</artifactId>
 
     <name>helloworld-blockchain-netcore-transport-dto</name>
-
-    <properties>
-    </properties>
+    <url>http://www.helloworldblockchain.com</url>
 
     <dependencies>
         <dependency>

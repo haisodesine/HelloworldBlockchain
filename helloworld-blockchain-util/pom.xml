@@ -12,11 +12,7 @@
     <artifactId>helloworld-blockchain-util</artifactId>
 
     <name>helloworld-blockchain-util</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
-
-    <properties>
-    </properties>
+    <url>http://www.helloworldblockchain.com</url>
 
     <dependencies>
         <dependency>
@@ -58,7 +54,6 @@
             <groupId>org.iq80.leveldb</groupId>
             <artifactId>leveldb</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>
