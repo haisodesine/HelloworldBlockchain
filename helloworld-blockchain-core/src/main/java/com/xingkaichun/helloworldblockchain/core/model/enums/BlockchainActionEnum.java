@@ -6,7 +6,7 @@ package com.xingkaichun.helloworldblockchain.core.model.enums;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public enum BlockChainActionEnum {
+public enum BlockchainActionEnum {
 
     ADD_BLOCK,DELETE_BLOCK
 }
