@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
@@ -32,11 +32,11 @@ public class BlockBroadcaster {
 
     private ConfigurationService configurationService;
     private NodeService nodeService;
-    private BlockChainCore blockChainCore;
+    private BlockchainCore blockChainCore;
     private BlockchainNodeClient blockchainNodeClient;
 
     public BlockBroadcaster(ConfigurationService configurationService, NodeService nodeService
-            , BlockChainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
+            , BlockchainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
 
         this.configurationService = configurationService;
         this.nodeService = nodeService;

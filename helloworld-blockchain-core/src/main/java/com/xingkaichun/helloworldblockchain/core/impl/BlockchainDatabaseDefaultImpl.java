@@ -1,7 +1,7 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.google.common.primitives.Bytes;
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.Consensus;
 import com.xingkaichun.helloworldblockchain.core.Incentive;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
@@ -35,12 +35,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 注意这是一个线程不安全的实现。在并发的情况下，不保证功能的正确性。
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
+public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     //region 变量与构造函数
-    private static final Logger logger = LoggerFactory.getLogger(BlockChainDataBaseDefaultImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlockchainDatabaseDefaultImpl.class);
 
-    private static final String BLOCKCHAIN_DATABASE_DIRECT_NAME = "BlockChainDataBase";
+    private static final String BLOCKCHAIN_DATABASE_DIRECT_NAME = "BlockchainDatabase";
     //区块链数据库
     private DB blockChainDB;
 
@@ -50,7 +50,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
      */
     private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public BlockChainDataBaseDefaultImpl(String blockchainDataPath,Incentive incentive,Consensus consensus) {
+    public BlockchainDatabaseDefaultImpl(String blockchainDataPath, Incentive incentive, Consensus consensus) {
         super(consensus,incentive);
         File blockChainDBFile = new File(blockchainDataPath,BLOCKCHAIN_DATABASE_DIRECT_NAME);
         this.blockChainDB = LevelDBUtil.createDB(blockChainDBFile);

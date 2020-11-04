@@ -1,13 +1,13 @@
 package com.xingkaichun.helloworldblockchain.core.tools;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 
 import java.util.List;
 
 public class WalletTool {
 
-    public static long obtainBalance(BlockChainCore blockChainCore, String privateKey) {
+    public static long obtainBalance(BlockchainCore blockChainCore, String privateKey) {
         //交易输出总金额
         long totalValue = 0;
         long from = 0;

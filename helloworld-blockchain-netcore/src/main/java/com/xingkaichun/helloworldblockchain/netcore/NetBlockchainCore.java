@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
@@ -23,7 +23,7 @@ import java.util.List;
  * 网络版区块链核心，代表一个完整的网络版区块链核心系统。
  * 网络版区块链核心系统，由以下几部分组成：
  * 1.单机版[没有网络交互版本]区块链核心
- * @see com.xingkaichun.helloworldblockchain.core.BlockChainCore
+ * @see BlockchainCore
  * 2.节点搜寻器
  * @see com.xingkaichun.helloworldblockchain.netcore.NodeSearcher
  * 3.节点广播者
@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class NetBlockchainCore {
 
-    private BlockChainCore blockChainCore;
+    private BlockchainCore blockChainCore;
     private BlockchainNodeHttpServer blockchainNodeHttpServer;
     private NodeSearcher nodeSearcher;
     private NodeBroadcaster nodeBroadcaster;
@@ -47,7 +47,7 @@ public class NetBlockchainCore {
     private ConfigurationService configurationService;
     private NodeService nodeService;
     private BlockchainNodeClient blockchainNodeClient;
-    public NetBlockchainCore(BlockChainCore blockChainCore
+    public NetBlockchainCore(BlockchainCore blockChainCore
             , BlockchainNodeHttpServer blockchainNodeHttpServer, ConfigurationService configurationService
             , NodeSearcher nodeSearcher, NodeBroadcaster nodeBroadcaster
             , BlockSearcher blockSearcher , BlockBroadcaster blockBroadcaster
@@ -145,7 +145,7 @@ public class NetBlockchainCore {
 
 
     //region get set
-    public BlockChainCore getBlockChainCore() {
+    public BlockchainCore getBlockChainCore() {
         return blockChainCore;
     }
 

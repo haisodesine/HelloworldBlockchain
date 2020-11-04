@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.core.tools;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.script.ScriptKey;
 import com.xingkaichun.helloworldblockchain.core.model.script.ScriptLock;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class Dto2ModelTool {
 
-    public static Block blockDto2Block(BlockChainDataBase blockChainDataBase, BlockDTO blockDTO) {
+    public static Block blockDto2Block(BlockchainDatabase blockChainDataBase, BlockDTO blockDTO) {
         //求上一个区块的hash
         String previousBlockHash = blockDTO.getPreviousBlockHash();
         Block previousBlock = blockChainDataBase.queryBlockByBlockHash(previousBlockHash);
@@ -46,7 +46,7 @@ public class Dto2ModelTool {
         return block;
     }
 
-    private static List<Transaction> transactionDto2Transaction(BlockChainDataBase blockChainDataBase, List<TransactionDTO> transactionDtoList) {
+    private static List<Transaction> transactionDto2Transaction(BlockchainDatabase blockChainDataBase, List<TransactionDTO> transactionDtoList) {
         List<Transaction> transactionList = new ArrayList<>();
         if(transactionDtoList != null){
             for(TransactionDTO transactionDTO:transactionDtoList){
@@ -57,7 +57,7 @@ public class Dto2ModelTool {
         return transactionList;
     }
 
-    public static Transaction transactionDto2Transaction(BlockChainDataBase blockChainDataBase, TransactionDTO transactionDTO) {
+    public static Transaction transactionDto2Transaction(BlockchainDatabase blockChainDataBase, TransactionDTO transactionDTO) {
         List<TransactionInput> inputs = new ArrayList<>();
         List<TransactionInputDTO> transactionInputDtoList = transactionDTO.getTransactionInputDtoList();
         if(transactionInputDtoList != null){

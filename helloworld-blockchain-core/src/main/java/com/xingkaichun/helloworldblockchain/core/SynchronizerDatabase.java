@@ -54,7 +54,7 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public abstract class SynchronizerDataBase {
+public abstract class SynchronizerDatabase {
 
     /**
      * 保存节点(nodeId)传输过来的数据

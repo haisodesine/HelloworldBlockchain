@@ -1,7 +1,7 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
-import com.xingkaichun.helloworldblockchain.core.BlockChainCoreFactory;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCoreFactory;
 import com.xingkaichun.helloworldblockchain.core.tools.ResourcePathTool;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClientImpl;
@@ -44,7 +44,7 @@ public class NetBlockchainCoreFactory {
         ConfigurationDao configurationDao = new ConfigurationDaoImpl(dataRootPath);
         ConfigurationService configurationService = new ConfigurationServiceImpl(configurationDao);
 
-        BlockChainCore blockChainCore = BlockChainCoreFactory.createBlockChainCore(dataRootPath);
+        BlockchainCore blockChainCore = BlockchainCoreFactory.createBlockChainCore(dataRootPath);
 
         NodeDao nodeDao = new NodeDaoImpl(dataRootPath);
 

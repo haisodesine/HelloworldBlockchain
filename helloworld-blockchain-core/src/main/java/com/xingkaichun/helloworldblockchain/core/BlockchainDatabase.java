@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public abstract class BlockChainDataBase {
+public abstract class BlockchainDatabase {
 
     //region 变量与构造函数
     //区块共识
@@ -22,7 +22,7 @@ public abstract class BlockChainDataBase {
     //矿工激励
     protected Incentive incentive ;
 
-    public BlockChainDataBase(Consensus consensus,Incentive incentive) {
+    public BlockchainDatabase(Consensus consensus, Incentive incentive) {
         this.consensus = consensus;
         this.incentive = incentive;
     }

@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
-import com.xingkaichun.helloworldblockchain.core.SynchronizerDataBase;
+import com.xingkaichun.helloworldblockchain.core.SynchronizerDatabase;
 import com.xingkaichun.helloworldblockchain.core.tools.Model2DtoTool;
 import com.xingkaichun.helloworldblockchain.util.FileUtil;
 import com.xingkaichun.helloworldblockchain.util.JdbcUtil;
@@ -19,9 +19,9 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class SynchronizerDataBaseDefaultImpl extends SynchronizerDataBase {
+public class SynchronizerDatabaseDefaultImpl extends SynchronizerDatabase {
 
-    private static final Logger logger = LoggerFactory.getLogger(SynchronizerDataBaseDefaultImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SynchronizerDatabaseDefaultImpl.class);
 
     private static final String NODE_SYNCHRONIZE_DATABASE_DIRECT_NAME = "NodeSynchronizeDatabase";
     private static final String NODE_SYNCHRONIZE_DATABASE_File_Name = "NodeSynchronize.db";
@@ -29,7 +29,7 @@ public class SynchronizerDataBaseDefaultImpl extends SynchronizerDataBase {
     private String blockchainDataPath;
     private Connection connection;
 
-    public SynchronizerDataBaseDefaultImpl(String blockchainDataPath) {
+    public SynchronizerDatabaseDefaultImpl(String blockchainDataPath) {
         this.blockchainDataPath = blockchainDataPath;
         init();
     }

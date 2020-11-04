@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.controller;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRequest;
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
@@ -408,7 +408,7 @@ public class AdminConsoleController {
         }
     }
 
-    private BlockChainCore getBlockChainCore(){
+    private BlockchainCore getBlockChainCore(){
         return netBlockchainCore.getBlockChainCore();
     }
 }

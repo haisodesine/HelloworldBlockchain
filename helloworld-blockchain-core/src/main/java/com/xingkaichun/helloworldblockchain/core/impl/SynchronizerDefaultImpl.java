@@ -1,8 +1,8 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.Synchronizer;
-import com.xingkaichun.helloworldblockchain.core.SynchronizerDataBase;
+import com.xingkaichun.helloworldblockchain.core.SynchronizerDatabase;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
 import com.xingkaichun.helloworldblockchain.core.tools.Dto2ModelTool;
@@ -24,7 +24,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
     private static final Logger logger = LoggerFactory.getLogger(SynchronizerDefaultImpl.class);
 
     //本节点的区块链，同步器的目标就是让本节点区块链增长长度。
-    private BlockChainDataBase targetBlockChainDataBase;
+    private BlockchainDatabase targetBlockchainDatabase;
     /**
      * 一个临时的区块链
      * 同步器实现的机制：
@@ -32,17 +32,17 @@ public class SynchronizerDefaultImpl extends Synchronizer {
      * ②发现一个可以同步的节点，将这个节点的数据同步至临时区块链
      * ③将临时区块链的数据同步至本节点区块链
      */
-    private BlockChainDataBase temporaryBlockChainDataBase;
+    private BlockchainDatabase temporaryBlockchainDatabase;
 
     //同步开关:默认同步其它节点区块链数据
     private boolean synchronizeOption = true;
 
-    public SynchronizerDefaultImpl(BlockChainDataBase targetBlockChainDataBase,
-                                   BlockChainDataBase temporaryBlockChainDataBase,
-                                   SynchronizerDataBase synchronizerDataBase) {
+    public SynchronizerDefaultImpl(BlockchainDatabase targetBlockchainDatabase,
+                                   BlockchainDatabase temporaryBlockchainDatabase,
+                                   SynchronizerDatabase synchronizerDataBase) {
         super(synchronizerDataBase);
-        this.targetBlockChainDataBase = targetBlockChainDataBase;
-        this.temporaryBlockChainDataBase = temporaryBlockChainDataBase;
+        this.targetBlockchainDatabase = targetBlockchainDatabase;
+        this.temporaryBlockchainDatabase = temporaryBlockchainDatabase;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         if(!synchronizeOption){
             return;
         }
-        copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(targetBlockChainDataBase, temporaryBlockChainDataBase);
+        copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
         boolean hasDataTransferFinishFlag = synchronizerDataBase.hasDataTransferFinishFlag(availableSynchronizeNodeId);
         if(!hasDataTransferFinishFlag){
             synchronizerDataBase.clear(availableSynchronizeNodeId);
@@ -90,7 +90,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         if(maxBlockHeight <= 0){
             return;
         }
-        long targetBlockChainHeight = targetBlockChainDataBase.queryBlockChainHeight();
+        long targetBlockChainHeight = targetBlockchainDatabase.queryBlockChainHeight();
         if(!LongUtil.isEquals(targetBlockChainHeight,LongUtil.ZERO) && LongUtil.isGreatEqualThan(targetBlockChainHeight,maxBlockHeight)){
             synchronizerDataBase.clear(availableSynchronizeNodeId);
             return;
@@ -99,10 +99,10 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         long minBlockHeight = synchronizerDataBase.getMinBlockHeight(availableSynchronizeNodeId);
         BlockDTO blockDTO = synchronizerDataBase.getBlockDto(availableSynchronizeNodeId,minBlockHeight);
         if(blockDTO != null){
-            temporaryBlockChainDataBase.deleteBlocksUtilBlockHeightLessThan(minBlockHeight);
+            temporaryBlockchainDatabase.deleteBlocksUtilBlockHeightLessThan(minBlockHeight);
             while(blockDTO != null){
-                Block block = Dto2ModelTool.blockDto2Block(temporaryBlockChainDataBase,blockDTO);
-                boolean isAddBlockToBlockChainSuccess = temporaryBlockChainDataBase.addBlock(block);
+                Block block = Dto2ModelTool.blockDto2Block(temporaryBlockchainDatabase,blockDTO);
+                boolean isAddBlockToBlockChainSuccess = temporaryBlockchainDatabase.addBlock(block);
                 if(!isAddBlockToBlockChainSuccess){
                     break;
                 }
@@ -110,7 +110,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
                 blockDTO = synchronizerDataBase.getBlockDto(availableSynchronizeNodeId,minBlockHeight);
             }
         }
-        promoteTargetBlockChainDataBase(targetBlockChainDataBase, temporaryBlockChainDataBase);
+        promoteTargetBlockChainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
         synchronizerDataBase.clear(availableSynchronizeNodeId);
     }
 
@@ -118,21 +118,21 @@ public class SynchronizerDefaultImpl extends Synchronizer {
      * 若targetBlockChainDataBase的高度小于blockChainDataBaseTemporary的高度，
      * 则targetBlockChainDataBase同步blockChainDataBaseTemporary的数据。
      */
-    private void promoteTargetBlockChainDataBase(BlockChainDataBase targetBlockChainDataBase,
-                                                   BlockChainDataBase temporaryBlockChainDataBase) {
-        Block targetBlockChainTailBlock = targetBlockChainDataBase.queryTailBlock();
-        Block temporaryBlockChainTailBlock = temporaryBlockChainDataBase.queryTailBlock() ;
+    private void promoteTargetBlockChainDataBase(BlockchainDatabase targetBlockchainDatabase,
+                                                 BlockchainDatabase temporaryBlockchainDatabase) {
+        Block targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock();
+        Block temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
         //不需要调整
         if(temporaryBlockChainTailBlock == null){
             return;
         }
         if(targetBlockChainTailBlock == null){
-            Block block = temporaryBlockChainDataBase.queryBlockByBlockHeight(GlobalSetting.GenesisBlock.HEIGHT +1);
-            boolean isAddBlockToBlockChainSuccess = targetBlockChainDataBase.addBlock(block);
+            Block block = temporaryBlockchainDatabase.queryBlockByBlockHeight(GlobalSetting.GenesisBlock.HEIGHT +1);
+            boolean isAddBlockToBlockChainSuccess = targetBlockchainDatabase.addBlock(block);
             if(!isAddBlockToBlockChainSuccess){
                 return;
             }
-            targetBlockChainTailBlock = targetBlockChainDataBase.queryTailBlock();
+            targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock();
         }
         if(targetBlockChainTailBlock == null){
             throw new RuntimeException("在这个时刻，targetBlockChainTailBlock必定不为null。");
@@ -146,27 +146,27 @@ public class SynchronizerDefaultImpl extends Synchronizer {
             if(LongUtil.isLessEqualThan(noForkBlockHeight,LongUtil.ZERO)){
                 break;
             }
-            Block targetBlock = targetBlockChainDataBase.queryBlockByBlockHeight(noForkBlockHeight);
+            Block targetBlock = targetBlockchainDatabase.queryBlockByBlockHeight(noForkBlockHeight);
             if(targetBlock == null){
                 break;
             }
-            Block temporaryBlock = temporaryBlockChainDataBase.queryBlockByBlockHeight(noForkBlockHeight);
+            Block temporaryBlock = temporaryBlockchainDatabase.queryBlockByBlockHeight(noForkBlockHeight);
             if(StringUtil.isEquals(targetBlock.getHash(),temporaryBlock.getHash()) &&
                     StringUtil.isEquals(targetBlock.getPreviousBlockHash(),temporaryBlock.getPreviousBlockHash())){
                 break;
             }
-            targetBlockChainDataBase.deleteTailBlock();
-            noForkBlockHeight = targetBlockChainDataBase.queryBlockChainHeight();
+            targetBlockchainDatabase.deleteTailBlock();
+            noForkBlockHeight = targetBlockchainDatabase.queryBlockChainHeight();
         }
 
-        long targetBlockChainHeight = targetBlockChainDataBase.queryBlockChainHeight() ;
+        long targetBlockChainHeight = targetBlockchainDatabase.queryBlockChainHeight() ;
         while(true){
             targetBlockChainHeight++;
-            Block currentBlock = temporaryBlockChainDataBase.queryBlockByBlockHeight(targetBlockChainHeight) ;
+            Block currentBlock = temporaryBlockchainDatabase.queryBlockByBlockHeight(targetBlockChainHeight) ;
             if(currentBlock == null){
                 break;
             }
-            boolean isAddBlockToBlockChainSuccess = targetBlockChainDataBase.addBlock(currentBlock);
+            boolean isAddBlockToBlockChainSuccess = targetBlockchainDatabase.addBlock(currentBlock);
             if(!isAddBlockToBlockChainSuccess){
                 break;
             }
@@ -175,13 +175,13 @@ public class SynchronizerDefaultImpl extends Synchronizer {
     /**
      * 使得temporaryBlockChainDataBase和targetBlockChainDataBase的区块链数据一模一样
      */
-    private void copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(BlockChainDataBase targetBlockChainDataBase,
-                                 BlockChainDataBase temporaryBlockChainDataBase) {
-        Block targetBlockChainTailBlock = targetBlockChainDataBase.queryTailBlock() ;
-        Block temporaryBlockChainTailBlock = temporaryBlockChainDataBase.queryTailBlock() ;
+    private void copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(BlockchainDatabase targetBlockchainDatabase,
+                                                                           BlockchainDatabase temporaryBlockchainDatabase) {
+        Block targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock() ;
+        Block temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
         if(targetBlockChainTailBlock == null){
             //清空temporary
-            temporaryBlockChainDataBase.deleteBlocksUtilBlockHeightLessThan(LongUtil.ONE);
+            temporaryBlockchainDatabase.deleteBlocksUtilBlockHeightLessThan(LongUtil.ONE);
             return;
         }
         //删除Temporary区块链直到尚未分叉位置停止
@@ -189,22 +189,22 @@ public class SynchronizerDefaultImpl extends Synchronizer {
             if(temporaryBlockChainTailBlock == null){
                 break;
             }
-            Block targetBlockChainBlock = targetBlockChainDataBase.queryBlockByBlockHeight(temporaryBlockChainTailBlock.getHeight());
+            Block targetBlockChainBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockChainTailBlock.getHeight());
             if(BlockTool.isBlockEquals(targetBlockChainBlock,temporaryBlockChainTailBlock)){
                 break;
             }
-            temporaryBlockChainDataBase.deleteTailBlock();
-            temporaryBlockChainTailBlock = temporaryBlockChainDataBase.queryTailBlock();
+            temporaryBlockchainDatabase.deleteTailBlock();
+            temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock();
         }
         //复制target数据至temporary
-        long temporaryBlockChainHeight = temporaryBlockChainDataBase.queryBlockChainHeight();
+        long temporaryBlockChainHeight = temporaryBlockchainDatabase.queryBlockChainHeight();
         while(true){
             temporaryBlockChainHeight++;
-            Block currentBlock = targetBlockChainDataBase.queryBlockByBlockHeight(temporaryBlockChainHeight) ;
+            Block currentBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockChainHeight) ;
             if(currentBlock == null){
                 break;
             }
-            boolean isAddBlockToBlockChainSuccess = temporaryBlockChainDataBase.addBlock(currentBlock);
+            boolean isAddBlockToBlockChainSuccess = temporaryBlockchainDatabase.addBlock(currentBlock);
             if(!isAddBlockToBlockChainSuccess){
                 return;
             }

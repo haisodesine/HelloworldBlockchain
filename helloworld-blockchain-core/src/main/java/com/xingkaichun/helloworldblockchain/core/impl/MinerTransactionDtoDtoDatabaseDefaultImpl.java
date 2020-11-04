@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
-import com.xingkaichun.helloworldblockchain.core.MinerTransactionDtoDataBase;
+import com.xingkaichun.helloworldblockchain.core.MinerTransactionDtoDatabase;
 import com.xingkaichun.helloworldblockchain.core.tools.TransactionTool;
 import com.xingkaichun.helloworldblockchain.core.tools.EncodeDecodeTool;
 import com.xingkaichun.helloworldblockchain.util.LevelDBUtil;
@@ -19,14 +19,14 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionDtoDataBase {
+public class MinerTransactionDtoDtoDatabaseDefaultImpl extends MinerTransactionDtoDatabase {
 
-    private static final Logger logger = LoggerFactory.getLogger(MinerTransactionDtoDtoDataBaseDefaultImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MinerTransactionDtoDtoDatabaseDefaultImpl.class);
 
-    private static final String MinerTransaction_DataBase_DirectName = "MinerTransactionDtoDataBase";
+    private static final String MinerTransaction_DataBase_DirectName = "MinerTransactionDtoDatabase";
     private DB transactionPoolDB;
 
-    public MinerTransactionDtoDtoDataBaseDefaultImpl(String blockchainDataPath) {
+    public MinerTransactionDtoDtoDatabaseDefaultImpl(String blockchainDataPath) {
 
         this.transactionPoolDB = LevelDBUtil.createDB(new File(blockchainDataPath,MinerTransaction_DataBase_DirectName));
 
@@ -35,7 +35,7 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
 
     public void insertTransactionDTO(TransactionDTO transactionDTO) {
         //交易已经持久化进交易池数据库 丢弃交易
-        synchronized (MinerTransactionDtoDtoDataBaseDefaultImpl.class){
+        synchronized (MinerTransactionDtoDtoDatabaseDefaultImpl.class){
             String transactionHash = TransactionTool.calculateTransactionHash(transactionDTO);
             LevelDBUtil.put(transactionPoolDB,transactionHash, EncodeDecodeTool.encode(transactionDTO));
         }
@@ -43,7 +43,7 @@ public class MinerTransactionDtoDtoDataBaseDefaultImpl extends MinerTransactionD
 
     @Override
     public List<TransactionDTO> selectTransactionDtoList(long from, long size) {
-        synchronized (MinerTransactionDtoDtoDataBaseDefaultImpl.class){
+        synchronized (MinerTransactionDtoDtoDatabaseDefaultImpl.class){
             List<TransactionDTO> transactionDtoList = new ArrayList<>();
             int cunrrentFrom = 0;
             int cunrrentSize = 0;

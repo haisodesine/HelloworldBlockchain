@@ -10,9 +10,9 @@ package com.xingkaichun.helloworldblockchain.core;
 public abstract class Synchronizer {
 
     //节点同步数据库
-    protected SynchronizerDataBase synchronizerDataBase;
+    protected SynchronizerDatabase synchronizerDataBase;
 
-    public Synchronizer(SynchronizerDataBase synchronizerDataBase) {
+    public Synchronizer(SynchronizerDatabase synchronizerDataBase) {
         this.synchronizerDataBase = synchronizerDataBase;
     }
 
@@ -47,7 +47,7 @@ public abstract class Synchronizer {
 
     //region get set
 
-    public SynchronizerDataBase getSynchronizerDataBase() {
+    public SynchronizerDatabase getSynchronizerDataBase() {
         return synchronizerDataBase;
     }
     //endregion

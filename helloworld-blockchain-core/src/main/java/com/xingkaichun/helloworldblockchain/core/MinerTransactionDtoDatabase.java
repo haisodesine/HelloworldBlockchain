@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public abstract class MinerTransactionDtoDataBase {
+public abstract class MinerTransactionDtoDatabase {
 
     /**
      * 新增交易

@@ -1,9 +1,9 @@
 package com.xingkaichun.helloworldblockchain.netcore.service;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.Synchronizer;
-import com.xingkaichun.helloworldblockchain.core.SynchronizerDataBase;
+import com.xingkaichun.helloworldblockchain.core.SynchronizerDatabase;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.Dto2ModelTool;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
@@ -32,7 +32,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     private static final Logger logger = LoggerFactory.getLogger(SynchronizeRemoteNodeBlockServiceImpl.class);
 
-    private BlockChainCore blockChainCore;
+    private BlockchainCore blockChainCore;
     private NodeService nodeService;
     private BlockchainNodeClient blockchainNodeClient;
     private ConfigurationService configurationService;
@@ -45,7 +45,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     private static final long SYNCHRONIZE_BLOCK_SIZE_FROM_LOCAL_BLOCKCHAIN_HEIGHT = 10;
 
 
-    public SynchronizeRemoteNodeBlockServiceImpl(BlockChainCore blockChainCore, NodeService nodeService, BlockchainNodeClient blockchainNodeClient, ConfigurationService configurationService) {
+    public SynchronizeRemoteNodeBlockServiceImpl(BlockchainCore blockChainCore, NodeService nodeService, BlockchainNodeClient blockchainNodeClient, ConfigurationService configurationService) {
         this.blockChainCore = blockChainCore;
         this.nodeService = nodeService;
         this.blockchainNodeClient = blockchainNodeClient;
@@ -59,9 +59,9 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
         if(!isBlockChainIdRight(node)){
             nodeService.deleteNode(node);
         }
-        BlockChainDataBase blockChainDataBase = blockChainCore.getBlockChainDataBase();
+        BlockchainDatabase blockChainDataBase = blockChainCore.getBlockChainDataBase();
         Synchronizer synchronizer = blockChainCore.getSynchronizer();
-        SynchronizerDataBase synchronizerDataBase = synchronizer.getSynchronizerDataBase();
+        SynchronizerDatabase synchronizerDataBase = synchronizer.getSynchronizerDataBase();
 
         String nodeId = buildNodeId(node);
         //这里直接清除老旧的数据，这里希望同步的操作可以在进程没有退出之前完成。
@@ -208,7 +208,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     /**
      * 这里表明真的分叉区块个数过多了，形成了新的分叉，区块链协议不支持同步了。
      */
-    private void forkNodeHandler(NodeDto node, SynchronizerDataBase synchronizerDataBase) {
+    private void forkNodeHandler(NodeDto node, SynchronizerDatabase synchronizerDataBase) {
         synchronizerDataBase.clear(buildNodeId(node));
         nodeService.addOrUpdateNodeForkPropertity(node);
     }
@@ -231,7 +231,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     }
 
     private BlockDTO getLocalBlockDtoByBlockHeight(NodeDto node, long blockHeight) {
-        SynchronizerDataBase synchronizerDataBase = blockChainCore.getSynchronizer().getSynchronizerDataBase();
+        SynchronizerDatabase synchronizerDataBase = blockChainCore.getSynchronizer().getSynchronizerDataBase();
         BlockDTO blockDTO = synchronizerDataBase.getBlockDto(buildNodeId(node),blockHeight);
         return blockDTO;
     }

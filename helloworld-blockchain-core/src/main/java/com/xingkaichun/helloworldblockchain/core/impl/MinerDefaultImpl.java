@@ -1,8 +1,8 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.Miner;
-import com.xingkaichun.helloworldblockchain.core.MinerTransactionDtoDataBase;
+import com.xingkaichun.helloworldblockchain.core.MinerTransactionDtoDatabase;
 import com.xingkaichun.helloworldblockchain.core.Wallet;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
@@ -35,7 +35,7 @@ public class MinerDefaultImpl extends Miner {
     //挖矿开关:默认打开挖矿的开关
     private boolean mineOption = true;
 
-    public MinerDefaultImpl(Wallet wallet, BlockChainDataBase blockChainDataBase, MinerTransactionDtoDataBase minerTransactionDtoDataBase) {
+    public MinerDefaultImpl(Wallet wallet, BlockchainDatabase blockChainDataBase, MinerTransactionDtoDatabase minerTransactionDtoDataBase) {
         super(wallet,blockChainDataBase,minerTransactionDtoDataBase);
     }
     //endregion

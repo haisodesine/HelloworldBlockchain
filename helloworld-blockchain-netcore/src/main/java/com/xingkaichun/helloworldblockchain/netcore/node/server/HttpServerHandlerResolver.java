@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore.node.server;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.Model2DtoTool;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
@@ -27,11 +27,11 @@ public class HttpServerHandlerResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServerHandlerResolver.class);
 
-    private BlockChainCore blockChainCore;
+    private BlockchainCore blockChainCore;
     private NodeService nodeService;
     private ConfigurationService configurationService;
 
-    public HttpServerHandlerResolver(BlockChainCore blockChainCore, NodeService nodeService, ConfigurationService configurationService) {
+    public HttpServerHandlerResolver(BlockchainCore blockChainCore, NodeService nodeService, ConfigurationService configurationService) {
         this.blockChainCore = blockChainCore;
         this.nodeService = nodeService;
         this.configurationService = configurationService;

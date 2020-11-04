@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.controller;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
@@ -409,7 +409,7 @@ public class BlockChainBrowserController {
             return ServiceResult.createFailServiceResult(message);
         }
     }
-    private BlockChainCore getBlockChainCore(){
+    private BlockchainCore getBlockChainCore(){
         return netBlockchainCore.getBlockChainCore();
     }
 }

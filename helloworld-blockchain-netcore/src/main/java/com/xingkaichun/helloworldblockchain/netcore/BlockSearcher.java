@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
@@ -30,13 +30,13 @@ public class BlockSearcher {
 
     private NodeService nodeService;
     private SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService;
-    private BlockChainCore blockChainCore;
+    private BlockchainCore blockChainCore;
     private ConfigurationService configurationService;
     private BlockchainNodeClient blockchainNodeClient;
 
 
     public BlockSearcher(NodeService nodeService
-            , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockChainCore blockChainCore
+            , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockchainCore blockChainCore
             , ConfigurationService configurationService, BlockchainNodeClient blockchainNodeClient) {
         this.nodeService = nodeService;
         this.synchronizeRemoteNodeBlockService = synchronizeRemoteNodeBlockService;

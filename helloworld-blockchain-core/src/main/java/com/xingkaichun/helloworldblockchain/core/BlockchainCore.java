@@ -14,7 +14,7 @@ import java.util.List;
  * 单机版[没有网络交互版本]区块链核心，代表一个完整的单机版区块链核心系统。
  * 单机版区块链核心系统，由以下几部分组成：
  * 区块链数据库：用于持久化本地区块链的数据
- * @see com.xingkaichun.helloworldblockchain.core.BlockChainDataBase
+ * @see BlockchainDatabase
  * 矿工：可以收集交易，挖矿，将新挖取的矿放进区块链数据库
  * @see com.xingkaichun.helloworldblockchain.core.Miner
  * 区块链同步器：区块链是一个分布式的数据库，同步器可以同步其它节点的区块链数据。
@@ -22,10 +22,10 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public abstract class BlockChainCore {
+public abstract class BlockchainCore {
 
     //区块链数据库
-    protected BlockChainDataBase blockChainDataBase ;
+    protected BlockchainDatabase blockChainDataBase ;
     //矿工
     protected Miner miner ;
     //钱包
@@ -33,7 +33,7 @@ public abstract class BlockChainCore {
     //区块链同步器
     protected Synchronizer synchronizer ;
 
-    public BlockChainCore(BlockChainDataBase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
+    public BlockchainCore(BlockchainDatabase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
         this.blockChainDataBase = blockChainDataBase;
         this.wallet = wallet;
         this.miner = miner;
@@ -133,7 +133,7 @@ public abstract class BlockChainCore {
 
 
     //region get set
-    public BlockChainDataBase getBlockChainDataBase() {
+    public BlockchainDatabase getBlockChainDataBase() {
         return blockChainDataBase;
     }
 

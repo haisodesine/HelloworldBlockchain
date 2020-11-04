@@ -29,11 +29,11 @@ import java.util.List;
  * 
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class BlockChainCoreImpl extends BlockChainCore {
+public class BlockchainCoreImpl extends BlockchainCore {
 
-    private static final Logger logger = LoggerFactory.getLogger(BlockChainCoreImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlockchainCoreImpl.class);
 
-    public BlockChainCoreImpl(BlockChainDataBase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
+    public BlockchainCoreImpl(BlockchainDatabase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
         super(blockChainDataBase,wallet,miner,synchronizer);
     }
 

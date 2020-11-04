@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.service;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainCore;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.*;
 import com.xingkaichun.helloworldblockchain.core.tools.ScriptTool;
@@ -215,7 +215,7 @@ public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
         return transactionOutputDetailViewList;
     }
 
-    private BlockChainCore getBlockChainCore(){
+    private BlockchainCore getBlockChainCore(){
         return netBlockchainCore.getBlockChainCore();
     }
 }
