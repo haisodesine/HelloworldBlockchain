@@ -60,7 +60,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 			sendMsg = toString(httpServerHandlerResolver.receiveTransaction(request5));
 			break;
 		default:
-			sendMsg = "404 PAGE NOT FOUND";
+			sendMsg = "404 NOT FOUND";
 			break;
 		}
 		writeResponse(ctx, sendMsg);
