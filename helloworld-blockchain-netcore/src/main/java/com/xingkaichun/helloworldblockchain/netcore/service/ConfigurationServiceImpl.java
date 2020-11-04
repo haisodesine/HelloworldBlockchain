@@ -70,8 +70,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     private void insertOrUpdate(ConfigurationEntity configurationEntity){
-        String configuratioValue = configurationDao.getConfiguratioValue(configurationEntity.getConfKey());
-        if(Strings.isNullOrEmpty(configuratioValue)){
+        String configurationValue = configurationDao.getConfiguratioValue(configurationEntity.getConfKey());
+        if(Strings.isNullOrEmpty(configurationValue)){
             configurationDao.addConfiguration(configurationEntity);
         }else {
             configurationDao.updateConfiguration(configurationEntity);
