@@ -34,6 +34,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 		String sendMsg;
 		String uri = msg.uri();
 
+		//因为任何节点都可以访问这里的接口，请不要在这里写任何能泄露用户私钥的代码。
 		switch (uri) {
 		case "/":
 			sendMsg = "HelloworldBlockchain";
