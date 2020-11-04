@@ -250,7 +250,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     //region 普通查询
     @Override
     public long queryBlockChainHeight() {
-        byte[] bytesBlockChainHeight = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockChainHeightKey());
+        byte[] bytesBlockChainHeight = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildBlockChainHeightKey());
         if(bytesBlockChainHeight == null){
             //区块链中没有区块，高度默认为0。
             return LongUtil.ZERO;
@@ -260,7 +260,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     @Override
     public long queryTransactionCount() {
-        byte[] byteTotalTransactionCount = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey());
+        byte[] byteTotalTransactionCount = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildBlockchainTransactionCountKey());
         if(byteTotalTransactionCount == null){
             return LongUtil.ZERO;
         }
@@ -269,7 +269,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     @Override
     public long queryBlockHeightByBlockHash(String blockHash) {
-        byte[] bytesBlockHeight = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockHashToBlockHeightKey(blockHash));
+        byte[] bytesBlockHeight = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildBlockHashToBlockHeightKey(blockHash));
         if(bytesBlockHeight == null){
             return LongUtil.ZERO;
         }
@@ -278,7 +278,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     @Override
     public String queryToTransactionHashByTransactionOutputId(TransactionOutputId transactionOutputId) {
-        byte[] bytesTransactionHash = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionOutputIdToToTransactionHashKey(transactionOutputId));
+        byte[] bytesTransactionHash = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildTransactionOutputIdToToTransactionHashKey(transactionOutputId));
         if(bytesTransactionHash == null){
             return null;
         }
@@ -299,7 +299,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     }
     @Override
     public Block queryBlockByBlockHeight(long blockHeight) {
-        byte[] bytesBlock = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockHeightToBlockKey(blockHeight));
+        byte[] bytesBlock = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildBlockHeightToBlockKey(blockHeight));
         if(bytesBlock==null){
             return null;
         }
@@ -321,7 +321,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     //region 交易查询
     @Override
     public Transaction queryTransactionByTransactionHash(String transactionHash) {
-        byte[] bytesTransaction = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionHashToTransactionKey(transactionHash));
+        byte[] bytesTransaction = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildTransactionHashToTransactionKey(transactionHash));
         if(bytesTransaction==null){
             return null;
         }
@@ -332,7 +332,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     public List<Transaction> queryTransactionListByTransactionHeight(long from,long size) {
         List<Transaction> transactionList = new ArrayList<>();
         for(long index=from; LongUtil.isLessThan(index,from+size); index++){
-            byte[] byteTransaction = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(index));
+            byte[] byteTransaction = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(index));
             if(byteTransaction == null){
                 break;
             }
@@ -347,7 +347,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     //region 交易输出查询
     public TransactionOutput queryTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) {
-        byte[] bytesTransactionOutput = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTransactionOutputIdToTransactionOutputKey(transactionOutputId));
+        byte[] bytesTransactionOutput = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildTransactionOutputIdToTransactionOutputKey(transactionOutputId));
         if(bytesTransactionOutput == null){
             return null;
         }
@@ -356,7 +356,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
 
     @Override
     public TransactionOutput queryUnspendTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) {
-        byte[] bytesUtxo = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(transactionOutputId));
+        byte[] bytesUtxo = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(transactionOutputId));
         if(bytesUtxo == null){
             return null;
         }
@@ -367,7 +367,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     public List<TransactionOutput> queryTransactionOutputListByAddress(String address,long from,long size) {
         List<TransactionOutput> transactionOutputList = new ArrayList<>();
         DBIterator iterator = blockChainDB.iterator();
-        byte[] addressToTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToTransactionOutputListKey(address);
+        byte[] addressToTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToTransactionOutputListKey(address);
         int currentFrom = 0;
         int currentSize = 0;
         for (iterator.seek(addressToTransactionOutputListKey); iterator.hasNext(); iterator.next()) {
@@ -396,7 +396,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     public List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address,long from,long size) {
         List<TransactionOutput> transactionOutputList = new ArrayList<>();
         DBIterator iterator = blockChainDB.iterator();
-        byte[] addressToUnspendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToUnspendTransactionOutputListKey(address);
+        byte[] addressToUnspendTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToUnspendTransactionOutputListKey(address);
         int currentFrom = 0;
         int currentSize = 0;
         for (iterator.seek(addressToUnspendTransactionOutputListKey); iterator.hasNext(); iterator.next()) {
@@ -425,7 +425,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     public List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) {
         List<TransactionOutput> transactionOutputList = new ArrayList<>();
         DBIterator iterator = blockChainDB.iterator();
-        byte[] addressToSpendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToSpendTransactionOutputListKey(address);
+        byte[] addressToSpendTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToSpendTransactionOutputListKey(address);
         int currentFrom = 0;
         int currentSize = 0;
         for (iterator.seek(addressToSpendTransactionOutputListKey); iterator.hasNext(); iterator.next()) {
@@ -454,7 +454,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     public List<Transaction> queryTransactionListByAddress(String address,long from,long size) {
         List<Transaction> transactionList = new ArrayList<>();
         DBIterator iterator = blockChainDB.iterator();
-        byte[] addressToTransactionHashListKey = BlockChainDataBaseKeyTool.buildAddressToTransactionHashListKey(address);
+        byte[] addressToTransactionHashListKey = BlockchainDatabaseKeyTool.buildAddressToTransactionHashListKey(address);
         int currentFrom = 0;
         int currentSize = 0;
         for (iterator.seek(addressToTransactionHashListKey); iterator.hasNext(); iterator.next()) {
@@ -555,7 +555,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
                 if(inputs != null){
                     for(TransactionInput transactionInput:inputs){
                         TransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
-                        byte[] transactionOutputIdToToTransactionHashKey = BlockChainDataBaseKeyTool.buildTransactionOutputIdToToTransactionHashKey(unspendTransactionOutput);
+                        byte[] transactionOutputIdToToTransactionHashKey = BlockchainDatabaseKeyTool.buildTransactionOutputIdToToTransactionHashKey(unspendTransactionOutput);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                             writeBatch.put(transactionOutputIdToToTransactionHashKey, EncodeDecodeTool.encodeTransactionHash(transaction.getTransactionHash()));
                         } else {
@@ -576,7 +576,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
                 List<TransactionOutput> outputs = transaction.getOutputs();
                 if(outputs != null){
                     for(TransactionOutput output:outputs){
-                        byte[] transactionOutputIdToTransactionOutputKey = BlockChainDataBaseKeyTool.buildTransactionOutputIdToTransactionOutputKey(output);
+                        byte[] transactionOutputIdToTransactionOutputKey = BlockchainDatabaseKeyTool.buildTransactionOutputIdToTransactionOutputKey(output);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                             writeBatch.put(transactionOutputIdToTransactionOutputKey, EncodeDecodeTool.encode(output));
                         } else {
@@ -598,7 +598,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
                 if(inputs != null){
                     for(TransactionInput transactionInput:inputs){
                         TransactionOutput unspendTransactionOutput = transactionInput.getUnspendTransactionOutput();
-                        byte[] unspendTransactionOutputIdToUnspendTransactionOutputKey = BlockChainDataBaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(unspendTransactionOutput);
+                        byte[] unspendTransactionOutputIdToUnspendTransactionOutputKey = BlockchainDatabaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(unspendTransactionOutput);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                             writeBatch.delete(unspendTransactionOutputIdToUnspendTransactionOutputKey);
                         } else {
@@ -609,7 +609,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
                 List<TransactionOutput> outputs = transaction.getOutputs();
                 if(outputs != null){
                     for(TransactionOutput output:outputs){
-                        byte[] unspendTransactionOutputIdToUnspendTransactionOutputKey = BlockChainDataBaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(output);
+                        byte[] unspendTransactionOutputIdToUnspendTransactionOutputKey = BlockchainDatabaseKeyTool.buildUnspendTransactionOutputIdToUnspendTransactionOutputKey(output);
                         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                             writeBatch.put(unspendTransactionOutputIdToUnspendTransactionOutputKey, EncodeDecodeTool.encode(output));
                         } else {
@@ -628,7 +628,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
         if(transactionList != null){
             for(Transaction transaction:transactionList){
                 //更新区块链中的交易序列号数据
-                byte[] transactionIndexInBlockChainToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(transaction.getTransactionIndexInBlockChain());
+                byte[] transactionIndexInBlockChainToTransactionKey = BlockchainDatabaseKeyTool.buildTransactionIndexInBlockChainToTransactionKey(transaction.getTransactionIndexInBlockChain());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                     writeBatch.put(transactionIndexInBlockChainToTransactionKey, EncodeDecodeTool.encode(transaction));
                 } else {
@@ -644,7 +644,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
         List<Transaction> transactionList = block.getTransactions();
         if(transactionList != null){
             for(Transaction transaction:transactionList){
-                byte[] transactionHashToTransactionKey = BlockChainDataBaseKeyTool.buildTransactionHashToTransactionKey(transaction.getTransactionHash());
+                byte[] transactionHashToTransactionKey = BlockchainDatabaseKeyTool.buildTransactionHashToTransactionKey(transaction.getTransactionHash());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                     writeBatch.put(transactionHashToTransactionKey, EncodeDecodeTool.encode(transaction));
                 } else {
@@ -657,7 +657,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 存储区块链的高度
      */
     private void storeBlockChainHeight(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
-        byte[] blockChainHeightKey = BlockChainDataBaseKeyTool.buildBlockChainHeightKey();
+        byte[] blockChainHeightKey = BlockchainDatabaseKeyTool.buildBlockChainHeightKey();
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(blockChainHeightKey,LevelDBUtil.longToBytes(block.getHeight()));
         }else{
@@ -668,7 +668,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 存储区块哈希到区块高度的映射
      */
     private void storeBlockHashToBlockHeight(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
-        byte[] blockHashBlockHeightKey = BlockChainDataBaseKeyTool.buildBlockHashToBlockHeightKey(block.getHash());
+        byte[] blockHashBlockHeightKey = BlockchainDatabaseKeyTool.buildBlockHashToBlockHeightKey(block.getHash());
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(blockHashBlockHeightKey, LevelDBUtil.longToBytes(block.getHeight()));
         }else{
@@ -680,7 +680,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      */
     private void storeBlockchainTransactionCount(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
         long transactionCount = queryTransactionCount();
-        byte[] bytesBlockchainTransactionQuantityKey = BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey();
+        byte[] bytesBlockchainTransactionQuantityKey = BlockchainDatabaseKeyTool.buildBlockchainTransactionCountKey();
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(bytesBlockchainTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount + BlockTool.getTransactionCount(block)));
         }else{
@@ -691,7 +691,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 存储区块链高度到区块的映射
      */
     private void storeBlockHeightToBlock(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
-        byte[] blockHeightKey = BlockChainDataBaseKeyTool.buildBlockHeightToBlockKey(block.getHeight());
+        byte[] blockHeightKey = BlockchainDatabaseKeyTool.buildBlockHeightToBlockKey(block.getHeight());
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(blockHeightKey, EncodeDecodeTool.encode(block));
         }else{
@@ -703,7 +703,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 存储已使用的哈希
      */
     private void storeHash(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
-        byte[] blockHashKey = BlockChainDataBaseKeyTool.buildHashKey(block.getHash());
+        byte[] blockHashKey = BlockchainDatabaseKeyTool.buildHashKey(block.getHash());
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(blockHashKey, blockHashKey);
         } else {
@@ -712,7 +712,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
         List<Transaction> transactionList = block.getTransactions();
         if(transactionList != null){
             for(Transaction transaction:transactionList){
-                byte[] transactionHashKey = BlockChainDataBaseKeyTool.buildHashKey(transaction.getTransactionHash());
+                byte[] transactionHashKey = BlockchainDatabaseKeyTool.buildHashKey(transaction.getTransactionHash());
                 if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
                     writeBatch.put(transactionHashKey, transactionHashKey);
                 } else {
@@ -733,7 +733,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
             if(inputs != null){
                 for (TransactionInput transactionInput:inputs){
                     TransactionOutput utxo = transactionInput.getUnspendTransactionOutput();
-                    byte[] addressToUnspendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToUnspendTransactionOutputListKey(utxo);
+                    byte[] addressToUnspendTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToUnspendTransactionOutputListKey(utxo);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         writeBatch.delete(addressToUnspendTransactionOutputListKey);
                     }else{
@@ -744,7 +744,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
             List<TransactionOutput> outputs = transaction.getOutputs();
             if(outputs != null){
                 for (TransactionOutput transactionOutput:outputs){
-                    byte[] addressToUnspendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToUnspendTransactionOutputListKey(transactionOutput);
+                    byte[] addressToUnspendTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToUnspendTransactionOutputListKey(transactionOutput);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         byte[] byteTransactionOutput = EncodeDecodeTool.encode(transactionOutput);
                         writeBatch.put(addressToUnspendTransactionOutputListKey,byteTransactionOutput);
@@ -766,7 +766,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
             List<TransactionOutput> outputs = transaction.getOutputs();
             if(outputs != null){
                 for (TransactionOutput transactionOutput:outputs){
-                    byte[] addressToTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToTransactionOutputListKey(transactionOutput);
+                    byte[] addressToTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToTransactionOutputListKey(transactionOutput);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         byte[] byteTransactionOutput = EncodeDecodeTool.encode(transactionOutput);
                         writeBatch.put(addressToTransactionOutputListKey,byteTransactionOutput);
@@ -789,7 +789,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
             if(inputs != null){
                 for (TransactionInput transactionInput:inputs){
                     TransactionOutput utxo = transactionInput.getUnspendTransactionOutput();
-                    byte[] addressToSpendTransactionOutputListKey = BlockChainDataBaseKeyTool.buildAddressToSpendTransactionOutputListKey(utxo);
+                    byte[] addressToSpendTransactionOutputListKey = BlockchainDatabaseKeyTool.buildAddressToSpendTransactionOutputListKey(utxo);
                     if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                         writeBatch.delete(addressToSpendTransactionOutputListKey);
                     }else{
@@ -825,7 +825,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
         for (Map.Entry<String,String> entry:address2TransactionHash.entrySet()) {
             String address = entry.getKey();
             String transactionHash = entry.getValue();
-            byte[] addressToTransactionHashList = BlockChainDataBaseKeyTool.buildAddressToTransactionHashListKey(address,transactionHash);
+            byte[] addressToTransactionHashList = BlockchainDatabaseKeyTool.buildAddressToTransactionHashListKey(address,transactionHash);
             if(blockChainActionEnum == BlockChainActionEnum.ADD_BLOCK){
                 byte[] byteTransactionHash = LevelDBUtil.stringToBytes(transactionHash);
                 writeBatch.put(addressToTransactionHashList,byteTransactionHash);
@@ -861,7 +861,7 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 哈希是否已经被区块链系统使用了？
      */
     private boolean isHashUsed(String hash){
-        byte[] bytesHash = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildHashKey(hash));
+        byte[] bytesHash = LevelDBUtil.get(blockChainDB, BlockchainDatabaseKeyTool.buildHashKey(hash));
         return bytesHash != null;
     }
     /**
