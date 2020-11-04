@@ -6,19 +6,17 @@ import com.xingkaichun.helloworldblockchain.core.Synchronizer;
 import com.xingkaichun.helloworldblockchain.core.SynchronizerDatabase;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.Dto2ModelTool;
-import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
-import com.xingkaichun.helloworldblockchain.util.LongUtil;
-import com.xingkaichun.helloworldblockchain.util.StringUtil;
-import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.QueryBlockDtoByBlockHeightResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.QueryBlockHashByBlockHeightResponse;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.BlockDTO;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
+import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,9 +64,6 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
         String nodeId = buildNodeId(node);
         //这里直接清除老旧的数据，这里希望同步的操作可以在进程没有退出之前完成。
         synchronizerDataBase.clear(nodeId);
-        //分叉参数
-        ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.FORK_BLOCK_SIZE.name());
-        long forkBlockSize = Long.valueOf(configurationDto.getConfValue());
         Block tailBlock = blockChainDataBase.queryTailBlock();
         long localBlockchainHeight = tailBlock==null? LongUtil.ZERO:tailBlock.getHeight();
 
@@ -104,7 +99,8 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                 if(LongUtil.isLessEqualThan(tempBlockHeight,LongUtil.ZERO)){
                     break;
                 }
-                if(LongUtil.isGreatThan(localBlockchainHeight,tempBlockHeight+forkBlockSize)){
+                //分叉长度过大，不可同步。这里，认为这已经形成了硬分叉(两条完全不同的区块链)。
+                if(LongUtil.isGreatThan(localBlockchainHeight,tempBlockHeight + GlobalSetting.NodeConstant.FORK_BLOCK_SIZE)){
                     forkNodeHandler(node,synchronizerDataBase);
                     return;
                 }

@@ -1,17 +1,15 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
-import com.xingkaichun.helloworldblockchain.util.LongUtil;
-import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
-import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.netcore.service.SynchronizeRemoteNodeBlockService;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
+import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,17 +29,15 @@ public class BlockSearcher {
     private NodeService nodeService;
     private SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService;
     private BlockchainCore blockChainCore;
-    private ConfigurationService configurationService;
     private BlockchainNodeClient blockchainNodeClient;
 
 
     public BlockSearcher(NodeService nodeService
             , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockchainCore blockChainCore
-            , ConfigurationService configurationService, BlockchainNodeClient blockchainNodeClient) {
+            , BlockchainNodeClient blockchainNodeClient) {
         this.nodeService = nodeService;
         this.synchronizeRemoteNodeBlockService = synchronizeRemoteNodeBlockService;
         this.blockChainCore = blockChainCore;
-        this.configurationService = configurationService;
         this.blockchainNodeClient = blockchainNodeClient;
     }
 
@@ -56,8 +52,7 @@ public class BlockSearcher {
                 } catch (Exception e) {
                     logger.error("搜索其它节点的区块高度出现异常",e);
                 }
-                ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.BLOCK_SEARCH_TIME_INTERVAL.name());
-                ThreadUtil.sleep(Long.parseLong(configurationDto.getConfValue()));
+                ThreadUtil.sleep(GlobalSetting.NodeConstant.BLOCK_SEARCH_TIME_INTERVAL);
             }
         }).start();
 
@@ -73,8 +68,7 @@ public class BlockSearcher {
                 } catch (Exception e) {
                     logger.error("在区块链网络中同步其它节点的区块出现异常",e);
                 }
-                ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.SEARCH_NEW_BLOCKS_TIME_INTERVAL.name());
-                ThreadUtil.sleep(Long.parseLong(configurationDto.getConfValue()));
+                ThreadUtil.sleep(GlobalSetting.NodeConstant.SEARCH_NEW_BLOCKS_TIME_INTERVAL);
             }
         }).start();
     }

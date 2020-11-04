@@ -1,14 +1,12 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
-import com.xingkaichun.helloworldblockchain.util.LongUtil;
-import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
-import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
+import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,15 +28,12 @@ public class BlockBroadcaster {
 
     private static final Logger logger = LoggerFactory.getLogger(BlockBroadcaster.class);
 
-    private ConfigurationService configurationService;
     private NodeService nodeService;
     private BlockchainCore blockChainCore;
     private BlockchainNodeClient blockchainNodeClient;
 
-    public BlockBroadcaster(ConfigurationService configurationService, NodeService nodeService
-            , BlockchainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
+    public BlockBroadcaster(NodeService nodeService, BlockchainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
 
-        this.configurationService = configurationService;
         this.nodeService = nodeService;
         this.blockChainCore = blockChainCore;
         this.blockchainNodeClient = blockchainNodeClient;
@@ -52,8 +47,7 @@ public class BlockBroadcaster {
                 } catch (Exception e) {
                     logger.error("在区块链网络中广播自己的区块高度出现异常",e);
                 }
-                ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.CHECK_LOCAL_BLOCKCHAIN_HEIGHT_IS_HIGH_TIME_INTERVAL.name());
-                ThreadUtil.sleep(Long.parseLong(configurationDto.getConfValue()));
+                ThreadUtil.sleep(GlobalSetting.NodeConstant.CHECK_LOCAL_BLOCKCHAIN_HEIGHT_IS_HIGH_TIME_INTERVAL);
             }
         }).start();
     }

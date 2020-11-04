@@ -143,4 +143,26 @@ public class GlobalSetting {
         //脚本操作码/操作数最大存储容量
         public static final long SCRIPT_OPERATION_TEXT_MAX_SIZE = 64;
     }
+
+    /**
+     * 节点设置
+     */
+    public static class NodeConstant{
+        //两个区块链有分叉时，区块差异个数大于这个值，则真的分叉了。
+        public static final long FORK_BLOCK_SIZE = 100;
+        //在区块链网络中自动搜寻新的节点的间隔时间
+        public static final long SEARCH_NEW_NODE_TIME_INTERVAL = 1000 * 60 * 2;
+        //本地节点发现某一个节点错误次数过多，则删除该节点。这个阈值配置。
+        public static final long NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD = 10;
+        //在区块链网络中自动搜寻新的区块的间隔时间。
+        public static final long SEARCH_NEW_BLOCKS_TIME_INTERVAL = 1000 * 60;
+        //检查自己的区块链高度在区块链网络中是否是最大的高度的时间间隔。
+        public static final long CHECK_LOCAL_BLOCKCHAIN_HEIGHT_IS_HIGH_TIME_INTERVAL = 1000 * 60;
+        //定时将种子节点加入本地区块链网络的时间间隔。
+        public static final long ADD_SEED_NODE_TIME_INTERVAL = 1000 * 60 * 60;
+        //广播自己节点的时间间隔。
+        public static final long NODE_BROADCAST_TIME_INTERVAL = 1000 * 60* 60 * 24;
+        //搜寻区块的时间间隔。
+        public static final long BLOCK_SEARCH_TIME_INTERVAL = 1000 * 60 * 2;
+    }
 }

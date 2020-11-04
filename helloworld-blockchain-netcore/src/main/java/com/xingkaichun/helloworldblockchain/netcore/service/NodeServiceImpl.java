@@ -1,12 +1,11 @@
 package com.xingkaichun.helloworldblockchain.netcore.service;
 
-import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.netcore.dao.NodeDao;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.SimpleNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.entity.NodeEntity;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +17,9 @@ import java.util.List;
 public class NodeServiceImpl implements NodeService {
 
     private NodeDao nodeDao;
-    private ConfigurationService configurationService;
 
-    public NodeServiceImpl(NodeDao nodeDao, ConfigurationService configurationService) {
+    public NodeServiceImpl(NodeDao nodeDao) {
         this.nodeDao = nodeDao;
-        this.configurationService = configurationService;
     }
 
     @Override
@@ -46,8 +43,7 @@ public class NodeServiceImpl implements NodeService {
             return;
         }
         int errorConnectionTimes = nodeEntity.getErrorConnectionTimes()+1;
-        ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD.name());
-        if(errorConnectionTimes >= Long.parseLong(configurationDto.getConfValue())){
+        if(errorConnectionTimes >= GlobalSetting.NodeConstant.NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD){
             nodeDao.deleteNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
         } else {
             nodeEntity.setErrorConnectionTimes(errorConnectionTimes);
