@@ -260,7 +260,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
 
     @Override
     public long queryTransactionCount() {
-        byte[] byteTotalTransactionCount = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTotalTransactionCountKey());
+        byte[] byteTotalTransactionCount = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey());
         if(byteTotalTransactionCount == null){
             return LongUtil.ZERO;
         }
@@ -491,7 +491,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         fillBlockProperty(block);
         WriteBatch writeBatch = new WriteBatchImpl();
         storeBlockChainHeight(writeBatch,block,blockChainActionEnum);
-        storeTotalTransactionCount(writeBatch,block,blockChainActionEnum);
+        storeBlockchainTransactionCount(writeBatch,block,blockChainActionEnum);
         storeBlockHeightToBlock(writeBatch,block,blockChainActionEnum);
         storeBlockHashToBlockHeight(writeBatch,block,blockChainActionEnum);
         storeTransactionHashToTransaction(writeBatch,block,blockChainActionEnum);
@@ -678,13 +678,13 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     /**
      * 存储区块链中总的交易数量
      */
-    private void storeTotalTransactionCount(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
+    private void storeBlockchainTransactionCount(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
         long transactionCount = queryTransactionCount();
-        byte[] totalTransactionQuantityKey = BlockChainDataBaseKeyTool.buildTotalTransactionCountKey();
+        byte[] bytesBlockchainTransactionQuantityKey = BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey();
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
-            writeBatch.put(totalTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount + BlockTool.getTransactionCount(block)));
+            writeBatch.put(bytesBlockchainTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount + BlockTool.getTransactionCount(block)));
         }else{
-            writeBatch.put(totalTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount - BlockTool.getTransactionCount(block)));
+            writeBatch.put(bytesBlockchainTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount - BlockTool.getTransactionCount(block)));
         }
     }
     /**
