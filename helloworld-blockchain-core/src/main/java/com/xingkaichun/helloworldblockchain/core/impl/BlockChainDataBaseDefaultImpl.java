@@ -259,12 +259,12 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     }
 
     @Override
-    public long queryTransactionCount() {
-        byte[] byteTotalTransactionCount = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildTotalTransactionCountKey());
-        if(byteTotalTransactionCount == null){
+    public long queryBlockchainTransactionCount() {
+        byte[] bytesBlockchainTransactionCount = LevelDBUtil.get(blockChainDB, BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey());
+        if(bytesBlockchainTransactionCount == null){
             return LongUtil.ZERO;
         }
-        return LevelDBUtil.bytesToLong(byteTotalTransactionCount);
+        return LevelDBUtil.bytesToLong(bytesBlockchainTransactionCount);
     }
 
     @Override
@@ -490,8 +490,9 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     private WriteBatch createBlockWriteBatch(Block block, BlockChainActionEnum blockChainActionEnum) {
         fillBlockProperty(block);
         WriteBatch writeBatch = new WriteBatchImpl();
+        //保障区块链运行存储使用的数据
         storeBlockChainHeight(writeBatch,block,blockChainActionEnum);
-        storeTotalTransactionCount(writeBatch,block,blockChainActionEnum);
+        storeBlockchainTransactionCount(writeBatch,block,blockChainActionEnum);
         storeBlockHeightToBlock(writeBatch,block,blockChainActionEnum);
         storeBlockHashToBlockHeight(writeBatch,block,blockChainActionEnum);
         storeTransactionHashToTransaction(writeBatch,block,blockChainActionEnum);
@@ -500,6 +501,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
         storeTransactionOutputIdToToTransactionHash(writeBatch,block,blockChainActionEnum);
         storeTransactionOutputIdToTransactionOutput(writeBatch,block,blockChainActionEnum);
         storeHash(writeBatch,block,blockChainActionEnum);
+        //区块链浏览器存储使用的数据
         storeAddressToUnspendTransactionOutputList(writeBatch,block,blockChainActionEnum);
         storeAddressToTransactionOutputList(writeBatch,block,blockChainActionEnum);
         storeAddressToSpendTransactionOutputList(writeBatch,block,blockChainActionEnum);
@@ -512,7 +514,7 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
      */
     private void fillBlockProperty(Block block) {
         long transactionIndexInBlock = LongUtil.ZERO;
-        long transactionIndexInBlockChain = queryTransactionCount();
+        long transactionIndexInBlockChain = queryBlockchainTransactionCount();
         long blockHeight = block.getHeight();
         String blockHash = block.getHash();
         List<Transaction> transactions = block.getTransactions();
@@ -678,9 +680,9 @@ public class BlockChainDataBaseDefaultImpl extends BlockChainDataBase {
     /**
      * 存储区块链中总的交易数量
      */
-    private void storeTotalTransactionCount(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
-        long transactionCount = queryTransactionCount();
-        byte[] totalTransactionQuantityKey = BlockChainDataBaseKeyTool.buildTotalTransactionCountKey();
+    private void storeBlockchainTransactionCount(WriteBatch writeBatch, Block block, BlockChainActionEnum blockChainActionEnum) {
+        long transactionCount = queryBlockchainTransactionCount();
+        byte[] totalTransactionQuantityKey = BlockChainDataBaseKeyTool.buildBlockchainTransactionCountKey();
         if(BlockChainActionEnum.ADD_BLOCK == blockChainActionEnum){
             writeBatch.put(totalTransactionQuantityKey, LevelDBUtil.longToBytes(transactionCount + BlockTool.getTransactionCount(block)));
         }else{

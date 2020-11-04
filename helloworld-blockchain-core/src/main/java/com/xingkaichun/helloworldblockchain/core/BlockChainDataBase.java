@@ -73,7 +73,7 @@ public abstract class BlockChainDataBase {
     /**
      * 查询区块链中总的交易数量
      */
-    public abstract long queryTransactionCount() ;
+    public abstract long queryBlockchainTransactionCount() ;
     /**
      * 根据区块哈希查找区块高度
      */

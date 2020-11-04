@@ -11,9 +11,9 @@ import com.xingkaichun.helloworldblockchain.util.LevelDBUtil;
  */
 public class BlockChainDataBaseKeyTool {
     //区块链高度key：它对应的值是区块链的高度
-    private static final String BLOCK_CHAIN_HEIGHT_KEY = "A";
+    private static final String BLOCKCHAIN_HEIGHT_KEY = "A";
     //区块链中总的交易数量
-    private static final String TOTAL_TRANSACTION_COUNT_KEY = "B";
+    private static final String BLOCKCHAIN_TRANSACTION_COUNT_KEY = "B";
 
     //哈希标识：哈希(交易哈希、交易输出哈希)的前缀，这里希望系统中所有使用到的哈希都是不同的
     private static final String HASH_PREFIX_FLAG = "C";
@@ -50,7 +50,7 @@ public class BlockChainDataBaseKeyTool {
 
     //拼装数据库Key的值
     public static byte[] buildBlockChainHeightKey() {
-        String stringKey = BLOCK_CHAIN_HEIGHT_KEY + END_FLAG;
+        String stringKey = BLOCKCHAIN_HEIGHT_KEY + END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
     public static byte[] buildHashKey(String hash) {
@@ -111,8 +111,8 @@ public class BlockChainDataBaseKeyTool {
         String stringKey = ADDRESS_TO_SPEND_TRANSACTION_OUTPUT_LIST_KEY_PREFIX_FLAG + address + ADDRESS_END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
-    public static byte[] buildTotalTransactionCountKey() {
-        String stringKey = TOTAL_TRANSACTION_COUNT_KEY + END_FLAG;
+    public static byte[] buildBlockchainTransactionCountKey() {
+        String stringKey = BLOCKCHAIN_TRANSACTION_COUNT_KEY + END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
     public static byte[] buildTransactionIndexInBlockChainToTransactionKey(long transactionIndexInBlockChain) {
