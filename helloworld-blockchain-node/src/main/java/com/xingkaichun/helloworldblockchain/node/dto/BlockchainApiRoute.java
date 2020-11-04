@@ -4,7 +4,7 @@ package com.xingkaichun.helloworldblockchain.node.dto;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class BlockChainApiRoute {
+public class BlockchainApiRoute {
 
     public static final String PING = "/Api/BlockChain/Ping";
     public static final String GENERATE_ACCOUNT = "/Api/BlockChain/GenerateAccount";

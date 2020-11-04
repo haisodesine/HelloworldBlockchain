@@ -20,7 +20,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
-import com.xingkaichun.helloworldblockchain.node.dto.BlockChainApiRoute;
+import com.xingkaichun.helloworldblockchain.node.dto.BlockchainApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.block.*;
 import com.xingkaichun.helloworldblockchain.node.dto.transaction.*;
 import com.xingkaichun.helloworldblockchain.node.service.BlockChainBrowserService;
@@ -58,7 +58,7 @@ public class BlockChainBrowserController {
      * 生成账户(公钥、私钥、地址)
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.GENERATE_ACCOUNT,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.GENERATE_ACCOUNT,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<GenerateAccountResponse> generateAccount(@RequestBody GenerateAccountRequest request){
         try {
             Account account = AccountUtil.randomAccount();
@@ -76,7 +76,7 @@ public class BlockChainBrowserController {
      * 提交交易到区块链网络
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<SubmitTransactionResponse> submitTransaction(@RequestBody SubmitTransactionRequest request){
         try {
             SubmitTransactionResponse submitTransactionResponse = netBlockchainCore.submitTransaction(request);
@@ -92,7 +92,7 @@ public class BlockChainBrowserController {
      * 根据交易哈希查询交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionByTransactionHashResponse> queryTransactionByTransactionHash(@RequestBody QueryTransactionByTransactionHashRequest request){
         try {
             TransactionView transactionView = blockChainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
@@ -110,7 +110,7 @@ public class BlockChainBrowserController {
      * 根据交易高度查询交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_LIST_BY_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionListByTransactionHeightResponse> queryTransactionListByTransactionHeight(@RequestBody QueryTransactionListByTransactionHeightRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -134,7 +134,7 @@ public class BlockChainBrowserController {
      * 根据交易高度查询交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_BLOCK_HASH_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_LIST_BY_BLOCK_HASH_TRANSACTION_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionListByBlockHashTransactionHeightResponse> queryTransactionListByBlockHashTransactionHeight(@RequestBody QueryTransactionListByBlockHashTransactionHeightRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -155,7 +155,7 @@ public class BlockChainBrowserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionListByAddressResponse> queryTransactionListByAddress(@RequestBody QueryTransactionListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -176,7 +176,7 @@ public class BlockChainBrowserController {
      * 根据交易哈希查询挖矿中交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_MINING_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_MINING_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryMiningTransactionByTransactionHashResponse> queryMiningTransactionByTransactionHash(@RequestBody QueryMiningTransactionByTransactionHashRequest request){
         try {
             TransactionDTO transactionDTO = getBlockChainCore().queryMiningTransactionDtoByTransactionHash(request.getTransactionHash());
@@ -198,7 +198,7 @@ public class BlockChainBrowserController {
      * 根据地址获取未花费交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_UNSPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_UNSPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryUnspendTransactionOutputListByAddressResponse> queryUnspendTransactionOutputListByAddress(@RequestBody QueryUnspendTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -218,7 +218,7 @@ public class BlockChainBrowserController {
      * 根据地址获取未花费交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_SPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_SPEND_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QuerySpendTransactionOutputListByAddressResponse> querySpendTransactionOutputListByAddress(@RequestBody QuerySpendTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -238,7 +238,7 @@ public class BlockChainBrowserController {
      * 根据地址获取交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_OUTPUT_LIST_BY_ADDRESS,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionOutputListByAddressResponse> queryTransactionOutputListByAddress(@RequestBody QueryTransactionOutputListByAddressRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -258,7 +258,7 @@ public class BlockChainBrowserController {
      * 根据交易输出ID获取交易输出
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_TRANSACTION_OUTPUT_BY_TRANSACTION_OUTPUT_ID,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_OUTPUT_BY_TRANSACTION_OUTPUT_ID,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionOutputByTransactionOutputIdResponse> queryTransactionOutputByTransactionOutputId(@RequestBody QueryTransactionOutputByTransactionOutputIdRequest request){
         try {
             TransactionOutputId transactionOutputId = request.getTransactionOutputId();
@@ -276,7 +276,7 @@ public class BlockChainBrowserController {
      * Ping节点
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.PING,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.PING,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<PingResponse> ping(@RequestBody PingRequest request){
         try {
             List<NodeDto> nodeList = netBlockchainCore.getNodeService().queryAllNoForkNodeList();
@@ -298,7 +298,7 @@ public class BlockChainBrowserController {
      * 查询挖矿中的交易
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_MINING_TRANSACTION_LIST,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_MINING_TRANSACTION_LIST,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryMiningTransactionListResponse> queryMiningTransactionList(@RequestBody QueryMiningTransactionListRequest request){
         try {
             PageCondition pageCondition = request.getPageCondition();
@@ -319,7 +319,7 @@ public class BlockChainBrowserController {
      * 根据区块高度查询区块
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryBlockDtoByBlockHeightResponse> queryBlockDtoByBlockHeight(@RequestBody QueryBlockDtoByBlockHeightRequest request){
         try {
             Block block = getBlockChainCore().queryBlockByBlockHeight(request.getBlockHeight());
@@ -340,7 +340,7 @@ public class BlockChainBrowserController {
      * 根据区块哈希查询区块
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HASH,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryBlockDtoByBlockHashResponse> queryBlockDtoByBlockHash(@RequestBody QueryBlockDtoByBlockHashRequest request){
         try {
             Block block = getBlockChainCore().queryBlockByBlockHash(request.getBlockHash());
@@ -377,7 +377,7 @@ public class BlockChainBrowserController {
      * 查询最近的10个区块
      */
     @ResponseBody
-    @RequestMapping(value = BlockChainApiRoute.QUERY_LAST10_BLOCKDTO,method={RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = BlockchainApiRoute.QUERY_LAST10_BLOCKDTO,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryLast10BlockDtoResponse> queryLast10BlockDto(@RequestBody QueryLast10BlockDtoRequest request){
         try {
             List<Block> blockList = new ArrayList<>();
