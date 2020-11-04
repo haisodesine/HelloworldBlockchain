@@ -58,7 +58,7 @@ public abstract class Miner {
         this.wallet = wallet;
     }
 
-    public BlockchainDatabase getBlockChainDataBase() {
+    public BlockchainDatabase getBlockchainDataBase() {
         return blockChainDataBase;
     }
 

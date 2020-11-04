@@ -125,7 +125,7 @@ public class NodeServiceImpl implements NodeService {
         node.setPort(nodeEntity.getPort());
         node.setIsNodeAvailable(nodeEntity.getIsNodeAvailable());
         node.setErrorConnectionTimes(nodeEntity.getErrorConnectionTimes());
-        node.setBlockChainHeight(nodeEntity.getBlockChainHeight());
+        node.setBlockchainHeight(nodeEntity.getBlockchainHeight());
         node.setFork(nodeEntity.getFork());
         return node;
     }
@@ -136,14 +136,14 @@ public class NodeServiceImpl implements NodeService {
         nodeEntity.setPort(node.getPort());
         nodeEntity.setIsNodeAvailable(node.getIsNodeAvailable());
         nodeEntity.setErrorConnectionTimes(node.getErrorConnectionTimes());
-        nodeEntity.setBlockChainHeight(node.getBlockChainHeight());
+        nodeEntity.setBlockchainHeight(node.getBlockchainHeight());
         nodeEntity.setFork(node.getFork());
         return nodeEntity;
     }
 
     private void fillNodeDefaultValue(NodeDto node) {
-        if(node.getBlockChainHeight() == null){
-            node.setBlockChainHeight(LongUtil.ZERO);
+        if(node.getBlockchainHeight() == null){
+            node.setBlockchainHeight(LongUtil.ZERO);
         }
         if(node.getIsNodeAvailable() == null){
             node.setIsNodeAvailable(true);

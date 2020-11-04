@@ -44,7 +44,7 @@ public class NetBlockchainCoreFactory {
         ConfigurationDao configurationDao = new ConfigurationDaoImpl(dataRootPath);
         ConfigurationService configurationService = new ConfigurationServiceImpl(configurationDao);
 
-        BlockchainCore blockChainCore = BlockchainCoreFactory.createBlockChainCore(dataRootPath);
+        BlockchainCore blockChainCore = BlockchainCoreFactory.createBlockchainCore(dataRootPath);
 
         NodeDao nodeDao = new NodeDaoImpl(dataRootPath);
 

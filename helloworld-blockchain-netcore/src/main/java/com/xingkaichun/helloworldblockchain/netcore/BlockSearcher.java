@@ -88,13 +88,13 @@ public class BlockSearcher {
             return;
         }
 
-        long localBlockChainHeight = blockChainCore.queryBlockChainHeight();
+        long localBlockchainHeight = blockChainCore.queryBlockchainHeight();
         //可能存在多个节点的数据都比本地节点的区块多，但它们节点的数据可能是相同的，不应该向每个节点都去请求数据。
         for(NodeDto node:nodes){
-            if(LongUtil.isLessThan(localBlockChainHeight,node.getBlockChainHeight())){
+            if(LongUtil.isLessThan(localBlockchainHeight,node.getBlockchainHeight())){
                 synchronizeRemoteNodeBlockService.synchronizeRemoteNodeBlock(node);
                 //同步之后，本地区块链高度已经发生改变了
-                localBlockChainHeight = blockChainCore.queryBlockChainHeight();
+                localBlockchainHeight = blockChainCore.queryBlockchainHeight();
             }
         }
     }
@@ -111,7 +111,7 @@ public class BlockSearcher {
             node.setIsNodeAvailable(isPingSuccess);
             if(isPingSuccess){
                 PingResponse pingResponse = pingResponseServiceResult.getResult();
-                node.setBlockChainHeight(pingResponse.getBlockChainHeight());
+                node.setBlockchainHeight(pingResponse.getBlockchainHeight());
                 node.setErrorConnectionTimes(0);
                 nodeService.updateNode(node);
             } else {

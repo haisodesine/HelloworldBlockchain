@@ -56,7 +56,7 @@ public class SynchronizerDefaultImpl extends Synchronizer {
             if(availableSynchronizeNodeId == null){
                 continue;
             }
-            synchronizeBlockChainNode(availableSynchronizeNodeId);
+            synchronizeBlockchainNode(availableSynchronizeNodeId);
         }
     }
 
@@ -75,11 +75,11 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         return synchronizeOption;
     }
 
-    private void synchronizeBlockChainNode(String availableSynchronizeNodeId) {
+    private void synchronizeBlockchainNode(String availableSynchronizeNodeId) {
         if(!synchronizeOption){
             return;
         }
-        copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
+        copyTargetBlockchainDataBaseToTemporaryBlockchainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
         boolean hasDataTransferFinishFlag = synchronizerDataBase.hasDataTransferFinishFlag(availableSynchronizeNodeId);
         if(!hasDataTransferFinishFlag){
             synchronizerDataBase.clear(availableSynchronizeNodeId);
@@ -90,8 +90,8 @@ public class SynchronizerDefaultImpl extends Synchronizer {
         if(maxBlockHeight <= 0){
             return;
         }
-        long targetBlockChainHeight = targetBlockchainDatabase.queryBlockChainHeight();
-        if(!LongUtil.isEquals(targetBlockChainHeight,LongUtil.ZERO) && LongUtil.isGreatEqualThan(targetBlockChainHeight,maxBlockHeight)){
+        long targetBlockchainHeight = targetBlockchainDatabase.queryBlockchainHeight();
+        if(!LongUtil.isEquals(targetBlockchainHeight,LongUtil.ZERO) && LongUtil.isGreatEqualThan(targetBlockchainHeight,maxBlockHeight)){
             synchronizerDataBase.clear(availableSynchronizeNodeId);
             return;
         }
@@ -102,46 +102,46 @@ public class SynchronizerDefaultImpl extends Synchronizer {
             temporaryBlockchainDatabase.deleteBlocksUtilBlockHeightLessThan(minBlockHeight);
             while(blockDTO != null){
                 Block block = Dto2ModelTool.blockDto2Block(temporaryBlockchainDatabase,blockDTO);
-                boolean isAddBlockToBlockChainSuccess = temporaryBlockchainDatabase.addBlock(block);
-                if(!isAddBlockToBlockChainSuccess){
+                boolean isAddBlockToBlockchainSuccess = temporaryBlockchainDatabase.addBlock(block);
+                if(!isAddBlockToBlockchainSuccess){
                     break;
                 }
                 minBlockHeight++;
                 blockDTO = synchronizerDataBase.getBlockDto(availableSynchronizeNodeId,minBlockHeight);
             }
         }
-        promoteTargetBlockChainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
+        promoteTargetBlockchainDataBase(targetBlockchainDatabase, temporaryBlockchainDatabase);
         synchronizerDataBase.clear(availableSynchronizeNodeId);
     }
 
     /**
-     * 若targetBlockChainDataBase的高度小于blockChainDataBaseTemporary的高度，
-     * 则targetBlockChainDataBase同步blockChainDataBaseTemporary的数据。
+     * 若targetBlockchainDataBase的高度小于blockChainDataBaseTemporary的高度，
+     * 则targetBlockchainDataBase同步blockChainDataBaseTemporary的数据。
      */
-    private void promoteTargetBlockChainDataBase(BlockchainDatabase targetBlockchainDatabase,
+    private void promoteTargetBlockchainDataBase(BlockchainDatabase targetBlockchainDatabase,
                                                  BlockchainDatabase temporaryBlockchainDatabase) {
-        Block targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock();
-        Block temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
+        Block targetBlockchainTailBlock = targetBlockchainDatabase.queryTailBlock();
+        Block temporaryBlockchainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
         //不需要调整
-        if(temporaryBlockChainTailBlock == null){
+        if(temporaryBlockchainTailBlock == null){
             return;
         }
-        if(targetBlockChainTailBlock == null){
+        if(targetBlockchainTailBlock == null){
             Block block = temporaryBlockchainDatabase.queryBlockByBlockHeight(GlobalSetting.GenesisBlock.HEIGHT +1);
-            boolean isAddBlockToBlockChainSuccess = targetBlockchainDatabase.addBlock(block);
-            if(!isAddBlockToBlockChainSuccess){
+            boolean isAddBlockToBlockchainSuccess = targetBlockchainDatabase.addBlock(block);
+            if(!isAddBlockToBlockchainSuccess){
                 return;
             }
-            targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock();
+            targetBlockchainTailBlock = targetBlockchainDatabase.queryTailBlock();
         }
-        if(targetBlockChainTailBlock == null){
-            throw new RuntimeException("在这个时刻，targetBlockChainTailBlock必定不为null。");
+        if(targetBlockchainTailBlock == null){
+            throw new RuntimeException("在这个时刻，targetBlockchainTailBlock必定不为null。");
         }
-        if(LongUtil.isGreatEqualThan(targetBlockChainTailBlock.getHeight(),temporaryBlockChainTailBlock.getHeight())){
+        if(LongUtil.isGreatEqualThan(targetBlockchainTailBlock.getHeight(),temporaryBlockchainTailBlock.getHeight())){
             return;
         }
         //未分叉区块高度
-        long noForkBlockHeight = targetBlockChainTailBlock.getHeight();
+        long noForkBlockHeight = targetBlockchainTailBlock.getHeight();
         while (true){
             if(LongUtil.isLessEqualThan(noForkBlockHeight,LongUtil.ZERO)){
                 break;
@@ -156,56 +156,56 @@ public class SynchronizerDefaultImpl extends Synchronizer {
                 break;
             }
             targetBlockchainDatabase.deleteTailBlock();
-            noForkBlockHeight = targetBlockchainDatabase.queryBlockChainHeight();
+            noForkBlockHeight = targetBlockchainDatabase.queryBlockchainHeight();
         }
 
-        long targetBlockChainHeight = targetBlockchainDatabase.queryBlockChainHeight() ;
+        long targetBlockchainHeight = targetBlockchainDatabase.queryBlockchainHeight() ;
         while(true){
-            targetBlockChainHeight++;
-            Block currentBlock = temporaryBlockchainDatabase.queryBlockByBlockHeight(targetBlockChainHeight) ;
+            targetBlockchainHeight++;
+            Block currentBlock = temporaryBlockchainDatabase.queryBlockByBlockHeight(targetBlockchainHeight) ;
             if(currentBlock == null){
                 break;
             }
-            boolean isAddBlockToBlockChainSuccess = targetBlockchainDatabase.addBlock(currentBlock);
-            if(!isAddBlockToBlockChainSuccess){
+            boolean isAddBlockToBlockchainSuccess = targetBlockchainDatabase.addBlock(currentBlock);
+            if(!isAddBlockToBlockchainSuccess){
                 break;
             }
         }
     }
     /**
-     * 使得temporaryBlockChainDataBase和targetBlockChainDataBase的区块链数据一模一样
+     * 使得temporaryBlockchainDataBase和targetBlockchainDataBase的区块链数据一模一样
      */
-    private void copyTargetBlockChainDataBaseToTemporaryBlockChainDataBase(BlockchainDatabase targetBlockchainDatabase,
+    private void copyTargetBlockchainDataBaseToTemporaryBlockchainDataBase(BlockchainDatabase targetBlockchainDatabase,
                                                                            BlockchainDatabase temporaryBlockchainDatabase) {
-        Block targetBlockChainTailBlock = targetBlockchainDatabase.queryTailBlock() ;
-        Block temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
-        if(targetBlockChainTailBlock == null){
+        Block targetBlockchainTailBlock = targetBlockchainDatabase.queryTailBlock() ;
+        Block temporaryBlockchainTailBlock = temporaryBlockchainDatabase.queryTailBlock() ;
+        if(targetBlockchainTailBlock == null){
             //清空temporary
             temporaryBlockchainDatabase.deleteBlocksUtilBlockHeightLessThan(LongUtil.ONE);
             return;
         }
         //删除Temporary区块链直到尚未分叉位置停止
         while(true){
-            if(temporaryBlockChainTailBlock == null){
+            if(temporaryBlockchainTailBlock == null){
                 break;
             }
-            Block targetBlockChainBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockChainTailBlock.getHeight());
-            if(BlockTool.isBlockEquals(targetBlockChainBlock,temporaryBlockChainTailBlock)){
+            Block targetBlockchainBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockchainTailBlock.getHeight());
+            if(BlockTool.isBlockEquals(targetBlockchainBlock,temporaryBlockchainTailBlock)){
                 break;
             }
             temporaryBlockchainDatabase.deleteTailBlock();
-            temporaryBlockChainTailBlock = temporaryBlockchainDatabase.queryTailBlock();
+            temporaryBlockchainTailBlock = temporaryBlockchainDatabase.queryTailBlock();
         }
         //复制target数据至temporary
-        long temporaryBlockChainHeight = temporaryBlockchainDatabase.queryBlockChainHeight();
+        long temporaryBlockchainHeight = temporaryBlockchainDatabase.queryBlockchainHeight();
         while(true){
-            temporaryBlockChainHeight++;
-            Block currentBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockChainHeight) ;
+            temporaryBlockchainHeight++;
+            Block currentBlock = targetBlockchainDatabase.queryBlockByBlockHeight(temporaryBlockchainHeight) ;
             if(currentBlock == null){
                 break;
             }
-            boolean isAddBlockToBlockChainSuccess = temporaryBlockchainDatabase.addBlock(currentBlock);
-            if(!isAddBlockToBlockChainSuccess){
+            boolean isAddBlockToBlockchainSuccess = temporaryBlockchainDatabase.addBlock(currentBlock);
+            if(!isAddBlockToBlockchainSuccess){
                 return;
             }
         }

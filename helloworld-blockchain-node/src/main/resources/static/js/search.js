@@ -52,7 +52,7 @@ function searchUnit() {
     innerSearchUnit();
 }
 function innerSearchUnit() {
-	var url = "/Api/BlockChain",
+	var url = "/Api/Blockchain",
 		address = "",
 		data = "",
 		result = {};
@@ -177,7 +177,7 @@ function blockByHeight(result){
 	var transList;
 	var pageCondition;
 	if (result.block.transactionQuantity > 0) {
-		delay_load_index = result.block.startTransactionIndexInBlockChain;
+		delay_load_index = result.block.startTransactionIndexInBlockchain;
 		transList = showTransList();
 	} else{
 		transList = null;
@@ -191,8 +191,8 @@ function blockByHeight(result){
 			'<dd>hash: ' + result.block.hash + '</dd>' +
 			'<dd>bits: ' + result.block.bits + '</dd>' +
 			'<dd>transactionQuantity: ' + result.block.transactionQuantity + '</dd>' +
-			'<dd>startTransactionIndexInBlockChain: ' + result.block.startTransactionIndexInBlockChain + '</dd>' +
-			'<dd>endTransactionIndexInBlockChain: ' + result.block.endTransactionIndexInBlockChain + '</dd>' +
+			'<dd>startTransactionIndexInBlockchain: ' + result.block.startTransactionIndexInBlockchain + '</dd>' +
+			'<dd>endTransactionIndexInBlockchain: ' + result.block.endTransactionIndexInBlockchain + '</dd>' +
 			'<dd id="trans_list">transactions: ' + transList + '</dd></dl>';
 	return temp;
 }
@@ -293,7 +293,7 @@ function showTransList(){
 	console.log(delay_load_index);
 	$.ajax({
 	    type: "post",
-	    url: "/Api/BlockChain/QueryTransactionByTransactionHeight",
+	    url: "/Api/Blockchain/QueryTransactionByTransactionHeight",
 	    contentType: "application/json",
 	    data: `{
 			"pageCondition":{
@@ -330,7 +330,7 @@ function tempTransList(result){
 				'<dd><b>inputs:</b> ' + inputs() + '</dd>' +
 				'<dd><b>outputs:</b> ' + outputs() + '</dd>' +
 				'<dd>transactionIndexInBlock: ' + result.transactionList[j].transactionIndexInBlock + '</dd>' +
-				'<dd>transactionIndexInBlockChain: ' + result.transactionList[j].transactionIndexInBlockChain + '</dd>' +
+				'<dd>transactionIndexInBlockchain: ' + result.transactionList[j].transactionIndexInBlockchain + '</dd>' +
 				'<dd>blockHeight: ' + result.transactionList[j].blockHeight + '</dd></dl>';
 		function inputs(){
 			var char = "";

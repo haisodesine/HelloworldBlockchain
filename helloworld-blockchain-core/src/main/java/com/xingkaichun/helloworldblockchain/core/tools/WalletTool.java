@@ -13,7 +13,7 @@ public class WalletTool {
         long from = 0;
         long size = 100;
         while(true){
-            List<TransactionOutput> utxoList = blockChainCore.getBlockChainDataBase().queryUnspendTransactionOutputListByAddress(privateKey,from,size);
+            List<TransactionOutput> utxoList = blockChainCore.getBlockchainDataBase().queryUnspendTransactionOutputListByAddress(privateKey,from,size);
             if(utxoList == null || utxoList.size()==0){
                 break;
             }

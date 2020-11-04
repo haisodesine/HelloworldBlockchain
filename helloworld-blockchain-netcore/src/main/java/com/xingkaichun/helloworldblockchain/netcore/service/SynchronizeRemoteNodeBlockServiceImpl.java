@@ -56,10 +56,10 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     @Override
     public void synchronizeRemoteNodeBlock(NodeDto node) {
-        if(!isBlockChainIdRight(node)){
+        if(!isBlockchainIdRight(node)){
             nodeService.deleteNode(node);
         }
-        BlockchainDatabase blockChainDataBase = blockChainCore.getBlockChainDataBase();
+        BlockchainDatabase blockChainDataBase = blockChainCore.getBlockchainDataBase();
         Synchronizer synchronizer = blockChainCore.getSynchronizer();
         SynchronizerDatabase synchronizerDataBase = synchronizer.getSynchronizerDataBase();
 
@@ -70,14 +70,14 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
         ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.FORK_BLOCK_SIZE.name());
         long forkBlockSize = Long.valueOf(configurationDto.getConfValue());
         Block tailBlock = blockChainDataBase.queryTailBlock();
-        long localBlockChainHeight = tailBlock==null? LongUtil.ZERO:tailBlock.getHeight();
+        long localBlockchainHeight = tailBlock==null? LongUtil.ZERO:tailBlock.getHeight();
 
         boolean fork = false;
-        if(LongUtil.isEquals(localBlockChainHeight,LongUtil.ZERO)){
+        if(LongUtil.isEquals(localBlockchainHeight,LongUtil.ZERO)){
             fork = false;
         } else {
-            localBlockChainHeight = tailBlock.getHeight();
-            ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,localBlockChainHeight);
+            localBlockchainHeight = tailBlock.getHeight();
+            ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeightResponseServiceResult = blockchainNodeClient.queryBlockHashByBlockHeight(node,localBlockchainHeight);
             if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                 return;
             }
@@ -99,12 +99,12 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
         //确定开始同步高度
         if(fork){
             //从当前区块同步至到未分叉区块
-            long tempBlockHeight = localBlockChainHeight;
+            long tempBlockHeight = localBlockchainHeight;
             while (true){
                 if(LongUtil.isLessEqualThan(tempBlockHeight,LongUtil.ZERO)){
                     break;
                 }
-                if(LongUtil.isGreatThan(localBlockChainHeight,tempBlockHeight+forkBlockSize)){
+                if(LongUtil.isGreatThan(localBlockchainHeight,tempBlockHeight+forkBlockSize)){
                     forkNodeHandler(node,synchronizerDataBase);
                     return;
                 }
@@ -126,7 +126,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                 tempBlockHeight = tempBlockHeight - LongUtil.ONE;
             }
             //从当前节点同步至最新
-            tempBlockHeight = localBlockChainHeight + LongUtil.ONE;
+            tempBlockHeight = localBlockchainHeight + LongUtil.ONE;
             while (true){
                 if(LongUtil.isLessEqualThan(tempBlockHeight,LongUtil.ZERO)){
                     break;
@@ -143,13 +143,13 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                 synchronizerDataBase.addBlockDTO(nodeId,tempBlockHeight,blockDTO);
                 tempBlockHeight = tempBlockHeight + LongUtil.ONE;
                 //若是有分叉时，一次同步的最后一个区块至少要比本地区块链的高度大于N个
-                if(LongUtil.isGreatEqualThan(tempBlockHeight,localBlockChainHeight + SYNCHRONIZE_BLOCK_SIZE_FROM_LOCAL_BLOCKCHAIN_HEIGHT)){
+                if(LongUtil.isGreatEqualThan(tempBlockHeight,localBlockchainHeight + SYNCHRONIZE_BLOCK_SIZE_FROM_LOCAL_BLOCKCHAIN_HEIGHT)){
                     break;
                 }
             }
         } else {
             //未分叉
-            long tempBlockHeight = localBlockChainHeight + LongUtil.ONE;
+            long tempBlockHeight = localBlockchainHeight + LongUtil.ONE;
             while (true){
                 BlockDTO blockDTO = getBlockDtoByBlockHeight(node,tempBlockHeight);
                 if(blockDTO == null){
@@ -195,14 +195,14 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     /**
      * 区块链ID是否正确
      */
-    private boolean isBlockChainIdRight(NodeDto node) {
-        String currentBlockChainId = GlobalSetting.BLOCK_CHAIN_ID;
+    private boolean isBlockchainIdRight(NodeDto node) {
+        String currentBlockchainId = GlobalSetting.BLOCK_CHAIN_ID;
         ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
         if(!ServiceResult.isSuccess(pingResponseServiceResult)){
             return false;
         }
-        String blockChainId = pingResponseServiceResult.getResult().getBlockChainId();
-        return StringUtil.isEquals(currentBlockChainId,blockChainId);
+        String blockChainId = pingResponseServiceResult.getResult().getBlockchainId();
+        return StringUtil.isEquals(currentBlockchainId,blockChainId);
     }
 
     /**

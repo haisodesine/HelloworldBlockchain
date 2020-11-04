@@ -113,7 +113,7 @@ public class NodeDaoImpl implements NodeDao {
             preparedStatement1 = connection().prepareStatement(sql1);
             preparedStatement1.setString(1,node.getIp());
             preparedStatement1.setLong(2,node.getPort());
-            preparedStatement1.setLong(3,node.getBlockChainHeight().intValue());
+            preparedStatement1.setLong(3,node.getBlockchainHeight().intValue());
             preparedStatement1.setLong(4,SqliteUtil.booleanToLong(node.getIsNodeAvailable()));
             preparedStatement1.setLong(5,node.getErrorConnectionTimes());
             preparedStatement1.setLong(6,SqliteUtil.booleanToLong(node.getFork()));
@@ -131,8 +131,8 @@ public class NodeDaoImpl implements NodeDao {
         checkPort(node.getPort());
 
         NodeEntity nodeEntity = queryNode(node.getIp(),node.getPort());
-        if(node.getBlockChainHeight()==null){
-            node.setBlockChainHeight(nodeEntity.getBlockChainHeight());
+        if(node.getBlockchainHeight()==null){
+            node.setBlockchainHeight(nodeEntity.getBlockchainHeight());
         }
         if(node.getIsNodeAvailable()==null){
             node.setIsNodeAvailable(nodeEntity.getIsNodeAvailable());
@@ -149,7 +149,7 @@ public class NodeDaoImpl implements NodeDao {
         PreparedStatement preparedStatement1 = null;
         try {
             preparedStatement1 = connection().prepareStatement(sql1);
-            preparedStatement1.setLong(1,node.getBlockChainHeight().intValue());
+            preparedStatement1.setLong(1,node.getBlockchainHeight().intValue());
             preparedStatement1.setLong(2,SqliteUtil.booleanToLong(node.getIsNodeAvailable()));
             preparedStatement1.setLong(3,node.getErrorConnectionTimes());
             preparedStatement1.setLong(4,SqliteUtil.booleanToLong(node.getFork()));
@@ -239,7 +239,7 @@ public class NodeDaoImpl implements NodeDao {
             NodeEntity entity = new NodeEntity();
             entity.setIp(ip);
             entity.setPort(port);
-            entity.setBlockChainHeight(blockChainHeight);
+            entity.setBlockchainHeight(blockChainHeight);
             entity.setIsNodeAvailable(SqliteUtil.longToBoolean(isNodeAvailable));
             entity.setErrorConnectionTimes((int) errorConnectionTimes);
             entity.setFork(SqliteUtil.longToBoolean(fork));

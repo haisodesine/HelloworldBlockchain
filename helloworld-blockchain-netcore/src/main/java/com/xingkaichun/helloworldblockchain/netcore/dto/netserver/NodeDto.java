@@ -17,11 +17,11 @@ public class NodeDto extends SimpleNodeDto {
     //region get set
 
 
-    public Long getBlockChainHeight() {
+    public Long getBlockchainHeight() {
         return blockChainHeight;
     }
 
-    public void setBlockChainHeight(Long blockChainHeight) {
+    public void setBlockchainHeight(Long blockChainHeight) {
         this.blockChainHeight = blockChainHeight;
     }
 

@@ -55,7 +55,7 @@ public abstract class BlockchainDatabase {
      * 检测区块是否可以被添加到区块链上
      * 只有一种情况，区块可以被添加到区块链，即: 区块是区块链上的下一个区块
      */
-    public abstract boolean isBlockCanAddToBlockChain(Block block) ;
+    public abstract boolean isBlockCanAddToBlockchain(Block block) ;
     /**
      * 校验交易是否可以被添加进下一个区块之中。
      * 如果校验的是奖励交易，则需要整个区块的信息，因此这个函数包含了两个参数：交易所在的区块、交易
@@ -69,7 +69,7 @@ public abstract class BlockchainDatabase {
     /**
      * 查询区块链的长度
      */
-    public abstract long queryBlockChainHeight() ;
+    public abstract long queryBlockchainHeight() ;
     /**
      * 查询区块链中总的交易数量
      */

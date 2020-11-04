@@ -29,7 +29,7 @@ public interface BlockchainNodeClient {
     /**
      * 单播：将本地区块链高度传给指定节点
      */
-    ServiceResult<EmptyResponse> unicastLocalBlockChainHeight(SimpleNodeDto node, long localBlockChainHeight) ;
+    ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(SimpleNodeDto node, long localBlockchainHeight) ;
 
     /**
      * 根据区块高度，获取对应的区块hash

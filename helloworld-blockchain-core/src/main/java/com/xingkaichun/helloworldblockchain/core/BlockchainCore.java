@@ -50,7 +50,7 @@ public abstract class BlockchainCore {
     /**
      * 获取区块链高度
      */
-    public abstract long queryBlockChainHeight() ;
+    public abstract long queryBlockchainHeight() ;
     /**
      * 删除区块高度大于等于@blockHeight@的区块
      */
@@ -133,7 +133,7 @@ public abstract class BlockchainCore {
 
 
     //region get set
-    public BlockchainDatabase getBlockChainDataBase() {
+    public BlockchainDatabase getBlockchainDataBase() {
         return blockChainDataBase;
     }
 

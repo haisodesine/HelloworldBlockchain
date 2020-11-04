@@ -145,7 +145,7 @@ public class NetBlockchainCore {
 
 
     //region get set
-    public BlockchainCore getBlockChainCore() {
+    public BlockchainCore getBlockchainCore() {
         return blockChainCore;
     }
 

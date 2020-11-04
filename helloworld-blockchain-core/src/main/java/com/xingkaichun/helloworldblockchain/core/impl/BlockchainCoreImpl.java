@@ -78,8 +78,8 @@ public class BlockchainCoreImpl extends BlockchainCore {
     }
 
     @Override
-    public long queryBlockChainHeight() {
-        return blockChainDataBase.queryBlockChainHeight();
+    public long queryBlockchainHeight() {
+        return blockChainDataBase.queryBlockchainHeight();
     }
 
 

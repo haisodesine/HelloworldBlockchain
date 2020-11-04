@@ -39,7 +39,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.xingkaichun.helloworldblockchain.netcore.HelloWorldBlockChainNetcoreApplication</mainClass>
+                            <mainClass>com.xingkaichun.helloworldblockchain.netcore.HelloWorldBlockchainNetcoreApplication</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

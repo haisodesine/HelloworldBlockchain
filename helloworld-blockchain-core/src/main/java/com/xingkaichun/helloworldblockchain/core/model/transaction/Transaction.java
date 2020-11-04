@@ -52,7 +52,7 @@ public class Transaction implements Serializable {
      *
      * 冗余字段，这个值可以由区块链系统推算出来
      */
-    private long transactionIndexInBlockChain;
+    private long transactionIndexInBlockchain;
     /**
      * 交易所在区块的区块高度
      * 冗余字段，这个值可以由区块链系统推算出来
@@ -104,12 +104,12 @@ public class Transaction implements Serializable {
         this.transactionIndexInBlock = transactionIndexInBlock;
     }
 
-    public long getTransactionIndexInBlockChain() {
-        return transactionIndexInBlockChain;
+    public long getTransactionIndexInBlockchain() {
+        return transactionIndexInBlockchain;
     }
 
-    public void setTransactionIndexInBlockChain(long transactionIndexInBlockChain) {
-        this.transactionIndexInBlockChain = transactionIndexInBlockChain;
+    public void setTransactionIndexInBlockchain(long transactionIndexInBlockchain) {
+        this.transactionIndexInBlockchain = transactionIndexInBlockchain;
     }
 
     public long getBlockHeight() {

@@ -102,7 +102,7 @@ public class Block implements Serializable {
      *
      * 冗余字段，这个值可以由区块链系统推算出来
      */
-    private long startTransactionIndexInBlockChain;
+    private long startTransactionIndexInBlockchain;
 
 
 
@@ -180,12 +180,12 @@ public class Block implements Serializable {
         this.transactionQuantity = transactionQuantity;
     }
 
-    public long getStartTransactionIndexInBlockChain() {
-        return startTransactionIndexInBlockChain;
+    public long getStartTransactionIndexInBlockchain() {
+        return startTransactionIndexInBlockchain;
     }
 
-    public void setStartTransactionIndexInBlockChain(long startTransactionIndexInBlockChain) {
-        this.startTransactionIndexInBlockChain = startTransactionIndexInBlockChain;
+    public void setStartTransactionIndexInBlockchain(long startTransactionIndexInBlockchain) {
+        this.startTransactionIndexInBlockchain = startTransactionIndexInBlockchain;
     }
     //endregion
 }

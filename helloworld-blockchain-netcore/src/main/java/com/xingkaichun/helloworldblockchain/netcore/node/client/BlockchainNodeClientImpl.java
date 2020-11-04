@@ -78,12 +78,12 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         }
     }
 
-    public ServiceResult<EmptyResponse> unicastLocalBlockChainHeight(SimpleNodeDto node, long localBlockChainHeight) {
+    public ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(SimpleNodeDto node, long localBlockchainHeight) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(), node.getPort(), NodeServerApiRoute.ADD_OR_UPDATE_NODE);
             AddOrUpdateNodeRequest request = new AddOrUpdateNodeRequest();
             request.setPort(serverPort);
-            request.setBlockChainHeight(localBlockChainHeight);
+            request.setBlockchainHeight(localBlockchainHeight);
             String html = NetUtil.jsonGetRequest(url,request);
             Type jsonType = new TypeToken<ServiceResult<AddOrUpdateNodeResponse>>() {}.getType();
             ServiceResult<AddOrUpdateNodeResponse> pingResponseServiceResult = gson.fromJson(html,jsonType);

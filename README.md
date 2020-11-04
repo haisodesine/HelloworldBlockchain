@@ -1,7 +1,7 @@
 ### 欢迎来到HelloworldBlockchain  
 HelloworldBlockchain是一个Helloworld级别的区块链公链系统。  
 HelloworldBlockchain是一个Helloworld级别的数字货币项目。  
-HelloworldBlockchain开发调试简单，下载源码，导入idea(eclipse)，无需任何配置，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockChainNodeApplication，右键运行，即可启动项目。  
+HelloworldBlockchain开发调试简单，下载源码，导入idea(eclipse)，无需任何配置，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockchainNodeApplication，右键运行，即可启动项目。  
 项目架构清晰，详尽的全中文代码注释，代码以可读性为第一要素，适合区块链初学者学习研究。
 
 ### 联系方式
@@ -18,11 +18,11 @@ http://139.9.125.122:8444/index.html
 ### 集成开发环境搭建
 #### eclipse
 HelloworldBlockchain项目没有任何复杂依赖，请搜索eclipse如何导入已存在的maven项目。
-成功将项目导入eclipse后，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockChainNodeApplication，右键运行，正常情况下则会启动成功。接下来，快乐的调试代码吧！项目的前端地址是：http://localhost:8444 。
+成功将项目导入eclipse后，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockchainNodeApplication，右键运行，正常情况下则会启动成功。接下来，快乐的调试代码吧！项目的前端地址是：http://localhost:8444 。
 
 #### intellij idea
 HelloworldBlockchain项目没有任何复杂依赖，请搜索idea如何导入已存在的maven项目。
-成功将项目导入idea后，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockChainNodeApplication，右键运行，正常情况下则会启动成功。接下来，快乐的调试代码吧！项目的前端地址是：http://localhost:8444 。
+成功将项目导入idea后，找到类文件com.xingkaichun.helloworldblockchain.node.HelloWorldBlockchainNodeApplication，右键运行，正常情况下则会启动成功。接下来，快乐的调试代码吧！项目的前端地址是：http://localhost:8444 。
 
 ### 模块架构
 #### helloworld-blockchain-crypto

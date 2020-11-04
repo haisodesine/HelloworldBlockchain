@@ -32,11 +32,11 @@ public class NodeEntity{
         this.port = port;
     }
 
-    public Long getBlockChainHeight() {
+    public Long getBlockchainHeight() {
         return blockChainHeight;
     }
 
-    public void setBlockChainHeight(Long blockChainHeight) {
+    public void setBlockchainHeight(Long blockChainHeight) {
         this.blockChainHeight = blockChainHeight;
     }
 

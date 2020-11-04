@@ -68,8 +68,8 @@ public class MinerDefaultImpl extends Miner {
                 if(blockChainDataBase.getConsensus().isReachConsensus(blockChainDataBase,block)){
                     logger.info("祝贺您！挖矿成功！！！区块高度:"+block.getHeight()+",区块哈希:"+block.getHash());
                     //将矿放入区块链
-                    boolean isAddBlockToBlockChainSuccess = blockChainDataBase.addBlock(block);
-                    if(!isAddBlockToBlockChainSuccess){
+                    boolean isAddBlockToBlockchainSuccess = blockChainDataBase.addBlock(block);
+                    if(!isAddBlockToBlockchainSuccess){
                         logger.error("挖矿成功，但是放入区块链失败。请检查异常。");
                         continue;
                     }

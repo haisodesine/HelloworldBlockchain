@@ -20,27 +20,27 @@ public class PingResponse {
 
     //region get set
 
-    public String getBlockChainId() {
+    public String getBlockchainId() {
         return blockChainId;
     }
 
-    public void setBlockChainId(String blockChainId) {
+    public void setBlockchainId(String blockChainId) {
         this.blockChainId = blockChainId;
     }
 
-    public Long getBlockChainVersion() {
+    public Long getBlockchainVersion() {
         return blockChainVersion;
     }
 
-    public void setBlockChainVersion(Long blockChainVersion) {
+    public void setBlockchainVersion(Long blockChainVersion) {
         this.blockChainVersion = blockChainVersion;
     }
 
-    public Long getBlockChainHeight() {
+    public Long getBlockchainHeight() {
         return blockChainHeight;
     }
 
-    public void setBlockChainHeight(Long blockChainHeight) {
+    public void setBlockchainHeight(Long blockChainHeight) {
         this.blockChainHeight = blockChainHeight;
     }
 

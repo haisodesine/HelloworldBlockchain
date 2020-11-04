@@ -21,7 +21,7 @@ var search_new_block = document.getElementById('search_new_block');//主动寻�
 function queryBlockHeight() {   
     $.ajax({
         type: "post",
-        url: url + "/Api/BlockChain/Ping",
+        url: url + "/Api/Blockchain/Ping",
         contentType: "application/json",
         data: `{}`,
         dataType: "json",

@@ -49,7 +49,7 @@ public class BlockchainDatabaseKeyTool {
 
 
     //拼装数据库Key的值
-    public static byte[] buildBlockChainHeightKey() {
+    public static byte[] buildBlockchainHeightKey() {
         String stringKey = BLOCKCHAIN_HEIGHT_KEY + END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
@@ -115,8 +115,8 @@ public class BlockchainDatabaseKeyTool {
         String stringKey = BLOCKCHAIN_TRANSACTION_COUNT_KEY + END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
-    public static byte[] buildTransactionIndexInBlockChainToTransactionKey(long transactionIndexInBlockChain) {
-        String stringKey = TRANSACTION_INDEX_IN_BLOCKCHAIN_TO_TRANSACTION_PREFIX_FLAG + transactionIndexInBlockChain + END_FLAG;
+    public static byte[] buildTransactionIndexInBlockchainToTransactionKey(long transactionIndexInBlockchain) {
+        String stringKey = TRANSACTION_INDEX_IN_BLOCKCHAIN_TO_TRANSACTION_PREFIX_FLAG + transactionIndexInBlockchain + END_FLAG;
         return LevelDBUtil.stringToBytes(stringKey);
     }
     public static byte[] buildAddressToTransactionHashListKey(String address, String transactionHash) {

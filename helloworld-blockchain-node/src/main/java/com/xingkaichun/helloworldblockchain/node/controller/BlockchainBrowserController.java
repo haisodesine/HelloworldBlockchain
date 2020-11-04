@@ -116,7 +116,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 1L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<Transaction> transactionList = getBlockChainCore().queryTransactionListByTransactionHeight(from,size);
+            List<Transaction> transactionList = getBlockchainCore().queryTransactionListByTransactionHeight(from,size);
             if(transactionList == null){
                 return ServiceResult.createFailServiceResult(String.format("区块链中不存在交易高度[%s]，请检查输入的交易哈希。",request.getPageCondition().getFrom()));
             }
@@ -179,7 +179,7 @@ public class BlockchainBrowserController {
     @RequestMapping(value = BlockchainApiRoute.QUERY_MINING_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryMiningTransactionByTransactionHashResponse> queryMiningTransactionByTransactionHash(@RequestBody QueryMiningTransactionByTransactionHashRequest request){
         try {
-            TransactionDTO transactionDTO = getBlockChainCore().queryMiningTransactionDtoByTransactionHash(request.getTransactionHash());
+            TransactionDTO transactionDTO = getBlockchainCore().queryMiningTransactionDtoByTransactionHash(request.getTransactionHash());
             if(transactionDTO == null){
                 return ServiceResult.createFailServiceResult(String.format("交易哈希[%s]不是正在被挖矿的交易。",request.getTransactionHash()));
             }
@@ -280,12 +280,12 @@ public class BlockchainBrowserController {
     public ServiceResult<PingResponse> ping(@RequestBody PingRequest request){
         try {
             List<NodeDto> nodeList = netBlockchainCore.getNodeService().queryAllNoForkNodeList();
-            long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
+            long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
             PingResponse response = new PingResponse();
             response.setNodeList(nodeList);
-            response.setBlockChainHeight(blockChainHeight);
-            response.setBlockChainId(GlobalSetting.BLOCK_CHAIN_ID);
-            response.setBlockChainVersion(GlobalSetting.SystemVersionConstant.obtainVersion());
+            response.setBlockchainHeight(blockChainHeight);
+            response.setBlockchainId(GlobalSetting.BLOCK_CHAIN_ID);
+            response.setBlockchainVersion(GlobalSetting.SystemVersionConstant.obtainVersion());
             return ServiceResult.createSuccessServiceResult("查询节点信息成功",response);
         } catch (Exception e){
             String message = "查询节点信息失败";
@@ -304,7 +304,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<TransactionDTO> transactionDtoList = getBlockChainCore().queryMiningTransactionList(from,size);
+            List<TransactionDTO> transactionDtoList = getBlockchainCore().queryMiningTransactionList(from,size);
             QueryMiningTransactionListResponse response = new QueryMiningTransactionListResponse();
             response.setTransactionDtoList(transactionDtoList);
             return ServiceResult.createSuccessServiceResult("查询挖矿中的交易成功",response);
@@ -322,7 +322,7 @@ public class BlockchainBrowserController {
     @RequestMapping(value = BlockchainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryBlockDtoByBlockHeightResponse> queryBlockDtoByBlockHeight(@RequestBody QueryBlockDtoByBlockHeightRequest request){
         try {
-            Block block = getBlockChainCore().queryBlockByBlockHeight(request.getBlockHeight());
+            Block block = getBlockchainCore().queryBlockByBlockHeight(request.getBlockHeight());
             if(block == null){
                 return ServiceResult.createFailServiceResult(String.format("区块链中不存在区块高度[%d]，请检查输入高度。",request.getBlockHeight()));
             }
@@ -343,11 +343,11 @@ public class BlockchainBrowserController {
     @RequestMapping(value = BlockchainApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryBlockDtoByBlockHashResponse> queryBlockDtoByBlockHash(@RequestBody QueryBlockDtoByBlockHashRequest request){
         try {
-            Block block = getBlockChainCore().queryBlockByBlockHash(request.getBlockHash());
+            Block block = getBlockchainCore().queryBlockByBlockHash(request.getBlockHash());
             if(block == null){
                 return ServiceResult.createFailServiceResult(String.format("区块链中不存在区块哈希[%s]，请检查输入哈希。",request.getBlockHash()));
             }
-            Block nextBlock = getBlockChainCore().queryBlockByBlockHeight(block.getHeight()+1);
+            Block nextBlock = getBlockchainCore().queryBlockByBlockHeight(block.getHeight()+1);
 
             QueryBlockDtoByBlockHashResponse.BlockDto blockDto = new QueryBlockDtoByBlockHashResponse.BlockDto();
             blockDto.setHeight(block.getHeight());
@@ -381,10 +381,10 @@ public class BlockchainBrowserController {
     public ServiceResult<QueryLast10BlockDtoResponse> queryLast10BlockDto(@RequestBody QueryLast10BlockDtoRequest request){
         try {
             List<Block> blockList = new ArrayList<>();
-            long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
+            long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
             long minBlockHeight = blockChainHeight-9>0?blockChainHeight-9:1;
             while (blockChainHeight >= minBlockHeight){
-                Block block = getBlockChainCore().queryBlockByBlockHeight(blockChainHeight);
+                Block block = getBlockchainCore().queryBlockByBlockHeight(blockChainHeight);
                 blockList.add(block);
                 blockChainHeight--;
             }
@@ -409,7 +409,7 @@ public class BlockchainBrowserController {
             return ServiceResult.createFailServiceResult(message);
         }
     }
-    private BlockchainCore getBlockChainCore(){
-        return netBlockchainCore.getBlockChainCore();
+    private BlockchainCore getBlockchainCore(){
+        return netBlockchainCore.getBlockchainCore();
     }
 }

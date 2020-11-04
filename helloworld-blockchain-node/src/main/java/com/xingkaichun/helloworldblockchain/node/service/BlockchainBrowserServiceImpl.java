@@ -29,7 +29,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public TransactionOutputDetailView queryTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId) {
-        TransactionOutput transactionOutput = getBlockChainCore().getBlockChainDataBase().queryTransactionOutputByTransactionOutputId(transactionOutputId);
+        TransactionOutput transactionOutput = getBlockchainCore().getBlockchainDataBase().queryTransactionOutputByTransactionOutputId(transactionOutputId);
         if(transactionOutput == null){
             return null;
         }
@@ -43,18 +43,18 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
         transactionOutputDetailView.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
         transactionOutputId.setTransactionHash(transactionOutput.getTransactionHash());
         transactionOutputId.setTransactionOutputIndex(transactionOutput.getTransactionOutputIndex());
-        TransactionOutput transactionOutputTemp = getBlockChainCore().getBlockChainDataBase().queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
+        TransactionOutput transactionOutputTemp = getBlockchainCore().getBlockchainDataBase().queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
         transactionOutputDetailView.setSpend(transactionOutputTemp==null);
 
         //来源
-        Transaction inputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionOutputId.getTransactionHash());
+        Transaction inputTransaction = getBlockchainCore().getBlockchainDataBase().queryTransactionByTransactionHash(transactionOutputId.getTransactionHash());
         TransactionView inputTransactionView = queryTransactionByTransactionHash(inputTransaction.getTransactionHash());
 
         //去向
         TransactionView outputTransactionView = null;
         if(transactionOutputTemp==null){
-            String transactionHash = getBlockChainCore().getBlockChainDataBase().queryToTransactionHashByTransactionOutputId(transactionOutputId);
-            Transaction outputTransaction = getBlockChainCore().getBlockChainDataBase().queryTransactionByTransactionHash(transactionHash);
+            String transactionHash = getBlockchainCore().getBlockchainDataBase().queryToTransactionHashByTransactionOutputId(transactionOutputId);
+            Transaction outputTransaction = getBlockchainCore().getBlockchainDataBase().queryTransactionByTransactionHash(transactionHash);
             outputTransactionView = queryTransactionByTransactionHash(transactionHash);
 
             List<TransactionInput> inputs = outputTransaction.getInputs();
@@ -76,7 +76,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public List<TransactionOutputDetailView> queryTransactionOutputListByAddress(String address, long from, long size) {
-        List<TransactionOutput> utxoList = getBlockChainCore().queryTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> utxoList = getBlockchainCore().queryTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
@@ -90,7 +90,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public List<TransactionOutputDetailView> queryUnspendTransactionOutputListByAddress(String address, long from, long size) {
-        List<TransactionOutput> utxoList = getBlockChainCore().queryUnspendTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> utxoList = getBlockchainCore().queryUnspendTransactionOutputListByAddress(address,from,size);
         if(utxoList == null){
             return null;
         }
@@ -104,7 +104,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> queryTransactionListByAddress(String address, long from, long size) {
-        List<Transaction> transactionList = getBlockChainCore().queryTransactionListByAddress(address,from,size);
+        List<Transaction> transactionList = getBlockchainCore().queryTransactionListByAddress(address,from,size);
         if(transactionList == null){
             return null;
         }
@@ -118,9 +118,9 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> queryTransactionListByBlockHashTransactionHeight(String blockHash, long from, long size) {
-        Block block = getBlockChainCore().queryBlockByBlockHash(blockHash);
-        long fromUpdate = block.getStartTransactionIndexInBlockChain() + from;
-        List<Transaction> transactionList = getBlockChainCore().queryTransactionListByTransactionHeight(fromUpdate,size);
+        Block block = getBlockchainCore().queryBlockByBlockHash(blockHash);
+        long fromUpdate = block.getStartTransactionIndexInBlockchain() + from;
+        List<Transaction> transactionList = getBlockchainCore().queryTransactionListByTransactionHeight(fromUpdate,size);
         List<com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView> transactionViewList = new ArrayList<>();
         for(Transaction transaction:transactionList){
             com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = queryTransactionByTransactionHash(transaction.getTransactionHash());
@@ -133,12 +133,12 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView queryTransactionByTransactionHash(String transactionHash) {
-        Transaction transaction = getBlockChainCore().queryTransactionByTransactionHash(transactionHash);
+        Transaction transaction = getBlockchainCore().queryTransactionByTransactionHash(transactionHash);
         if(transaction == null){
             return null;
         }
-        long blockChainHeight = getBlockChainCore().queryBlockChainHeight();
-        Block block = getBlockChainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
+        long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
+        Block block = getBlockchainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
         com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = new com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView();
 
         transactionView.setTransactionHash(transaction.getTransactionHash());
@@ -203,7 +203,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Override
     public List<TransactionOutputDetailView> querySpendTransactionOutputListByAddress(String address, long from, long size) {
-        List<TransactionOutput> stxoList = getBlockChainCore().querySpendTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> stxoList = getBlockchainCore().querySpendTransactionOutputListByAddress(address,from,size);
         if(stxoList == null){
             return null;
         }
@@ -215,7 +215,7 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
         return transactionOutputDetailViewList;
     }
 
-    private BlockchainCore getBlockChainCore(){
-        return netBlockchainCore.getBlockChainCore();
+    private BlockchainCore getBlockchainCore(){
+        return netBlockchainCore.getBlockchainCore();
     }
 }

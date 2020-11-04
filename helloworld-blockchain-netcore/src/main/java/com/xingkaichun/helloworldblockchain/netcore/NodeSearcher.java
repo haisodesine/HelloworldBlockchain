@@ -95,10 +95,10 @@ public class NodeSearcher {
             if(isPingSuccess){
                 PingResponse pingResponse = pingResponseServiceResult.getResult();
                 //链ID不同
-                if(!StringUtil.isEquals(GlobalSetting.BLOCK_CHAIN_ID,pingResponse.getBlockChainId())){
+                if(!StringUtil.isEquals(GlobalSetting.BLOCK_CHAIN_ID,pingResponse.getBlockchainId())){
                     nodeService.deleteNode(node);
                 }else {
-                    node.setBlockChainHeight(pingResponse.getBlockChainHeight());
+                    node.setBlockchainHeight(pingResponse.getBlockchainHeight());
                     node.setErrorConnectionTimes(0);
                     if(nodeService.queryNode(node) == null){
                         if(configurationService.autoSearchNodeOption()){
@@ -140,7 +140,7 @@ public class NodeSearcher {
             ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
             if(ServiceResult.isSuccess(pingResponseServiceResult)){
                 node.setIsNodeAvailable(true);
-                node.setBlockChainHeight(pingResponseServiceResult.getResult().getBlockChainHeight());
+                node.setBlockchainHeight(pingResponseServiceResult.getResult().getBlockchainHeight());
                 node.setErrorConnectionTimes(0);
                 if(nodeService.queryNode(node) == null){
                     nodeService.addNode(node);
