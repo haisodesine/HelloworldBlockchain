@@ -86,8 +86,10 @@ public class TransactionTool {
      * 交易签名
      */
     public static String signature(String privateKey, Transaction transaction) {
-        String strSignature = AccountUtil.signatureHexString(privateKey, getSignatureData(transaction));
-        return strSignature;
+        byte[] bytesMessage = HexUtil.hexStringToBytes(getSignatureData(transaction));
+        byte[] bytesSignature = AccountUtil.signature(privateKey,bytesMessage);
+        String stringSignature = HexUtil.bytesToHexString(bytesSignature);
+        return stringSignature;
     }
 
     /**

@@ -39,8 +39,10 @@ public class StackBasedVirtualMachine {
                 }
             }else if(Arrays.equals(OperationCodeEnum.OP_CHECKSIG.getCode(),byteCommand)){
                 String publicKey = stack.pop();
-                String sign = stack.pop();
-                boolean verifySignatureSuccess = AccountUtil.verifySignatureHexString(publicKey, TransactionTool.getSignatureData(transactionEnvironment),sign);
+                byte[] bytesMessage = HexUtil.hexStringToBytes(TransactionTool.getSignatureData(transactionEnvironment));
+                String signature = stack.pop();
+                byte[] bytesSignature = HexUtil.hexStringToBytes(signature);
+                boolean verifySignatureSuccess = AccountUtil.verifySignature(publicKey,bytesMessage,bytesSignature);
                 if(!verifySignatureSuccess){
                     throw new RuntimeException("脚本执行失败");
                 }

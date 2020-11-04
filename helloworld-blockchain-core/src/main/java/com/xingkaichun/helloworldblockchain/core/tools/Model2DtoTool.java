@@ -8,6 +8,7 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
+import com.xingkaichun.helloworldblockchain.crypto.HexUtil;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.*;
 
 import java.util.ArrayList;
@@ -99,8 +100,10 @@ public class Model2DtoTool {
     }
 
     public static String signature(TransactionDTO transactionDTO, String privateKey) {
-        String strSignature = AccountUtil.signatureHexString(privateKey,signatureData(transactionDTO));
-        return strSignature;
+        byte[] bytesMessage = HexUtil.hexStringToBytes(signatureData(transactionDTO));
+        byte[] bytesSignature = AccountUtil.signature(privateKey,bytesMessage);
+        String stringSignature = HexUtil.bytesToHexString(bytesSignature);
+        return stringSignature;
     }
 
     public static String signatureData(TransactionDTO transactionDTO) {

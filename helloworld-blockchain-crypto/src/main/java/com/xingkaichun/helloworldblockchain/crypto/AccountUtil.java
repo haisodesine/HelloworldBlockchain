@@ -141,19 +141,6 @@ public class AccountUtil {
     /**
      * 签名
      */
-    public static String signatureHexString(String privateKey, String message) {
-        try {
-            byte[] bytesMessage = HexUtil.hexStringToBytes(message);
-            byte[] bytesSignature = signature(privateKey,bytesMessage);
-            String signature = HexUtil.bytesToHexString(bytesSignature);
-            return signature;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    /**
-     * 签名
-     */
     public static byte[] signature(String privateKey, byte[] message) {
         try {
             BigInteger bigIntegerPrivateKey = privateKeyFrom(privateKey);
@@ -164,18 +151,6 @@ public class AccountUtil {
         }
     }
 
-    /**
-     * 验证签名
-     */
-    public static boolean verifySignatureHexString(String publicKey, String message, String signature) {
-        try {
-            byte[] bytesSignature = HexUtil.hexStringToBytes(signature);
-            byte[] bytesMessage = HexUtil.hexStringToBytes(message);
-            return verifySignature(publicKey,bytesMessage,bytesSignature);
-        }catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
     /**
      * 验证签名
      */
