@@ -11,7 +11,7 @@
 
     <artifactId>helloworld-blockchain-core</artifactId>
 
-    <name>HelloworldBlockchainCore</name>
+    <name>helloworld-blockchain-core</name>
     <url>http://www.helloworldblockchain.com</url>
 
     <dependencies>
