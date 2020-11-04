@@ -22,7 +22,7 @@ import java.util.List;
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
 @Service
-public class BlockChainBrowserServiceImpl implements BlockChainBrowserService {
+public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
 
     @Autowired
     private NetBlockchainCore netBlockchainCore;

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public interface BlockChainBrowserService {
+public interface BlockchainBrowserService {
 
     TransactionOutputDetailView queryTransactionOutputByTransactionOutputId(TransactionOutputId transactionOutputId);
     List<TransactionOutputDetailView> queryTransactionOutputListByAddress(String address, long from, long size);

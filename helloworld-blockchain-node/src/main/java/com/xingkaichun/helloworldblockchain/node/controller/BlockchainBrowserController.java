@@ -23,7 +23,7 @@ import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO
 import com.xingkaichun.helloworldblockchain.node.dto.BlockchainApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.block.*;
 import com.xingkaichun.helloworldblockchain.node.dto.transaction.*;
-import com.xingkaichun.helloworldblockchain.node.service.BlockChainBrowserService;
+import com.xingkaichun.helloworldblockchain.node.service.BlockchainBrowserService;
 import com.xingkaichun.helloworldblockchain.util.DateUtil;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import org.slf4j.Logger;
@@ -45,14 +45,14 @@ import java.util.List;
  */
 @Controller
 @RequestMapping
-public class BlockChainBrowserController {
+public class BlockchainBrowserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(BlockChainBrowserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlockchainBrowserController.class);
 
     @Autowired
     private NetBlockchainCore netBlockchainCore;
     @Autowired
-    private BlockChainBrowserService blockChainBrowserService;
+    private BlockchainBrowserService blockChainBrowserService;
 
    /**
      * 生成账户(公钥、私钥、地址)
