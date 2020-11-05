@@ -107,7 +107,7 @@ public class NodeSearcher {
                     addAvailableNodeToDatabase(pingResponse.getNodeList());
                 }
             } else {
-                nodeService.nodeErrorConnectionHandle(node);
+                nodeService.nodeConnectionErrorHandle(node);
             }
         }
     }

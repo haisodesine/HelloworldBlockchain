@@ -109,7 +109,7 @@ public class BlockSearcher {
                 node.setErrorConnectionTimes(0);
                 nodeService.updateNode(node);
             } else {
-                nodeService.nodeErrorConnectionHandle(node);
+                nodeService.nodeConnectionErrorHandle(node);
             }
         }
     }

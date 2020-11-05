@@ -31,7 +31,7 @@ public interface NodeService {
     /**
      * 节点网络连接错误处理
      */
-    void nodeErrorConnectionHandle(BaseNodeDto node);
+    void nodeConnectionErrorHandle(BaseNodeDto node);
 
     /**
      * 设置节点为分叉节点

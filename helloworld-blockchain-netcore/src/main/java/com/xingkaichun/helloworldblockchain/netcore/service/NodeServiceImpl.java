@@ -37,7 +37,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void nodeErrorConnectionHandle(BaseNodeDto baseNodeDto){
+    public void nodeConnectionErrorHandle(BaseNodeDto baseNodeDto){
         NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         if(nodeEntity == null){
             return;
