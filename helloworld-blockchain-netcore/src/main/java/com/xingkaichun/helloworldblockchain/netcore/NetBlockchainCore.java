@@ -71,7 +71,7 @@ public class NetBlockchainCore {
         //恢复矿工配置
         configurationService.restoreMinerConfiguration();
         //恢复同步者配置
-        configurationService.restorSynchronizerConfiguration();
+        configurationService.restoreSynchronizerConfiguration();
     }
 
 

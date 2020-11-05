@@ -9,9 +9,13 @@ public class ConfigurationEntity {
     private String confKey;
     private String confValue;
 
+    public ConfigurationEntity() {
+    }
 
-
-
+    public ConfigurationEntity(String confKey, String confValue) {
+        this.confKey = confKey;
+        this.confValue = confValue;
+    }
     //region get set
 
     public String getConfKey() {
