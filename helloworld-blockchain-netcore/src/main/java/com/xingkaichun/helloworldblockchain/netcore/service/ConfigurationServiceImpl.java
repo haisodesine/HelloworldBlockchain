@@ -25,7 +25,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     private void setConfiguration(ConfigurationEntity configurationEntity) {
-        ConfigurationEntity configurationEntityInDb = configurationDao.getConfiguratioValue(configurationEntity.getConfKey());
+        ConfigurationEntity configurationEntityInDb = configurationDao.getConfigurationValue(configurationEntity.getConfKey());
         if(configurationEntityInDb == null){
             configurationDao.addConfiguration(configurationEntity);
         }else {
@@ -44,7 +44,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean isMinerActive() {
-        ConfigurationEntity configurationEntity = configurationDao.getConfiguratioValue(IS_MINER_ACTIVE);
+        ConfigurationEntity configurationEntity = configurationDao.getConfigurationValue(IS_MINER_ACTIVE);
         if(configurationEntity == null){
             //默认值
             return false;
@@ -77,7 +77,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean isSynchronizerActive() {
-        ConfigurationEntity configurationEntity = configurationDao.getConfiguratioValue(IS_SYNCHRONIZER_ACTIVE);
+        ConfigurationEntity configurationEntity = configurationDao.getConfigurationValue(IS_SYNCHRONIZER_ACTIVE);
         if(configurationEntity == null){
             //默认值
             return false;
@@ -101,7 +101,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean isAutoSearchNode() {
-        ConfigurationEntity configurationEntity = configurationDao.getConfiguratioValue(IS_AUTO_SEARCH_NODE);
+        ConfigurationEntity configurationEntity = configurationDao.getConfigurationValue(IS_AUTO_SEARCH_NODE);
         if(configurationEntity == null){
             //默认值
             return false;

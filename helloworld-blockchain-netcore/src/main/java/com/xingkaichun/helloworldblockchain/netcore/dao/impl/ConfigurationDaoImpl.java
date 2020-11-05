@@ -32,7 +32,7 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
     }
 
     @Override
-    public ConfigurationEntity getConfiguratioValue(String confKey) {
+    public ConfigurationEntity getConfigurationValue(String confKey) {
         String sql = "select confKey,confValue from Configuration where confKey = ?";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
