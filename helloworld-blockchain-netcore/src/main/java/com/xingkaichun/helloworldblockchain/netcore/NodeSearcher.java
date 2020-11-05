@@ -1,8 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
@@ -49,7 +47,7 @@ public class NodeSearcher {
         new Thread(()->{
             while (true){
                 try {
-                    if(configurationService.autoSearchNodeOption()){
+                    if(configurationService.isAutoSearchNode()){
                         addSeedNode();
                     }
                 } catch (Exception e) {
@@ -66,7 +64,7 @@ public class NodeSearcher {
         new Thread(()->{
             while (true){
                 try {
-                    if(configurationService.autoSearchNodeOption()){
+                    if(configurationService.isAutoSearchNode()){
                         searchNodes();
                     }
                 } catch (Exception e) {
@@ -84,7 +82,7 @@ public class NodeSearcher {
         //这里可以利用多线程进行性能优化，因为本项目是helloworld项目，因此只采用单线程轮询每一个节点查询新的网络节点，不做进一步优化拓展。
         List<NodeDto> nodes = nodeService.queryAllNoForkNodeList();
         for(NodeDto node:nodes){
-            if(!configurationService.autoSearchNodeOption()){
+            if(!configurationService.isAutoSearchNode()){
                 return;
             }
             ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
@@ -99,7 +97,7 @@ public class NodeSearcher {
                     node.setBlockchainHeight(pingResponse.getBlockchainHeight());
                     node.setErrorConnectionTimes(0);
                     if(nodeService.queryNode(node) == null){
-                        if(configurationService.autoSearchNodeOption()){
+                        if(configurationService.isAutoSearchNode()){
                             nodeService.addNode(node);
                         }
                     }else {
@@ -130,7 +128,7 @@ public class NodeSearcher {
      * 若一个新的(之前没有加入过本地数据库)、可用的(网络连接是好的)的节点加入本地数据库
      */
     private void addAvailableNodeToDatabase(NodeDto node) {
-        if(configurationService.autoSearchNodeOption()){
+        if(configurationService.isAutoSearchNode()){
             return;
         }
         NodeDto localNode = nodeService.queryNode(node);
@@ -161,7 +159,7 @@ public class NodeSearcher {
             node.setPort(Integer.parseInt(nodeDetail[1]));
             NodeDto nodeDto = nodeService.queryNode(node);
             if(nodeDto == null){
-                if(configurationService.autoSearchNodeOption()){
+                if(configurationService.isAutoSearchNode()){
                     nodeService.addNode(node);
                 }
             }

@@ -40,11 +40,10 @@ public class NetBlockchainCoreFactory {
         }
         FileUtil.mkdir(dataRootPath);
 
+        BlockchainCore blockChainCore = BlockchainCoreFactory.createBlockchainCore(dataRootPath);
 
         ConfigurationDao configurationDao = new ConfigurationDaoImpl(dataRootPath);
-        ConfigurationService configurationService = new ConfigurationServiceImpl(configurationDao);
-
-        BlockchainCore blockChainCore = BlockchainCoreFactory.createBlockchainCore(dataRootPath);
+        ConfigurationService configurationService = new ConfigurationServiceImpl(blockChainCore,configurationDao);
 
         NodeDao nodeDao = new NodeDaoImpl(dataRootPath);
         NodeService nodeService = new NodeServiceImpl(nodeDao);

@@ -10,7 +10,7 @@ import com.xingkaichun.helloworldblockchain.netcore.entity.ConfigurationEntity;
  */
 public interface ConfigurationDao {
 
-    String getConfiguratioValue(String confKey) ;
+    ConfigurationEntity getConfiguratioValue(String confKey) ;
 
     void addConfiguration(ConfigurationEntity configurationEntity) ;
 

@@ -53,7 +53,7 @@ public class HttpServerHandlerResolver {
             node.setPort(request.getPort());
             if(nodeService.queryNode(node) == null){
                 node.setIsNodeAvailable(true);
-                if(configurationService.autoSearchNodeOption()){
+                if(configurationService.isAutoSearchNode()){
                     nodeService.addNode(node);
                     logger.debug(String.format("有节点[%s:%d]尝试Ping本地节点，将来路节点加入节点数据库。",ip,request.getPort()));
                 }
@@ -87,7 +87,7 @@ public class HttpServerHandlerResolver {
             node.setErrorConnectionTimes(0);
 
             if(nodeService.queryNode(node) == null){
-                if(configurationService.autoSearchNodeOption()){
+                if(configurationService.isAutoSearchNode()){
                     nodeService.addNode(node);
                     logger.debug(String.format("有节点[%s:%d]尝试Ping本地节点，将来路节点加入节点数据库。",ip,request.getPort()));
                     return ServiceResult.createFailServiceResult("节点新增成功");

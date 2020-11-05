@@ -32,8 +32,8 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
     }
 
     @Override
-    public String getConfiguratioValue(String confKey) {
-        String sql = "select confValue from Configuration where confKey = ?";
+    public ConfigurationEntity getConfiguratioValue(String confKey) {
+        String sql = "select confKey,confValue from Configuration where confKey = ?";
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
@@ -42,7 +42,10 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 String confValue = resultSet.getString("confValue");
-                return confValue;
+                ConfigurationEntity entity = new ConfigurationEntity();
+                entity.setConfKey(confKey);
+                entity.setConfValue(confValue);
+                return entity;
             }
         } catch (SQLException e){
             throw new RuntimeException(e);

@@ -5,13 +5,11 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionReque
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
-import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHttpServer;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
+import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHttpServer;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
@@ -70,20 +68,10 @@ public class NetBlockchainCore {
      * 恢复配置
      */
     private void restoreConfiguration() {
-        //是否激活矿工
-        ConfigurationDto isMinerActiveConfigurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.IS_MINER_ACTIVE.name());
-        if(Boolean.valueOf(isMinerActiveConfigurationDto.getConfValue())){
-            blockChainCore.getMiner().active();
-        }else {
-            blockChainCore.getMiner().deactive();
-        }
-        //是否激活同步者
-        ConfigurationDto isSynchronizerActiveConfigurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.IS_SYNCHRONIZER_ACTIVE.name());
-        if(Boolean.valueOf(isSynchronizerActiveConfigurationDto.getConfValue())){
-            blockChainCore.getSynchronizer().active();
-        }else {
-            blockChainCore.getSynchronizer().deactive();
-        }
+        //恢复矿工配置
+        configurationService.restoreMinerConfiguration();
+        //恢复同步者配置
+        configurationService.restorSynchronizerConfiguration();
     }
 
 

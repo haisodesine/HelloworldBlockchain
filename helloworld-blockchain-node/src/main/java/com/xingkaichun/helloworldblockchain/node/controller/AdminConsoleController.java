@@ -5,21 +5,19 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionReque
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.core.model.pay.Recipient;
 import com.xingkaichun.helloworldblockchain.core.tools.WalletTool;
-import com.xingkaichun.helloworldblockchain.node.dto.block.DeleteBlockResponse;
-import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.node.dto.AdminConsoleApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.account.*;
 import com.xingkaichun.helloworldblockchain.node.dto.block.DeleteBlockRequest;
+import com.xingkaichun.helloworldblockchain.node.dto.block.DeleteBlockResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.miner.*;
 import com.xingkaichun.helloworldblockchain.node.dto.node.*;
 import com.xingkaichun.helloworldblockchain.node.dto.synchronizer.*;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +51,7 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.IS_MINER_ACTIVE,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<IsMinerActiveResponse> isMineActive(@RequestBody IsMinerActiveRequest request){
         try {
-            boolean isMineActive = getBlockchainCore().getMiner().isActive();
-
+            boolean isMineActive = netBlockchainCore.getConfigurationService().isMinerActive();
             IsMinerActiveResponse response = new IsMinerActiveResponse();
             response.setMinerInActiveState(isMineActive);
             return ServiceResult.createSuccessServiceResult("查询矿工是否处于激活状态成功",response);
@@ -71,12 +68,8 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.ACTIVE_MINER,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<ActiveMinerResponse> activeMiner(@RequestBody ActiveMinerRequest request){
         try {
-            getBlockchainCore().getMiner().active();
-
-            ConfigurationDto configurationDto = new ConfigurationDto(ConfigurationEnum.IS_MINER_ACTIVE.name(),String.valueOf(true));
-            netBlockchainCore.getConfigurationService().setConfiguration(configurationDto);
+            netBlockchainCore.getConfigurationService().activeMiner();
             ActiveMinerResponse response = new ActiveMinerResponse();
-
             response.setActiveMinerSuccess(true);
             return ServiceResult.createSuccessServiceResult("激活矿工成功",response);
         } catch (Exception e){
@@ -92,12 +85,8 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.DEACTIVE_MINER,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<DeactiveMinerResponse> deactiveMiner(@RequestBody DeactiveMinerRequest request){
         try {
-            getBlockchainCore().getMiner().deactive();
-
-            ConfigurationDto configurationDto = new ConfigurationDto(ConfigurationEnum.IS_MINER_ACTIVE.name(),String.valueOf(false));
-            netBlockchainCore.getConfigurationService().setConfiguration(configurationDto);
+            netBlockchainCore.getConfigurationService().deactiveMiner();
             DeactiveMinerResponse response = new DeactiveMinerResponse();
-
             response.setDeactiveMinerSuccess(true);
             return ServiceResult.createSuccessServiceResult("停用矿工成功",response);
         } catch (Exception e){
@@ -116,8 +105,7 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.IS_SYNCHRONIZER_ACTIVE,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<IsSynchronizerActiveResponse> isSynchronizerActive(@RequestBody IsSynchronizerActiveRequest request){
         try {
-            boolean isSynchronizerActive = getBlockchainCore().getSynchronizer().isActive();
-
+            boolean isSynchronizerActive = netBlockchainCore.getConfigurationService().isSynchronizerActive();
             IsSynchronizerActiveResponse response = new IsSynchronizerActiveResponse();
             response.setSynchronizerInActiveState(isSynchronizerActive);
             return ServiceResult.createSuccessServiceResult("查询同步器是否激活成功",response);
@@ -134,12 +122,8 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.ACTIVE_SYNCHRONIZER,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<ActiveSynchronizerResponse> activeSynchronizer(@RequestBody ActiveSynchronizerRequest request){
         try {
-            getBlockchainCore().getSynchronizer().active();
-
-            ConfigurationDto configurationDto = new ConfigurationDto(ConfigurationEnum.IS_SYNCHRONIZER_ACTIVE.name(),String.valueOf(true));
-            netBlockchainCore.getConfigurationService().setConfiguration(configurationDto);
+            netBlockchainCore.getConfigurationService().activeSynchronizer();
             ActiveSynchronizerResponse response = new ActiveSynchronizerResponse();
-
             response.setActiveSynchronizerSuccess(true);
             return ServiceResult.createSuccessServiceResult("激活同步器成功",response);
         } catch (Exception e){
@@ -155,12 +139,8 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.DEACTIVE_SYNCHRONIZER,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<DeactiveSynchronizerResponse> deactiveSynchronizer(@RequestBody DeactiveSynchronizerRequest request){
         try {
-            getBlockchainCore().getSynchronizer().deactive();
-
-            ConfigurationDto configurationDto = new ConfigurationDto(ConfigurationEnum.IS_SYNCHRONIZER_ACTIVE.name(),String.valueOf(false));
-            netBlockchainCore.getConfigurationService().setConfiguration(configurationDto);
+            netBlockchainCore.getConfigurationService().deactiveSynchronizer();
             DeactiveSynchronizerResponse response = new DeactiveSynchronizerResponse();
-
             response.setDeactiveSynchronizerSuccess(true);
             return ServiceResult.createSuccessServiceResult("停用同步器成功",response);
         } catch (Exception e){
@@ -261,9 +241,9 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.IS_AUTO_SEARCH_NODE,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<IsAutoSearchNodeResponse> isAutoSearchNewNode(@RequestBody IsAutoSearchNodeRequest request){
         try {
-            ConfigurationDto configurationDto = netBlockchainCore.getConfigurationService().getConfigurationByConfigurationKey(ConfigurationEnum.AUTO_SEARCH_NODE.name());
+            boolean isAutoSearchNode = netBlockchainCore.getConfigurationService().isAutoSearchNode();
             IsAutoSearchNodeResponse response = new IsAutoSearchNodeResponse();
-            response.setAutoSearchNewNode(Boolean.valueOf(configurationDto.getConfValue()));
+            response.setAutoSearchNewNode(isAutoSearchNode);
             return ServiceResult.createSuccessServiceResult("查询是否允许自动搜索区块链节点成功",response);
         } catch (Exception e){
             String message = "查询是否允许自动搜索区块链节点失败";
@@ -279,11 +259,7 @@ public class AdminConsoleController {
     @RequestMapping(value = AdminConsoleApiRoute.SET_AUTO_SEARCH_NODE,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<SetAutoSearchNodeResponse> setAutoSearchNode(@RequestBody SetAutoSearchNodeRequest request){
         try {
-            ConfigurationDto configurationDto = new ConfigurationDto();
-            configurationDto.setConfKey(ConfigurationEnum.AUTO_SEARCH_NODE.name());
-            configurationDto.setConfValue(String.valueOf(request.isAutoSearchNode()));
-            netBlockchainCore.getConfigurationService().setConfiguration(configurationDto);
-
+            netBlockchainCore.getConfigurationService().setAutoSearchNode(request.isAutoSearchNode());
             SetAutoSearchNodeResponse response = new SetAutoSearchNodeResponse();
             return ServiceResult.createSuccessServiceResult("设置是否允许自动搜索区块链节点成功",response);
         } catch (Exception e){
