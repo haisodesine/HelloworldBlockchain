@@ -18,11 +18,16 @@ public interface NodeService {
     /**
      * 获取所有节点
      */
+    List<NodeDto> queryAllNodeList();
+    /**
+     * 获取所有未分叉节点
+     */
     List<NodeDto> queryAllNoForkNodeList();
     /**
-     * 获取所有活着的节点
+     * 获取所有未分叉、活着的节点
      */
     List<NodeDto> queryAllNoForkAliveNodeList();
+
     /**
      * 节点网络连接错误处理
      */
@@ -37,11 +42,6 @@ public interface NodeService {
      * 删除节点
      */
     void deleteNode(SimpleNodeDto node);
-
-    /**
-     * 查询节点
-     */
-    List<NodeDto> queryAllNodeList();
 
     /**
      * 新增节点
