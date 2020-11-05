@@ -13,8 +13,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private static final String IS_MINER_ACTIVE = "IS_MINER_ACTIVE";
     //同步者是否处于激活状态？
     private static final String IS_SYNCHRONIZER_ACTIVE = "IS_SYNCHRONIZER_ACTIVE";
-    //是否自动搜寻区块链网络节点。
-    private static final String AUTO_SEARCH_NODE = "AUTO_SEARCH_NODE";
+    //是否自动搜寻区块链网络节点？
+    private static final String IS_AUTO_SEARCH_NODE = "IS_AUTO_SEARCH_NODE";
 
     private BlockchainCore blockChainCore;
     private ConfigurationDao configurationDao;
@@ -101,7 +101,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public boolean isAutoSearchNode() {
-        ConfigurationEntity configurationEntity = configurationDao.getConfiguratioValue(AUTO_SEARCH_NODE);
+        ConfigurationEntity configurationEntity = configurationDao.getConfiguratioValue(IS_AUTO_SEARCH_NODE);
         if(configurationEntity == null){
             //默认值
             return false;
@@ -111,7 +111,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void setAutoSearchNode(boolean autoSearchNode) {
-        ConfigurationEntity configurationDto = new ConfigurationEntity(AUTO_SEARCH_NODE,String.valueOf(autoSearchNode));
+        ConfigurationEntity configurationDto = new ConfigurationEntity(IS_AUTO_SEARCH_NODE,String.valueOf(autoSearchNode));
         setConfiguration(configurationDto);
     }
 }
