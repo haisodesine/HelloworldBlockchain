@@ -6,7 +6,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeServerApiRoute;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.SimpleNodeDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.request.*;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.*;
 import com.xingkaichun.helloworldblockchain.util.NetUtil;
@@ -34,7 +34,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
     }
 
     @Override
-    public ServiceResult<EmptyResponse> sumiteTransaction(SimpleNodeDto node, TransactionDTO transactionDTO) {
+    public ServiceResult<EmptyResponse> sumiteTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.RECEIVE_TRANSACTION);
             ReceiveTransactionRequest request = new ReceiveTransactionRequest();
@@ -56,7 +56,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         }
     }
 
-    public ServiceResult<PingResponse> pingNode(SimpleNodeDto node) {
+    public ServiceResult<PingResponse> pingNode(BaseNodeDto node) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.PING);
             PingRequest pingRequest = new PingRequest();
@@ -78,7 +78,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         }
     }
 
-    public ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(SimpleNodeDto node, long localBlockchainHeight) {
+    public ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(BaseNodeDto node, long localBlockchainHeight) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(), node.getPort(), NodeServerApiRoute.ADD_OR_UPDATE_NODE);
             AddOrUpdateNodeRequest request = new AddOrUpdateNodeRequest();

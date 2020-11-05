@@ -2,7 +2,7 @@ package com.xingkaichun.helloworldblockchain.netcore.service;
 
 import com.xingkaichun.helloworldblockchain.netcore.dao.NodeDao;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.SimpleNodeDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.entity.NodeEntity;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
@@ -37,14 +37,14 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void nodeErrorConnectionHandle(SimpleNodeDto simpleNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
+    public void nodeErrorConnectionHandle(BaseNodeDto baseNodeDto){
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         if(nodeEntity == null){
             return;
         }
         int errorConnectionTimes = nodeEntity.getErrorConnectionTimes()+1;
         if(errorConnectionTimes >= GlobalSetting.NodeConstant.NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD){
-            nodeDao.deleteNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
+            nodeDao.deleteNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         } else {
             nodeEntity.setErrorConnectionTimes(errorConnectionTimes);
             nodeEntity.setIsNodeAvailable(false);
@@ -53,12 +53,12 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void addOrUpdateNodeForkPropertity(SimpleNodeDto simpleNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
+    public void addOrUpdateNodeForkPropertity(BaseNodeDto baseNodeDto){
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         if(nodeEntity == null){
             NodeDto node = new NodeDto();
-            node.setIp(simpleNodeDto.getIp());
-            node.setPort(simpleNodeDto.getPort());
+            node.setIp(baseNodeDto.getIp());
+            node.setPort(baseNodeDto.getPort());
             node.setFork(true);
             fillNodeDefaultValue(node);
             NodeEntity nodeEntity1 = classCast(node);
@@ -70,8 +70,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void deleteNode(SimpleNodeDto simpleNodeDto){
-        nodeDao.deleteNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
+    public void deleteNode(BaseNodeDto baseNodeDto){
+        nodeDao.deleteNode(baseNodeDto.getIp(), baseNodeDto.getPort());
     }
 
     @Override
@@ -95,8 +95,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public NodeDto queryNode(SimpleNodeDto simpleNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(simpleNodeDto.getIp(), simpleNodeDto.getPort());
+    public NodeDto queryNode(BaseNodeDto baseNodeDto){
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         if(nodeEntity == null){
             return null;
         }

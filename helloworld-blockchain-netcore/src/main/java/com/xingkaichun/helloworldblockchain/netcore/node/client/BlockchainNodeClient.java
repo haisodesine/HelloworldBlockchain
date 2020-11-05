@@ -3,7 +3,7 @@ package com.xingkaichun.helloworldblockchain.netcore.node.client;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.SimpleNodeDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.PingResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.QueryBlockDtoByBlockHeightResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.QueryBlockHashByBlockHeightResponse;
@@ -19,17 +19,17 @@ public interface BlockchainNodeClient {
     /**
      * 提交交易至其它节点
      */
-    ServiceResult<EmptyResponse> sumiteTransaction(SimpleNodeDto node, TransactionDTO transactionDTO) ;
+    ServiceResult<EmptyResponse> sumiteTransaction(BaseNodeDto node, TransactionDTO transactionDTO) ;
 
     /**
      * Ping指定节点
      */
-    ServiceResult<PingResponse> pingNode(SimpleNodeDto node) ;
+    ServiceResult<PingResponse> pingNode(BaseNodeDto node) ;
 
     /**
      * 单播：将本地区块链高度传给指定节点
      */
-    ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(SimpleNodeDto node, long localBlockchainHeight) ;
+    ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(BaseNodeDto node, long localBlockchainHeight) ;
 
     /**
      * 根据区块高度，获取对应的区块hash

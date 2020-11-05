@@ -4,15 +4,15 @@ package com.xingkaichun.helloworldblockchain.netcore.dto.netserver;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class SimpleNodeDto {
+public class BaseNodeDto {
 
     private String ip;
     private int port;
 
-    public SimpleNodeDto() {
+    public BaseNodeDto() {
     }
 
-    public SimpleNodeDto(String ip, int port) {
+    public BaseNodeDto(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
