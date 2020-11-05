@@ -206,7 +206,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
      */
     private void forkNodeHandler(NodeDto node, SynchronizerDatabase synchronizerDataBase) {
         synchronizerDataBase.clear(buildNodeId(node));
-        nodeService.addOrUpdateNodeForkPropertity(node);
+        nodeService.updateOrInsertForkPropertity(node);
     }
 
     private String buildNodeId(NodeDto node) {

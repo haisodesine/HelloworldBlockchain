@@ -53,16 +53,15 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public void addOrUpdateNodeForkPropertity(BaseNodeDto baseNodeDto){
+    public void updateOrInsertForkPropertity(BaseNodeDto baseNodeDto){
         NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
         if(nodeEntity == null){
-            NodeDto node = new NodeDto();
-            node.setIp(baseNodeDto.getIp());
-            node.setPort(baseNodeDto.getPort());
-            node.setFork(true);
-            fillNodeDefaultValue(node);
-            NodeEntity nodeEntity1 = classCast(node);
-            nodeDao.addNode(nodeEntity1);
+            nodeEntity = new NodeEntity();
+            nodeEntity.setIp(baseNodeDto.getIp());
+            nodeEntity.setPort(baseNodeDto.getPort());
+            nodeEntity.setFork(true);
+            fillNodeDefaultValue(nodeEntity);
+            nodeDao.addNode(nodeEntity);
         }else {
             nodeEntity.setFork(true);
             nodeDao.updateNode(nodeEntity);
@@ -83,9 +82,9 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void addNode(NodeDto node){
-        fillNodeDefaultValue(node);
-        NodeEntity nodeEntityByPass = classCast(node);
-        nodeDao.addNode(nodeEntityByPass);
+        NodeEntity nodeEntity = classCast(node);
+        fillNodeDefaultValue(nodeEntity);
+        nodeDao.addNode(nodeEntity);
     }
 
     @Override
@@ -137,18 +136,18 @@ public class NodeServiceImpl implements NodeService {
         return nodeEntity;
     }
 
-    private void fillNodeDefaultValue(NodeDto node) {
-        if(node.getBlockchainHeight() == null){
-            node.setBlockchainHeight(LongUtil.ZERO);
+    private void fillNodeDefaultValue(NodeEntity nodeEntity) {
+        if(nodeEntity.getBlockchainHeight() == null){
+            nodeEntity.setBlockchainHeight(LongUtil.ZERO);
         }
-        if(node.getIsNodeAvailable() == null){
-            node.setIsNodeAvailable(true);
+        if(nodeEntity.getIsNodeAvailable() == null){
+            nodeEntity.setIsNodeAvailable(true);
         }
-        if(node.getErrorConnectionTimes() == null){
-            node.setErrorConnectionTimes(0);
+        if(nodeEntity.getErrorConnectionTimes() == null){
+            nodeEntity.setErrorConnectionTimes(0);
         }
-        if(node.getFork() == null){
-            node.setFork(false);
+        if(nodeEntity.getFork() == null){
+            nodeEntity.setFork(false);
         }
     }
 }
