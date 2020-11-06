@@ -35,33 +35,25 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 		String uri = msg.uri();
 
 		//因为任何节点都可以访问这里的接口，请不要在这里写任何能泄露用户私钥的代码。
-		switch (uri) {
-		case "/":
+		if("/".equals(uri)){
 			sendMsg = "HelloworldBlockchain";
-			break;
-		case NodeServerApiRoute.PING:
-			PingRequest request1 = new Gson().fromJson(body,PingRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.ping(ctx,request1));
-			break;
-		case NodeServerApiRoute.ADD_OR_UPDATE_NODE:
-			AddOrUpdateNodeRequest request2 = new Gson().fromJson(body,AddOrUpdateNodeRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.addOrUpdateNode(ctx,request2));
-			break;
-		case NodeServerApiRoute.QUERY_BLOCK_HASH_BY_BLOCK_HEIGHT:
-			QueryBlockHashByBlockHeightRequest request3 = new Gson().fromJson(body, QueryBlockHashByBlockHeightRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.queryBlockHashByBlockHeight(request3));
-			break;
-		case NodeServerApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT:
-			QueryBlockDtoByBlockHeightRequest request4 = new Gson().fromJson(body, QueryBlockDtoByBlockHeightRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.queryBlockDtoByBlockHeight(request4));
-			break;
-		case NodeServerApiRoute.RECEIVE_TRANSACTION:
-			ReceiveTransactionRequest request5 = new Gson().fromJson(body, ReceiveTransactionRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.receiveTransaction(request5));
-			break;
-		default:
+		}else if(NodeServerApiRoute.PING.equals(uri)){
+			PingRequest request = new Gson().fromJson(body,PingRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.ping(ctx,request));
+		}else if(NodeServerApiRoute.ADD_OR_UPDATE_NODE.equals(uri)){
+			AddOrUpdateNodeRequest request = new Gson().fromJson(body,AddOrUpdateNodeRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.addOrUpdateNode(ctx,request));
+		}else if(NodeServerApiRoute.QUERY_BLOCK_HASH_BY_BLOCK_HEIGHT.equals(uri)){
+			QueryBlockHashByBlockHeightRequest request = new Gson().fromJson(body, QueryBlockHashByBlockHeightRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.queryBlockHashByBlockHeight(request));
+		}else if(NodeServerApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT.equals(uri)){
+			QueryBlockDtoByBlockHeightRequest request = new Gson().fromJson(body, QueryBlockDtoByBlockHeightRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.queryBlockDtoByBlockHeight(request));
+		}else if(NodeServerApiRoute.RECEIVE_TRANSACTION.equals(uri)){
+			ReceiveTransactionRequest request = new Gson().fromJson(body, ReceiveTransactionRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.receiveTransaction(request));
+		}else {
 			sendMsg = "404 NOT FOUND";
-			break;
 		}
 		writeResponse(ctx, sendMsg);
 	}
