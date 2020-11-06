@@ -90,22 +90,17 @@ public class NodeSearcher {
             node.setIsNodeAvailable(isPingSuccess);
             if(isPingSuccess){
                 PingResponse pingResponse = pingResponseServiceResult.getResult();
-                //链ID不同
-                if(!StringUtil.isEquals(GlobalSetting.BLOCK_CHAIN_ID,pingResponse.getBlockchainId())){
-                    nodeService.deleteNode(node);
-                }else {
-                    node.setBlockchainHeight(pingResponse.getBlockchainHeight());
-                    node.setErrorConnectionTimes(0);
-                    if(nodeService.queryNode(node) == null){
-                        if(configurationService.isAutoSearchNode()){
-                            nodeService.addNode(node);
-                        }
-                    }else {
-                        nodeService.updateNode(node);
+                node.setBlockchainHeight(pingResponse.getBlockchainHeight());
+                node.setErrorConnectionTimes(0);
+                if(nodeService.queryNode(node) == null){
+                    if(configurationService.isAutoSearchNode()){
+                        nodeService.addNode(node);
                     }
-                    //处理节点传输过来它所知道的节点列表
-                    addAvailableNodeToDatabase(pingResponse.getNodeList());
+                }else {
+                    nodeService.updateNode(node);
                 }
+                //处理节点传输过来它所知道的节点列表
+                addAvailableNodeToDatabase(pingResponse.getNodeList());
             } else {
                 nodeService.nodeConnectionErrorHandle(node);
             }

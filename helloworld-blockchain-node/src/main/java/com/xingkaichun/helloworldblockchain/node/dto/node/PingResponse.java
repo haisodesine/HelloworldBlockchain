@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class PingResponse {
 
-    private String blockChainId;
     private Long blockChainVersion;
     private Long blockChainHeight ;
     private List<NodeDto> nodeList;
@@ -19,14 +18,6 @@ public class PingResponse {
 
 
     //region get set
-
-    public String getBlockchainId() {
-        return blockChainId;
-    }
-
-    public void setBlockchainId(String blockChainId) {
-        this.blockChainId = blockChainId;
-    }
 
     public Long getBlockchainVersion() {
         return blockChainVersion;

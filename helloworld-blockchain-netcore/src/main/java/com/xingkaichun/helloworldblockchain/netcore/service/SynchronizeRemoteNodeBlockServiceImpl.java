@@ -54,9 +54,6 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     @Override
     public void synchronizeRemoteNodeBlock(NodeDto node) {
-        if(!isBlockchainIdRight(node)){
-            nodeService.deleteNode(node);
-        }
         BlockchainDatabase blockChainDataBase = blockChainCore.getBlockchainDataBase();
         Synchronizer synchronizer = blockChainCore.getSynchronizer();
         SynchronizerDatabase synchronizerDataBase = synchronizer.getSynchronizerDataBase();
@@ -186,19 +183,6 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                 synchronizerDataBase.clear(nodeId);
             }
         }
-    }
-
-    /**
-     * 区块链ID是否正确
-     */
-    private boolean isBlockchainIdRight(NodeDto node) {
-        String currentBlockchainId = GlobalSetting.BLOCK_CHAIN_ID;
-        ServiceResult<PingResponse> pingResponseServiceResult = blockchainNodeClient.pingNode(node);
-        if(!ServiceResult.isSuccess(pingResponseServiceResult)){
-            return false;
-        }
-        String blockChainId = pingResponseServiceResult.getResult().getBlockchainId();
-        return StringUtil.isEquals(currentBlockchainId,blockChainId);
     }
 
     /**
