@@ -144,6 +144,7 @@ public class HttpServerHandlerResolver {
 
     /**
      * 接收其它节点提交的交易
+     * //TODO 名字 奇怪
      */
     public ServiceResult<ReceiveTransactionResponse> receiveTransaction(ReceiveTransactionRequest request){
         try {

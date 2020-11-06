@@ -2,15 +2,14 @@ package com.xingkaichun.helloworldblockchain.netcore.node.client;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xingkaichun.helloworldblockchain.netcore.dto.common.EmptyResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeServerApiRoute;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.request.*;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.*;
-import com.xingkaichun.helloworldblockchain.util.NetUtil;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
+import com.xingkaichun.helloworldblockchain.util.NetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +33,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
     }
 
     @Override
-    public ServiceResult<EmptyResponse> sumiteTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
+    public ServiceResult<ReceiveTransactionResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.RECEIVE_TRANSACTION);
             ReceiveTransactionRequest request = new ReceiveTransactionRequest();
@@ -78,7 +77,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         }
     }
 
-    public ServiceResult<EmptyResponse> unicastLocalBlockchainHeight(BaseNodeDto node, long localBlockchainHeight) {
+    public ServiceResult<AddOrUpdateNodeResponse> unicastLocalBlockchainHeight(BaseNodeDto node, long localBlockchainHeight) {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(), node.getPort(), NodeServerApiRoute.ADD_OR_UPDATE_NODE);
             AddOrUpdateNodeRequest request = new AddOrUpdateNodeRequest();
