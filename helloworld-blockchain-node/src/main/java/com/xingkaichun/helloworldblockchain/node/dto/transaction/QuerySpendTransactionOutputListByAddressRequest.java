@@ -1,6 +1,6 @@
 package com.xingkaichun.helloworldblockchain.node.dto.transaction;
 
-import com.xingkaichun.helloworldblockchain.netcore.dto.common.page.PageCondition;
+import com.xingkaichun.helloworldblockchain.netcore.dto.common.PageCondition;
 
 /**
  *

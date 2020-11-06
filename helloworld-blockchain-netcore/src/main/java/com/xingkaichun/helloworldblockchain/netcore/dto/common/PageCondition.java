@@ -1,4 +1,4 @@
-package com.xingkaichun.helloworldblockchain.netcore.dto.common.page;
+package com.xingkaichun.helloworldblockchain.netcore.dto.common;
 
 /**
  *

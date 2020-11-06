@@ -15,7 +15,7 @@ import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
-import com.xingkaichun.helloworldblockchain.netcore.dto.common.page.PageCondition;
+import com.xingkaichun.helloworldblockchain.netcore.dto.common.PageCondition;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
