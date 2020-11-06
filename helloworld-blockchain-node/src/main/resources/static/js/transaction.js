@@ -48,7 +48,7 @@ var url = "";
 function submitTrans() {
     $.ajax({
         type: "post",
-        url: url + "/Api/BlockChain/SubmitTransaction",
+        url: url + "/Api/Blockchain/SubmitTransaction",
         contentType: "application/json",
         data:`{
                 "normalTransactionDto":{

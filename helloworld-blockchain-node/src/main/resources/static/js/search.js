@@ -52,7 +52,7 @@ function searchUnit() {
     innerSearchUnit();
 }
 function innerSearchUnit() {
-	var url = "/Api/BlockChain",
+	var url = "/Api/Blockchain",
 		address = "",
 		data = "",
 		result = {};
@@ -177,7 +177,7 @@ function blockByHeight(result){
 	var transList;
 	var pageCondition;
 	if (result.block.transactionQuantity > 0) {
-		delay_load_index = result.block.startTransactionSequenceNumberInBlockChain;
+		delay_load_index = result.block.startTransactionIndexInBlockchain;
 		transList = showTransList();
 	} else{
 		transList = null;
@@ -191,8 +191,8 @@ function blockByHeight(result){
 			'<dd>hash: ' + result.block.hash + '</dd>' +
 			'<dd>bits: ' + result.block.bits + '</dd>' +
 			'<dd>transactionQuantity: ' + result.block.transactionQuantity + '</dd>' +
-			'<dd>startTransactionSequenceNumberInBlockChain: ' + result.block.startTransactionSequenceNumberInBlockChain + '</dd>' +
-			'<dd>endTransactionSequenceNumberInBlockChain: ' + result.block.endTransactionSequenceNumberInBlockChain + '</dd>' +
+			'<dd>startTransactionIndexInBlockchain: ' + result.block.startTransactionIndexInBlockchain + '</dd>' +
+			'<dd>endTransactionIndexInBlockchain: ' + result.block.endTransactionIndexInBlockchain + '</dd>' +
 			'<dd id="trans_list">transactions: ' + transList + '</dd></dl>';
 	return temp;
 }
@@ -207,8 +207,8 @@ function txosByAddress(result){
                     '<dd>value: ' + result.txos[i].value + '</dd>' +
                     '<dd>scriptLock: ' + JSON.stringify(result.txos[i].scriptLock)+ '</dd>' +
                     '<dd>blockHeight: ' + result.txos[i].blockHeight + '</dd>' +
-                    '<dd>transactionSequenceNumberInBlock: ' + result.txos[i].transactionSequenceNumberInBlock + '</dd>' +
-                    '<dd>transactionOutputSequence: ' + result.txos[i].transactionOutputSequence + '</dd></dl>';
+                    '<dd>transactionIndexInBlock: ' + result.txos[i].transactionIndexInBlock + '</dd>' +
+                    '<dd>transactionOutputIndex: ' + result.txos[i].transactionOutputIndex + '</dd></dl>';
         }
 	}
 	return temp;
@@ -223,8 +223,8 @@ function utxosByAddress(result){
                     '<dd>value: ' + result.utxos[i].value + '</dd>' +
                     '<dd>scriptLock: ' + JSON.stringify(result.utxos[i].scriptLock)+ '</dd>' +
                     '<dd>blockHeight: ' + result.utxos[i].blockHeight + '</dd>' +
-                    '<dd>transactionSequenceNumberInBlock: ' + result.utxos[i].transactionSequenceNumberInBlock + '</dd>' +
-                    '<dd>transactionOutputSequence: ' + result.utxos[i].transactionOutputSequence + '</dd></dl>';
+                    '<dd>transactionIndexInBlock: ' + result.utxos[i].transactionIndexInBlock + '</dd>' +
+                    '<dd>transactionOutputIndex: ' + result.utxos[i].transactionOutputIndex + '</dd></dl>';
         }
 	}
 	return temp;
@@ -293,7 +293,7 @@ function showTransList(){
 	console.log(delay_load_index);
 	$.ajax({
 	    type: "post",
-	    url: "/Api/BlockChain/QueryTransactionByTransactionHeight",
+	    url: "/Api/Blockchain/QueryTransactionByTransactionHeight",
 	    contentType: "application/json",
 	    data: `{
 			"pageCondition":{
@@ -329,8 +329,8 @@ function tempTransList(result){
 				'<dd>transactionType: ' + result.transactionList[j].transactionType + '</dd>' +
 				'<dd><b>inputs:</b> ' + inputs() + '</dd>' +
 				'<dd><b>outputs:</b> ' + outputs() + '</dd>' +
-				'<dd>transactionSequenceNumberInBlock: ' + result.transactionList[j].transactionSequenceNumberInBlock + '</dd>' +
-				'<dd>transactionSequenceNumberInBlockChain: ' + result.transactionList[j].transactionSequenceNumberInBlockChain + '</dd>' +
+				'<dd>transactionIndexInBlock: ' + result.transactionList[j].transactionIndexInBlock + '</dd>' +
+				'<dd>transactionIndexInBlockchain: ' + result.transactionList[j].transactionIndexInBlockchain + '</dd>' +
 				'<dd>blockHeight: ' + result.transactionList[j].blockHeight + '</dd></dl>';
 		function inputs(){
 			var char = "";
@@ -340,8 +340,8 @@ function tempTransList(result){
 							'<dd>stringAddress: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.address + '</dd>' +
 							'<dd>value: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.value + '</dd>' +
 							'<dd>blockHeight: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.blockHeight + '</dd>' +
-							'<dd>transactionSequenceNumberInBlock: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.transactionSequenceNumberInBlock + '</dd>' +
-							'<dd>transactionOutputSequence: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.transactionOutputSequence + '</dd>' +
+							'<dd>transactionIndexInBlock: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.transactionIndexInBlock + '</dd>' +
+							'<dd>transactionOutputIndex: ' + result.transactionList[j].inputs[i].unspendTransactionOutput.transactionOutputIndex + '</dd>' +
 							'<dd>scriptLock: ' + JSON.stringify(result.transactionList[j].inputs[i].unspendTransactionOutput.scriptLock)+ '</dd>' +
 							'<dd>scriptKey: ' + JSON.stringify(result.transactionList[j].inputs[i].scriptKey)+ '</dd></dl>';
 				}
@@ -359,8 +359,8 @@ function tempTransList(result){
 							'<dd>value: ' + result.transactionList[j].outputs[i].value + '</dd>' +
 							'<dd>scriptLock: ' + JSON.stringify(result.transactionList[j].outputs[i].scriptLock) + '</dd>' +
 							'<dd>blockHeight: ' + result.transactionList[j].outputs[i].blockHeight + '</dd>' +
-							'<dd>transactionSequenceNumberInBlock: ' + result.transactionList[j].outputs[i].transactionSequenceNumberInBlock + '</dd>' +
-							'<dd>transactionOutputSequence: ' + result.transactionList[j].outputs[i].transactionOutputSequence + '</dd></dl>';
+							'<dd>transactionIndexInBlock: ' + result.transactionList[j].outputs[i].transactionIndexInBlock + '</dd>' +
+							'<dd>transactionOutputIndex: ' + result.transactionList[j].outputs[i].transactionOutputIndex + '</dd></dl>';
 				}
 			} else{
 				char = null;

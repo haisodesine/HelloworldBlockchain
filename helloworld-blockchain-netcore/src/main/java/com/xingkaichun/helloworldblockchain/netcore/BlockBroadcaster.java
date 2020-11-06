@@ -1,14 +1,12 @@
 package com.xingkaichun.helloworldblockchain.netcore;
 
-import com.xingkaichun.helloworldblockchain.core.utils.LongUtil;
-import com.xingkaichun.helloworldblockchain.core.utils.ThreadUtil;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.configuration.ConfigurationEnum;
+import com.xingkaichun.helloworldblockchain.core.BlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockChainCoreService;
-import com.xingkaichun.helloworldblockchain.netcore.service.BlockchainNodeClientService;
-import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
+import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.LongUtil;
+import com.xingkaichun.helloworldblockchain.util.ThreadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,18 +28,15 @@ public class BlockBroadcaster {
 
     private static final Logger logger = LoggerFactory.getLogger(BlockBroadcaster.class);
 
-    private ConfigurationService configurationService;
     private NodeService nodeService;
-    private BlockChainCoreService blockChainCoreService;
-    private BlockchainNodeClientService blockchainNodeClientService;
+    private BlockchainCore blockChainCore;
+    private BlockchainNodeClient blockchainNodeClient;
 
-    public BlockBroadcaster(ConfigurationService configurationService, NodeService nodeService
-            , BlockChainCoreService blockChainCoreService, BlockchainNodeClientService blockchainNodeClientService) {
+    public BlockBroadcaster(NodeService nodeService, BlockchainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
 
-        this.configurationService = configurationService;
         this.nodeService = nodeService;
-        this.blockChainCoreService = blockChainCoreService;
-        this.blockchainNodeClientService = blockchainNodeClientService;
+        this.blockChainCore = blockChainCore;
+        this.blockchainNodeClient = blockchainNodeClient;
     }
 
     public void start() {
@@ -52,8 +47,7 @@ public class BlockBroadcaster {
                 } catch (Exception e) {
                     logger.error("在区块链网络中广播自己的区块高度出现异常",e);
                 }
-                ConfigurationDto configurationDto = configurationService.getConfigurationByConfigurationKey(ConfigurationEnum.CHECK_LOCAL_BLOCKCHAIN_HEIGHT_IS_HIGH_TIME_INTERVAL.name());
-                ThreadUtil.sleep(Long.parseLong(configurationDto.getConfValue()));
+                ThreadUtil.sleep(GlobalSetting.NodeConstant.CHECK_LOCAL_BLOCKCHAIN_HEIGHT_IS_HIGH_TIME_INTERVAL);
             }
         }).start();
     }
@@ -68,11 +62,11 @@ public class BlockBroadcaster {
             return;
         }
 
-        long blockChainHeight = blockChainCoreService.queryBlockChainHeight();
+        long blockChainHeight = blockChainCore.queryBlockchainHeight();
         //自己的高度在全网是最高的吗？是的话，传播自己的高度给其它节点，好让其它节点知道可以来同步自己的区块。
         boolean isHighest = true;
         for(NodeDto node:nodes){
-            if(LongUtil.isLessThan(blockChainHeight,node.getBlockChainHeight())){
+            if(LongUtil.isLessThan(blockChainHeight,node.getBlockchainHeight())){
                 isHighest = false;
                 break;
             }
@@ -81,9 +75,9 @@ public class BlockBroadcaster {
         if(isHighest){
             //按照节点的高度进行排序，优先将自己的高度传播给高度大的节点。
             Collections.sort(nodes,(NodeDto node1, NodeDto node2)->{
-                if(LongUtil.isGreatThan(node1.getBlockChainHeight(),node2.getBlockChainHeight())){
+                if(LongUtil.isGreatThan(node1.getBlockchainHeight(),node2.getBlockchainHeight())){
                     return -1;
-                } else if(LongUtil.isEquals(node1.getBlockChainHeight(),node2.getBlockChainHeight())){
+                } else if(LongUtil.isEquals(node1.getBlockchainHeight(),node2.getBlockchainHeight())){
                     return 0;
                 } else {
                     return 1;
@@ -98,10 +92,10 @@ public class BlockBroadcaster {
             //广播节点数量
             int broadcastNodeCount = 0;
             for(NodeDto node:nodes){
-                if(LongUtil.isLessEqualThan(blockChainHeight,node.getBlockChainHeight())){
+                if(LongUtil.isLessEqualThan(blockChainHeight,node.getBlockchainHeight())){
                     continue;
                 }
-                blockchainNodeClientService.unicastLocalBlockChainHeight(node,blockChainHeight);
+                blockchainNodeClient.unicastLocalBlockchainHeight(node,blockChainHeight);
                 ++broadcastNodeCount;
                 if(broadcastNodeCount > 20){
                     return;

@@ -4,7 +4,7 @@ package com.xingkaichun.helloworldblockchain.netcore.dto.netserver;
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class NodeDto extends SimpleNodeDto {
+public class NodeDto extends BaseNodeDto {
 
     private Long blockChainHeight;
     private Boolean isNodeAvailable;
@@ -17,11 +17,11 @@ public class NodeDto extends SimpleNodeDto {
     //region get set
 
 
-    public Long getBlockChainHeight() {
+    public Long getBlockchainHeight() {
         return blockChainHeight;
     }
 
-    public void setBlockChainHeight(Long blockChainHeight) {
+    public void setBlockchainHeight(Long blockChainHeight) {
         this.blockChainHeight = blockChainHeight;
     }
 

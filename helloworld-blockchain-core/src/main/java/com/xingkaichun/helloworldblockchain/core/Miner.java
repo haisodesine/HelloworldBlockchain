@@ -1,8 +1,5 @@
 package com.xingkaichun.helloworldblockchain.core;
 
-import com.xingkaichun.helloworldblockchain.core.model.Block;
-import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
-
 /**
  * 矿工:挖矿、分配挖矿奖励、将挖取的区块放入区块链
  *
@@ -10,15 +7,15 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
  */
 public abstract class Miner {
 
-    //矿工账户地址
-    protected String minerAddress;
+    //矿工钱包
+    protected Wallet wallet;
     //矿工挖矿所在的区块链
-    protected BlockChainDataBase blockChainDataBase;
+    protected BlockchainDatabase blockChainDataBase;
     //矿工交易数据库：矿工从交易数据库里获取挖矿的原材料(交易数据)
-    protected MinerTransactionDtoDataBase minerTransactionDtoDataBase;
+    protected MinerTransactionDtoDatabase minerTransactionDtoDataBase;
 
-    public Miner(String minerAddress, BlockChainDataBase blockChainDataBase, MinerTransactionDtoDataBase minerTransactionDtoDataBase) {
-        this.minerAddress = minerAddress;
+    public Miner(Wallet wallet, BlockchainDatabase blockChainDataBase, MinerTransactionDtoDatabase minerTransactionDtoDataBase) {
+        this.wallet = wallet;
         this.blockChainDataBase = blockChainDataBase;
         this.minerTransactionDtoDataBase = minerTransactionDtoDataBase;
     }
@@ -50,33 +47,22 @@ public abstract class Miner {
     //endregion
 
 
-    //region 挖矿奖励
-    /**
-     * 构建区块的挖矿奖励交易，这里可以实现挖矿奖励的分配。
-     */
-    public abstract Transaction buildMineAwardTransaction(long timestamp, BlockChainDataBase blockChainDataBase, Block block) ;
-    //endregion
-
-    /**
-     * 重置矿工地址
-     */
-    public void resetMinerAddress(String minerAddress) {
-        this.minerAddress = minerAddress;
-    }
-
-
-
-
     //region get set
-    public String getMinerAddress() {
-        return minerAddress;
+
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
-    public BlockChainDataBase getBlockChainDataBase() {
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public BlockchainDatabase getBlockchainDataBase() {
         return blockChainDataBase;
     }
 
-    public MinerTransactionDtoDataBase getMinerTransactionDtoDataBase() {
+    public MinerTransactionDtoDatabase getMinerTransactionDtoDataBase() {
         return minerTransactionDtoDataBase;
     }
     //endregion

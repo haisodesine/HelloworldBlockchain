@@ -1,9 +1,10 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
-import com.xingkaichun.helloworldblockchain.core.BlockChainDataBase;
+import com.xingkaichun.helloworldblockchain.core.BlockchainDatabase;
 import com.xingkaichun.helloworldblockchain.core.Consensus;
 import com.xingkaichun.helloworldblockchain.core.model.Block;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,9 @@ public class ProofOfWorkConsensusImpl extends Consensus {
     private static final Logger logger = LoggerFactory.getLogger(ProofOfWorkConsensusImpl.class);
 
     @Override
-    public boolean isReachConsensus(BlockChainDataBase blockChainDataBase,Block block) {
+    public boolean isReachConsensus(BlockchainDatabase blockChainDataBase, Block block) {
         String bits = block.getBits();
-        if(bits == null || bits.isEmpty()){
+        if(StringUtil.isNullOrEmpty(bits)){
             bits = calculateDifficult(blockChainDataBase,block);
             block.setBits(bits);
         }
@@ -37,7 +38,7 @@ public class ProofOfWorkConsensusImpl extends Consensus {
     }
 
 
-    public String calculateDifficult(BlockChainDataBase blockChainDataBase, Block block) {
+    public String calculateDifficult(BlockchainDatabase blockChainDataBase, Block block) {
 
         long targetTimespan = 1000 * 60 * 60 * 24 * 14;
         long targetSpacing = 1000 * 60 * 10;
