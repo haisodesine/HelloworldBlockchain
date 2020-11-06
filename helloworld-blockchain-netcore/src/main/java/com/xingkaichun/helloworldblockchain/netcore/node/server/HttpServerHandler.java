@@ -49,9 +49,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 		}else if(NodeServerApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT.equals(uri)){
 			QueryBlockDtoByBlockHeightRequest request = new Gson().fromJson(body, QueryBlockDtoByBlockHeightRequest.class);
 			sendMsg = toString(httpServerHandlerResolver.queryBlockDtoByBlockHeight(request));
-		}else if(NodeServerApiRoute.RECEIVE_TRANSACTION.equals(uri)){
-			ReceiveTransactionRequest request = new Gson().fromJson(body, ReceiveTransactionRequest.class);
-			sendMsg = toString(httpServerHandlerResolver.receiveTransaction(request));
+		}else if(NodeServerApiRoute.SUBMIT_TRANSACTION_TO_NODE.equals(uri)){
+			SubmitTransactionToNodeRequest request = new Gson().fromJson(body, SubmitTransactionToNodeRequest.class);
+			sendMsg = toString(httpServerHandlerResolver.submitTransactionToNodeRequest(request));
 		}else {
 			sendMsg = "404 NOT FOUND";
 		}

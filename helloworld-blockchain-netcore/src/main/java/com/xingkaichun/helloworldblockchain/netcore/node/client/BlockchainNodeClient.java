@@ -14,9 +14,9 @@ import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO
 public interface BlockchainNodeClient {
 
     /**
-     * 提交交易至其它节点
+     * 提交交易至节点
      */
-    ServiceResult<ReceiveTransactionResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) ;
+    ServiceResult<SubmitTransactionToNodeResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) ;
 
     /**
      * Ping指定节点

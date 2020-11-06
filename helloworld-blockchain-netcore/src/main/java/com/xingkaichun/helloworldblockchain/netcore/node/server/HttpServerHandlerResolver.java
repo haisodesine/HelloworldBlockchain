@@ -144,13 +144,12 @@ public class HttpServerHandlerResolver {
 
     /**
      * 接收其它节点提交的交易
-     * //TODO 名字 奇怪
      */
-    public ServiceResult<ReceiveTransactionResponse> receiveTransaction(ReceiveTransactionRequest request){
+    public ServiceResult<SubmitTransactionToNodeResponse> submitTransactionToNodeRequest(SubmitTransactionToNodeRequest request){
         try {
             blockChainCore.submitTransaction(request.getTransactionDTO());
 
-            ReceiveTransactionResponse response = new ReceiveTransactionResponse();
+            SubmitTransactionToNodeResponse response = new SubmitTransactionToNodeResponse();
             return ServiceResult.createSuccessServiceResult("commit transaction success",response);
         } catch (Exception e){
             String message = "commit transaction failed";

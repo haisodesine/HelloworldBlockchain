@@ -5,7 +5,7 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionReque
 import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.ReceiveTransactionResponse;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.SubmitTransactionToNodeResponse;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
@@ -115,7 +115,7 @@ public class NetBlockchainCore {
         List<SubmitTransactionResponse.Node> failSubmitNode = new ArrayList<>();
         if(nodes != null){
             for(NodeDto node:nodes){
-                ServiceResult<ReceiveTransactionResponse> submitSuccess = blockchainNodeClient.submitTransaction(node,transactionDTO);
+                ServiceResult<SubmitTransactionToNodeResponse> submitSuccess = blockchainNodeClient.submitTransaction(node,transactionDTO);
                 if(ServiceResult.isSuccess(submitSuccess)){
                     successSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
                 } else {

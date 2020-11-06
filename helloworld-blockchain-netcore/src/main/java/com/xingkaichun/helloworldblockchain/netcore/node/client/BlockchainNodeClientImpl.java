@@ -33,14 +33,14 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
     }
 
     @Override
-    public ServiceResult<ReceiveTransactionResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
+    public ServiceResult<SubmitTransactionToNodeResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.RECEIVE_TRANSACTION);
-            ReceiveTransactionRequest request = new ReceiveTransactionRequest();
+            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.SUBMIT_TRANSACTION_TO_NODE);
+            SubmitTransactionToNodeRequest request = new SubmitTransactionToNodeRequest();
             request.setTransactionDTO(transactionDTO);
             String html = NetUtil.jsonGetRequest(url,request);
-            Type jsonType = new TypeToken<ServiceResult<ReceiveTransactionResponse>>() {}.getType();
-            ServiceResult<ReceiveTransactionResponse> pingResponseServiceResult = gson.fromJson(html,jsonType);
+            Type jsonType = new TypeToken<ServiceResult<SubmitTransactionToNodeResponse>>() {}.getType();
+            ServiceResult<SubmitTransactionToNodeResponse> pingResponseServiceResult = gson.fromJson(html,jsonType);
             if(ServiceResult.isSuccess(pingResponseServiceResult)){
                 return ServiceResult.createSuccessServiceResult("");
             } else {
