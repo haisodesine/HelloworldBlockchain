@@ -63,7 +63,7 @@ public class BlockSearcher {
             while (true){
                 try {
                     if(blockChainCore.getSynchronizer().isActive()){
-                        downloadBlocks();
+                        synchronizeBlocks();
                     }
                 } catch (Exception e) {
                     logger.error("在区块链网络中同步其它节点的区块出现异常",e);
@@ -76,7 +76,7 @@ public class BlockSearcher {
     /**
      * 搜索新的区块，并同步这些区块到本地区块链系统
      */
-    private void downloadBlocks() {
+    private void synchronizeBlocks() {
         List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
         if(nodes == null || nodes.size()==0){
             return;
