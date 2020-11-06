@@ -43,7 +43,7 @@ public class HttpServerHandlerResolver {
     public ServiceResult<PingResponse> ping(ChannelHandlerContext ctx, PingRequest request){
         try {
             List<NodeDto> nodeList = nodeService.queryAllNoForkNodeList();
-            long blockChainHeight = blockChainCore.queryBlockchainHeight();
+            long blockchainHeight = blockChainCore.queryBlockchainHeight();
 
             //将ping的来路作为区块链节点
             NodeDto node = new NodeDto();
@@ -61,7 +61,7 @@ public class HttpServerHandlerResolver {
 
             PingResponse response = new PingResponse();
             response.setNodeList(nodeList);
-            response.setBlockchainHeight(blockChainHeight);
+            response.setBlockchainHeight(blockchainHeight);
             response.setBlockchainVersion(GlobalSetting.SystemVersionConstant.obtainVersion());
             return ServiceResult.createSuccessServiceResult("ping node info success",response);
         } catch (Exception e){

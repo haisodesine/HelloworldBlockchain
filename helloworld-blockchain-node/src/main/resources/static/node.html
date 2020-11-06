@@ -28,13 +28,13 @@
 
 <script type="text/template" id="node_list_template">
 	<h2>当前节点版本：{{result.blockChainVersion}}</h2>
-	<h2>当前节点区块高度：{{result.blockChainHeight}}</h2>
+	<h2>当前节点区块高度：{{result.blockchainHeight}}</h2>
 	<ul class="node_list">
 		{{each result.nodeList as item}}
 		<li>
 			<span>地址：{{item.ip}}</span>
 			<span>端口：{{item.port}}</span>
-			<span>区块高度：{{item.blockChainHeight}}</span>
+			<span>区块高度：{{item.blockchainHeight}}</span>
 			<span>连接失败：{{item.errorConnectionTimes}}</span>
 			<span>节点状态：{{item.isNodeAvailable}}</span>
 		</li>

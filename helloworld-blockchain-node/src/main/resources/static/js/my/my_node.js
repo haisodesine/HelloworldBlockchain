@@ -103,7 +103,7 @@ function addNodepara() {
 			"node":{
 			            "ip": "${inputVal.id}",
 			            "port": ${inputVal.port},
-			            "blockChainHeight": ${inputVal.blockHeight},
+			            "blockchainHeight": ${inputVal.blockHeight},
 			            "isNodeAvailable": ${inputVal.available},
 			            "errorConnectionTimes": ${inputVal.errorConnection},
 			            "fork": ${inputVal.fork}
@@ -177,7 +177,7 @@ function modifyNodePara() {
 			"node":{
 			            "ip": "${inputVal.id}",
 			            "port": ${inputVal.port},
-			            "blockChainHeight": ${inputVal.blockHeight},
+			            "blockchainHeight": ${inputVal.blockHeight},
 			            "isNodeAvailable": ${inputVal.available},
 			            "errorConnectionTimes": ${inputVal.errorConnection},
 			            "fork": ${inputVal.fork}

@@ -62,7 +62,7 @@ public class BlockBroadcaster {
             return;
         }
 
-        long blockChainHeight = blockChainCore.queryBlockchainHeight();
+        long blockchainHeight = blockChainCore.queryBlockchainHeight();
         //按照节点的高度进行排序
         Collections.sort(nodes,(NodeDto node1, NodeDto node2)->{
             if(LongUtil.isGreatThan(node1.getBlockchainHeight(),node2.getBlockchainHeight())){
@@ -84,10 +84,10 @@ public class BlockBroadcaster {
         //广播节点的数量
         int broadcastNodeCount = 0;
         for(NodeDto node:nodes){
-            if(LongUtil.isLessEqualThan(blockChainHeight,node.getBlockchainHeight())){
+            if(LongUtil.isLessEqualThan(blockchainHeight,node.getBlockchainHeight())){
                 continue;
             }
-            blockchainNodeClient.unicastLocalBlockchainHeight(node,blockChainHeight);
+            blockchainNodeClient.unicastLocalBlockchainHeight(node,blockchainHeight);
             ++broadcastNodeCount;
             if(broadcastNodeCount > 10){
                 return;

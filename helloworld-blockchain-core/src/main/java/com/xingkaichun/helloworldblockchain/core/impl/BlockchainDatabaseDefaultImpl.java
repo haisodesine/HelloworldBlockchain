@@ -290,11 +290,11 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
     //region 区块查询
     @Override
     public Block queryTailBlock() {
-        long blockChainHeight = queryBlockchainHeight();
-        if(LongUtil.isLessEqualThan(blockChainHeight,LongUtil.ZERO)){
+        long blockchainHeight = queryBlockchainHeight();
+        if(LongUtil.isLessEqualThan(blockchainHeight,LongUtil.ZERO)){
             return null;
         }
-        return queryBlockByBlockHeight(blockChainHeight);
+        return queryBlockByBlockHeight(blockchainHeight);
     }
     @Override
     public Block queryBlockByBlockHeight(long blockHeight) {
@@ -656,11 +656,11 @@ public class BlockchainDatabaseDefaultImpl extends BlockchainDatabase {
      * 存储区块链的高度
      */
     private void storeBlockchainHeight(WriteBatch writeBatch, Block block, BlockchainActionEnum blockChainActionEnum) {
-        byte[] blockChainHeightKey = BlockchainDatabaseKeyTool.buildBlockchainHeightKey();
+        byte[] blockchainHeightKey = BlockchainDatabaseKeyTool.buildBlockchainHeightKey();
         if(BlockchainActionEnum.ADD_BLOCK == blockChainActionEnum){
-            writeBatch.put(blockChainHeightKey,LevelDBUtil.longToBytes(block.getHeight()));
+            writeBatch.put(blockchainHeightKey,LevelDBUtil.longToBytes(block.getHeight()));
         }else{
-            writeBatch.put(blockChainHeightKey,LevelDBUtil.longToBytes(block.getHeight()-1));
+            writeBatch.put(blockchainHeightKey,LevelDBUtil.longToBytes(block.getHeight()-1));
         }
     }
     /**

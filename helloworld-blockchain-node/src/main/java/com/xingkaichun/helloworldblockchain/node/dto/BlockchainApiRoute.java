@@ -7,6 +7,7 @@ package com.xingkaichun.helloworldblockchain.node.dto;
 public class BlockchainApiRoute {
 
     public static final String PING = "/Api/Blockchain/Ping";
+    public static final String QUERY_BLOCKCHAIN_HEIGHT = "/Api/Blockchain/QueryBlockchainHeight";
     public static final String GENERATE_ACCOUNT = "/Api/Blockchain/GenerateAccount";
 
     public static final String SUBMIT_TRANSACTION = "/Api/Blockchain/SubmitTransactionDto";

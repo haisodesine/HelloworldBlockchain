@@ -6,26 +6,28 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutputId;
 import com.xingkaichun.helloworldblockchain.core.tools.BlockTool;
 import com.xingkaichun.helloworldblockchain.core.tools.StructureSizeTool;
-import com.xingkaichun.helloworldblockchain.node.dto.node.PingRequest;
-import com.xingkaichun.helloworldblockchain.node.dto.node.PingResponse;
-import com.xingkaichun.helloworldblockchain.node.dto.account.GenerateAccountRequest;
-import com.xingkaichun.helloworldblockchain.node.dto.account.GenerateAccountResponse;
-import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
 import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
-import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.PageCondition;
+import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
 import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import com.xingkaichun.helloworldblockchain.node.dto.BlockchainApiRoute;
+import com.xingkaichun.helloworldblockchain.node.dto.account.GenerateAccountRequest;
+import com.xingkaichun.helloworldblockchain.node.dto.account.GenerateAccountResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.block.*;
+import com.xingkaichun.helloworldblockchain.node.dto.node.PingRequest;
+import com.xingkaichun.helloworldblockchain.node.dto.node.PingResponse;
+import com.xingkaichun.helloworldblockchain.node.dto.node.QueryBlockchainHeightRequest;
+import com.xingkaichun.helloworldblockchain.node.dto.node.QueryBlockchainHeightResponse;
 import com.xingkaichun.helloworldblockchain.node.dto.transaction.*;
 import com.xingkaichun.helloworldblockchain.node.service.BlockchainBrowserService;
-import com.xingkaichun.helloworldblockchain.util.DateUtil;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
+import com.xingkaichun.helloworldblockchain.util.DateUtil;
+import com.xingkaichun.helloworldblockchain.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -280,10 +282,10 @@ public class BlockchainBrowserController {
     public ServiceResult<PingResponse> ping(@RequestBody PingRequest request){
         try {
             List<NodeDto> nodeList = netBlockchainCore.getNodeService().queryAllNoForkNodeList();
-            long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
+            long blockchainHeight = getBlockchainCore().queryBlockchainHeight();
             PingResponse response = new PingResponse();
             response.setNodeList(nodeList);
-            response.setBlockchainHeight(blockChainHeight);
+            response.setBlockchainHeight(blockchainHeight);
             response.setBlockchainVersion(GlobalSetting.SystemVersionConstant.obtainVersion());
             return ServiceResult.createSuccessServiceResult("查询节点信息成功",response);
         } catch (Exception e){
@@ -292,7 +294,23 @@ public class BlockchainBrowserController {
             return ServiceResult.createSuccessServiceResult(message,null);
         }
     }
-
+    /**
+     * 查询区块链高度
+     */
+    @ResponseBody
+    @RequestMapping(value = BlockchainApiRoute.QUERY_BLOCKCHAIN_HEIGHT,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<QueryBlockchainHeightResponse> queryBlockchainHeight(@RequestBody QueryBlockchainHeightRequest request){
+        try {
+            long blockchainHeight = getBlockchainCore().queryBlockchainHeight();
+            QueryBlockchainHeightResponse response = new QueryBlockchainHeightResponse();
+            response.setBlockchainHeight(blockchainHeight);
+            return ServiceResult.createSuccessServiceResult("查询区块链高度成功",response);
+        } catch (Exception e){
+            String message = "查询区块链高度失败";
+            logger.error(message,e);
+            return ServiceResult.createSuccessServiceResult(message,null);
+        }
+    }
     /**
      * 查询挖矿中的交易
      */
@@ -380,12 +398,12 @@ public class BlockchainBrowserController {
     public ServiceResult<QueryLast10BlockDtoResponse> queryLast10BlockDto(@RequestBody QueryLast10BlockDtoRequest request){
         try {
             List<Block> blockList = new ArrayList<>();
-            long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
-            long minBlockHeight = blockChainHeight-9>0?blockChainHeight-9:1;
-            while (blockChainHeight >= minBlockHeight){
-                Block block = getBlockchainCore().queryBlockByBlockHeight(blockChainHeight);
+            long blockchainHeight = getBlockchainCore().queryBlockchainHeight();
+            long minBlockHeight = blockchainHeight-9>0?blockchainHeight-9:1;
+            while (blockchainHeight >= minBlockHeight){
+                Block block = getBlockchainCore().queryBlockByBlockHeight(blockchainHeight);
                 blockList.add(block);
-                blockChainHeight--;
+                blockchainHeight--;
             }
 
             QueryLast10BlockDtoResponse response = new QueryLast10BlockDtoResponse();

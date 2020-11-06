@@ -27,7 +27,7 @@ public class NodeDaoImpl implements NodeDao {
         String createTable1Sql1 = "CREATE TABLE IF NOT EXISTS [Node](" +
                 "  [ip] VARCHAR(20) NOT NULL, " +
                 "  [port] INTEGER NOT NULL, " +
-                "  [blockChainHeight] INTEGER NOT NULL, " +
+                "  [blockchainHeight] INTEGER NOT NULL, " +
                 "  [isNodeAvailable] INTEGER NOT NULL, " +
                 "  [errorConnectionTimes] INTEGER NOT NULL, " +
                 "  [fork] INTEGER NOT NULL, " +
@@ -106,7 +106,7 @@ public class NodeDaoImpl implements NodeDao {
         checkIp(node.getIp());
         checkPort(node.getPort());
 
-        String sql1 = "        INSERT INTO Node (ip, port, blockChainHeight, isNodeAvailable, errorConnectionTimes, fork)" +
+        String sql1 = "        INSERT INTO Node (ip, port, blockchainHeight, isNodeAvailable, errorConnectionTimes, fork)" +
                 "        VALUES (?,?,?,?,?,?)";
         PreparedStatement preparedStatement1 = null;
         try {
@@ -144,7 +144,7 @@ public class NodeDaoImpl implements NodeDao {
             node.setFork(nodeEntity.getFork());
         }
 
-        String sql1 = "UPDATE Node SET blockChainHeight = ? ,isNodeAvailable = ? ," +
+        String sql1 = "UPDATE Node SET blockchainHeight = ? ,isNodeAvailable = ? ," +
                 "                errorConnectionTimes = ?, fork = ? where ip = ? and port = ?";
         PreparedStatement preparedStatement1 = null;
         try {
@@ -231,7 +231,7 @@ public class NodeDaoImpl implements NodeDao {
         try {
             String ip = resultSet.getString("ip");
             Integer port = resultSet.getInt("port");
-            long blockChainHeight = resultSet.getLong("blockChainHeight");
+            long blockchainHeight = resultSet.getLong("blockchainHeight");
             long isNodeAvailable = resultSet.getLong("isNodeAvailable");
             long errorConnectionTimes = resultSet.getLong("errorConnectionTimes");
             long fork = resultSet.getLong("fork");
@@ -239,7 +239,7 @@ public class NodeDaoImpl implements NodeDao {
             NodeEntity entity = new NodeEntity();
             entity.setIp(ip);
             entity.setPort(port);
-            entity.setBlockchainHeight(blockChainHeight);
+            entity.setBlockchainHeight(blockchainHeight);
             entity.setIsNodeAvailable(SqliteUtil.longToBoolean(isNodeAvailable));
             entity.setErrorConnectionTimes((int) errorConnectionTimes);
             entity.setFork(SqliteUtil.longToBoolean(fork));

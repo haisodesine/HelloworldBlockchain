@@ -1,26 +1,17 @@
-package com.xingkaichun.helloworldblockchain.netcore.dto.netserver.request;
+package com.xingkaichun.helloworldblockchain.node.dto.node;
 
 /**
  *
  * @author 邢开春 微信HelloworldBlockchain 邮箱xingkaichun@qq.com
  */
-public class AddOrUpdateNodeRequest {
+public class QueryBlockchainHeightResponse {
 
-    private int port;
-    private Long blockchainHeight;
+    private Long blockchainHeight ;
 
 
 
 
     //region get set
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
 
     public Long getBlockchainHeight() {
         return blockchainHeight;
@@ -30,5 +21,5 @@ public class AddOrUpdateNodeRequest {
         this.blockchainHeight = blockchainHeight;
     }
 
-//endregion
+    //endregion
 }

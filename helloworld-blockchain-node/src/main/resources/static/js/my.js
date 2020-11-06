@@ -21,13 +21,13 @@ var search_new_block = document.getElementById('search_new_block');//主动寻�
 function queryBlockHeight() {   
     $.ajax({
         type: "post",
-        url: url + "/Api/Blockchain/Ping",
+        url: url + "/Api/Blockchain/QueryBlockchainHeight",
         contentType: "application/json",
         data: `{}`,
         dataType: "json",
         async: false,
         success: function (data) {
-            block_heght.textContent = data.result.blockChainHeight;			
+            block_heght.textContent = data.result.blockchainHeight;
         },
         error: function (e) {
         }

@@ -137,13 +137,13 @@ public class BlockchainBrowserServiceImpl implements BlockchainBrowserService {
         if(transaction == null){
             return null;
         }
-        long blockChainHeight = getBlockchainCore().queryBlockchainHeight();
+        long blockchainHeight = getBlockchainCore().queryBlockchainHeight();
         Block block = getBlockchainCore().queryBlockByBlockHeight(transaction.getBlockHeight());
         com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView transactionView = new com.xingkaichun.helloworldblockchain.node.dto.transaction.TransactionView();
 
         transactionView.setTransactionHash(transaction.getTransactionHash());
         transactionView.setBlockHeight(transaction.getBlockHeight());
-        transactionView.setConfirmCount(blockChainHeight-block.getHeight());
+        transactionView.setConfirmCount(blockchainHeight-block.getHeight());
         transactionView.setBlockTime(DateUtil.timestamp2ChinaTime(block.getTimestamp()));
 
         transactionView.setTransactionFee(TransactionTool.calculateTransactionFee(transaction));

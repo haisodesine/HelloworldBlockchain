@@ -7,7 +7,7 @@ package com.xingkaichun.helloworldblockchain.netcore.entity;
 public class NodeEntity{
     private String ip;
     private Integer port;
-    private Long blockChainHeight;
+    private Long blockchainHeight;
     private Boolean isNodeAvailable;
     private Integer errorConnectionTimes;
     private Boolean fork;
@@ -33,11 +33,11 @@ public class NodeEntity{
     }
 
     public Long getBlockchainHeight() {
-        return blockChainHeight;
+        return blockchainHeight;
     }
 
-    public void setBlockchainHeight(Long blockChainHeight) {
-        this.blockChainHeight = blockChainHeight;
+    public void setBlockchainHeight(Long blockchainHeight) {
+        this.blockchainHeight = blockchainHeight;
     }
 
     public Boolean getIsNodeAvailable() {

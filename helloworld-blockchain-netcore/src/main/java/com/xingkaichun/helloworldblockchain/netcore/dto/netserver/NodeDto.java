@@ -6,7 +6,7 @@ package com.xingkaichun.helloworldblockchain.netcore.dto.netserver;
  */
 public class NodeDto extends BaseNodeDto {
 
-    private Long blockChainHeight;
+    private Long blockchainHeight;
     private Boolean isNodeAvailable;
     private Integer errorConnectionTimes;
     private Boolean fork;
@@ -18,11 +18,11 @@ public class NodeDto extends BaseNodeDto {
 
 
     public Long getBlockchainHeight() {
-        return blockChainHeight;
+        return blockchainHeight;
     }
 
-    public void setBlockchainHeight(Long blockChainHeight) {
-        this.blockChainHeight = blockChainHeight;
+    public void setBlockchainHeight(Long blockchainHeight) {
+        this.blockchainHeight = blockchainHeight;
     }
 
     public Boolean getIsNodeAvailable() {
