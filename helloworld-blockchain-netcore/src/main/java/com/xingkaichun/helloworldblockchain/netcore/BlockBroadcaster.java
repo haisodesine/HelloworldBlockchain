@@ -43,7 +43,7 @@ public class BlockBroadcaster {
         new Thread(()->{
             while (true){
                 try {
-                    broadcastBlcokChainHeight();
+                    broadcastBlockChainHeight();
                 } catch (Exception e) {
                     logger.error("在区块链网络中广播自己的区块高度出现异常",e);
                 }
@@ -56,7 +56,7 @@ public class BlockBroadcaster {
     /*
      * 发现自己的区块链高度比全网节点都要高，则广播自己的区块链高度
      */
-    private void broadcastBlcokChainHeight() {
+    private void broadcastBlockChainHeight() {
         List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
         if(nodes == null || nodes.size()==0){
             return;
