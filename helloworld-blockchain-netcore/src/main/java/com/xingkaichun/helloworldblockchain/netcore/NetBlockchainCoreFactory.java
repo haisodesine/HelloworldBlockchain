@@ -25,16 +25,15 @@ public class NetBlockchainCoreFactory {
      * 创建NetBlockchainCore实例
      */
     public static NetBlockchainCore createNetBlockchainCore(){
-        return createNetBlockchainCore(ResourcePathTool.getDataRootPath(),8444);
+        return createNetBlockchainCore(ResourcePathTool.getDataRootPath());
     }
 
     /**
      * 创建NetBlockchainCore实例
      *
      * @param dataRootPath 区块链数据存放位置
-     * @param serverPort 区块链节点网络端口
      */
-    public static NetBlockchainCore createNetBlockchainCore(String dataRootPath, int serverPort){
+    public static NetBlockchainCore createNetBlockchainCore(String dataRootPath){
         if(dataRootPath == null){
             throw new NullPointerException("参数路径不能为空。");
         }
@@ -47,12 +46,12 @@ public class NetBlockchainCoreFactory {
 
         NodeDao nodeDao = new NodeDaoImpl(dataRootPath);
         NodeService nodeService = new NodeServiceImpl(nodeDao);
-        BlockchainNodeClient blockchainNodeClient = new BlockchainNodeClientImpl(serverPort);
+        BlockchainNodeClient blockchainNodeClient = new BlockchainNodeClientImpl();
 
         SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService = new SynchronizeRemoteNodeBlockServiceImpl(blockchainCore,nodeService, blockchainNodeClient,configurationService);
 
         HttpServerHandlerResolver httpServerHandlerResolver = new HttpServerHandlerResolver(blockchainCore,nodeService,configurationService);
-        BlockchainNodeHttpServer blockchainNodeHttpServer = new BlockchainNodeHttpServer(serverPort, httpServerHandlerResolver);
+        BlockchainNodeHttpServer blockchainNodeHttpServer = new BlockchainNodeHttpServer(httpServerHandlerResolver);
         NodeSearcher nodeSearcher = new NodeSearcher(configurationService,nodeService, blockchainNodeClient);
         NodeBroadcaster nodeBroadcaster = new NodeBroadcaster(nodeService, blockchainNodeClient);
         BlockSearcher blockSearcher = new BlockSearcher(nodeService,synchronizeRemoteNodeBlockService,blockchainCore, blockchainNodeClient);

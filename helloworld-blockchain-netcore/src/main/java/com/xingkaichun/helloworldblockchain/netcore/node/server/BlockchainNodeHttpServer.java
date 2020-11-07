@@ -1,5 +1,6 @@
 package com.xingkaichun.helloworldblockchain.netcore.node.server;
 
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -18,12 +19,10 @@ public class BlockchainNodeHttpServer {
 
 	private static final Logger logger = LoggerFactory.getLogger(BlockchainNodeHttpServer.class);
 
-	private int serverPort;
 	private HttpServerHandlerResolver httpServerHandlerResolver;
 
-	public BlockchainNodeHttpServer(int serverPort, HttpServerHandlerResolver httpServerHandlerResolver) {
+	public BlockchainNodeHttpServer(HttpServerHandlerResolver httpServerHandlerResolver) {
 		super();
-		this.serverPort = serverPort;
 		this.httpServerHandlerResolver = httpServerHandlerResolver;
 	}
 
@@ -31,8 +30,6 @@ public class BlockchainNodeHttpServer {
 	public void start() {
 		new Thread(
 				()->{
-					int port= serverPort;
-
 					// 多线程事件循环器
 					EventLoopGroup bossGroup = new NioEventLoopGroup(1); // boss
 					EventLoopGroup workerGroup = new NioEventLoopGroup(); // worker
@@ -48,9 +45,9 @@ public class BlockchainNodeHttpServer {
 								.childOption(ChannelOption.SO_KEEPALIVE, true); // 设置的ServerChannel的子Channel的选项
 
 						// 绑定端口，开始接收进来的连接
-						ChannelFuture f = b.bind(port).sync();
+						ChannelFuture f = b.bind(GlobalSetting.DEFAULT_PORT).sync();
 
-						System.out.println("HttpServer已启动，端口：" + port);
+						System.out.println("HttpServer已启动，端口：" + GlobalSetting.DEFAULT_PORT);
 
 						// 等待服务器 socket 关闭 。
 						// 在这个例子中，这不会发生，但你可以优雅地关闭你的服务器。

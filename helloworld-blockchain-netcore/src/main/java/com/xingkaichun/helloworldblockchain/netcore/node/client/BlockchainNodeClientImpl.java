@@ -25,10 +25,8 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
     private static final Logger logger = LoggerFactory.getLogger(BlockchainNodeClientImpl.class);
 
     private Gson gson;
-    private int serverPort;
 
-    public BlockchainNodeClientImpl(int serverPort) {
-        this.serverPort = serverPort;
+    public BlockchainNodeClientImpl() {
         this.gson = new Gson();
     }
 
@@ -59,7 +57,6 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.PING);
             PingRequest pingRequest = new PingRequest();
-            pingRequest.setPort(serverPort);
             String html = NetUtil.jsonGetRequest(url,pingRequest);
             Type jsonType = new TypeToken<ServiceResult<PingResponse>>() {}.getType();
             ServiceResult<PingResponse> pingResponseServiceResult = gson.fromJson(html,jsonType);
@@ -81,7 +78,6 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
         try {
             String url = String.format("http://%s:%d%s",node.getIp(), node.getPort(), NodeServerApiRoute.ADD_OR_UPDATE_NODE);
             AddOrUpdateNodeRequest request = new AddOrUpdateNodeRequest();
-            request.setPort(serverPort);
             request.setBlockchainHeight(localBlockchainHeight);
             String html = NetUtil.jsonGetRequest(url,request);
             Type jsonType = new TypeToken<ServiceResult<AddOrUpdateNodeResponse>>() {}.getType();

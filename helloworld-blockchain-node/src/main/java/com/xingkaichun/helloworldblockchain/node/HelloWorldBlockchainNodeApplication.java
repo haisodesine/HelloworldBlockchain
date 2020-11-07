@@ -31,7 +31,7 @@ public class HelloWorldBlockchainNodeApplication {
 
 	@Bean
 	public NetBlockchainCore buildNetBlockchainCore() {
-		NetBlockchainCore netBlockchainCore = NetBlockchainCoreFactory.createNetBlockchainCore(ResourcePathTool.getDataRootPath(blockchainDataPath),8444);
+		NetBlockchainCore netBlockchainCore = NetBlockchainCoreFactory.createNetBlockchainCore(ResourcePathTool.getDataRootPath(blockchainDataPath));
 		netBlockchainCore.start();
 		return netBlockchainCore;
 	}
