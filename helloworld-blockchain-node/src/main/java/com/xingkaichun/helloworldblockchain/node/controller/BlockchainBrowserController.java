@@ -12,8 +12,8 @@ import com.xingkaichun.helloworldblockchain.netcore.NetBlockchainCore;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.PageCondition;
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainRequest;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainResponse;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainNetworkRequest;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainNetworkResponse;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import com.xingkaichun.helloworldblockchain.node.dto.BlockchainApiRoute;
 import com.xingkaichun.helloworldblockchain.node.dto.account.GenerateAccountRequest;
@@ -78,11 +78,11 @@ public class BlockchainBrowserController {
      * 提交交易到区块链网络
      */
     @ResponseBody
-    @RequestMapping(value = BlockchainApiRoute.SUBMIT_TRANSACTION,method={RequestMethod.GET,RequestMethod.POST})
-    public ServiceResult<SubmitTransactionToBlockchainResponse> submitTransaction(@RequestBody SubmitTransactionToBlockchainRequest request){
+    @RequestMapping(value = BlockchainApiRoute.SUBMIT_TRANSACTION_TO_BLOCKCHIAINNEWWORK,method={RequestMethod.GET,RequestMethod.POST})
+    public ServiceResult<SubmitTransactionToBlockchainNetworkResponse> submitTransactionToBlockchainNetwork(@RequestBody SubmitTransactionToBlockchainNetworkRequest request){
         try {
-            SubmitTransactionToBlockchainResponse submitTransactionToBlockchainResponse = netBlockchainCore.submitTransaction(request);
-            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功", submitTransactionToBlockchainResponse);
+            SubmitTransactionToBlockchainNetworkResponse response = netBlockchainCore.submitTransaction(request);
+            return ServiceResult.createSuccessServiceResult("提交交易到区块链网络成功", response);
         } catch (Exception e){
             String message = "提交交易到区块链网络失败";
             logger.error(message,e);

@@ -10,7 +10,7 @@ public class BlockchainApiRoute {
     public static final String QUERY_BLOCKCHAIN_HEIGHT = "/Api/Blockchain/QueryBlockchainHeight";
     public static final String GENERATE_ACCOUNT = "/Api/Blockchain/GenerateAccount";
 
-    public static final String SUBMIT_TRANSACTION = "/Api/Blockchain/SubmitTransactionDto";
+    public static final String SUBMIT_TRANSACTION_TO_BLOCKCHIAINNEWWORK = "/Api/Blockchain/SubmitTransactionToBlockchainNetwork";
 
     public static final String QUERY_TRANSACTION_BY_TRANSACTION_HASH = "/Api/Blockchain/QueryTransactionByTransactionHash";
     public static final String QUERY_TRANSACTION_LIST_BY_TRANSACTION_HEIGHT = "/Api/Blockchain/QueryTransactionListByTransactionHeight";
