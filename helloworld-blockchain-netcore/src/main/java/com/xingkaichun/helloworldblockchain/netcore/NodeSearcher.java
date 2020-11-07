@@ -146,10 +146,9 @@ public class NodeSearcher {
      * 添加种子节点
      */
     private void addSeedNode() {
-        for(String strNode: GlobalSetting.SEED_NODE_LIST){
+        for(String nodeIp: GlobalSetting.SEED_NODE_LIST){
             NodeDto node = new NodeDto();
-            String[] nodeDetail = strNode.split(":");
-            node.setIp(nodeDetail[0]);
+            node.setIp(nodeIp);
             NodeDto nodeDto = nodeService.queryNode(node);
             if(nodeDto == null){
                 if(configurationService.isAutoSearchNode()){

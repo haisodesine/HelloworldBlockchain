@@ -14,7 +14,7 @@ public class GlobalSetting {
     //区块链网络中的种子节点
     public static final int DEFAULT_PORT = 8888;
     //区块链网络中的种子节点
-    public static final List<String> SEED_NODE_LIST = Arrays.asList("139.9.125.122:8444","119.3.57.171:8444");
+    public static final List<String> SEED_NODE_LIST = Arrays.asList("139.9.125.122","119.3.57.171");
 
 
     /**
