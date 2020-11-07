@@ -115,8 +115,8 @@ public class SynchronizerDefaultImpl extends Synchronizer {
     }
 
     /**
-     * 若targetBlockchainDataBase的高度小于blockChainDataBaseTemporary的高度，
-     * 则targetBlockchainDataBase同步blockChainDataBaseTemporary的数据。
+     * 若targetBlockchainDataBase的高度小于blockchainDataBaseTemporary的高度，
+     * 则targetBlockchainDataBase同步blockchainDataBaseTemporary的数据。
      */
     private void promoteTargetBlockchainDataBase(BlockchainDatabase targetBlockchainDatabase,
                                                  BlockchainDatabase temporaryBlockchainDatabase) {

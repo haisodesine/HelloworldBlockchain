@@ -32,8 +32,8 @@ public class BlockchainCoreImpl extends BlockchainCore {
 
     private static final Logger logger = LoggerFactory.getLogger(BlockchainCoreImpl.class);
 
-    public BlockchainCoreImpl(BlockchainDatabase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
-        super(blockChainDataBase,wallet,miner,synchronizer);
+    public BlockchainCoreImpl(BlockchainDatabase blockchainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
+        super(blockchainDataBase,wallet,miner,synchronizer);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BlockchainCoreImpl extends BlockchainCore {
 
     @Override
     public String queryBlockHashByBlockHeight(long blockHeight) {
-        Block block = blockChainDataBase.queryBlockByBlockHeight(blockHeight);
+        Block block = blockchainDataBase.queryBlockByBlockHeight(blockHeight);
         if(block == null){
             return null;
         }
@@ -78,7 +78,7 @@ public class BlockchainCoreImpl extends BlockchainCore {
 
     @Override
     public long queryBlockchainHeight() {
-        return blockChainDataBase.queryBlockchainHeight();
+        return blockchainDataBase.queryBlockchainHeight();
     }
 
 
@@ -89,37 +89,37 @@ public class BlockchainCoreImpl extends BlockchainCore {
 
     @Override
     public Transaction queryTransactionByTransactionHash(String transactionHash) {
-        Transaction transaction = blockChainDataBase.queryTransactionByTransactionHash(transactionHash);
+        Transaction transaction = blockchainDataBase.queryTransactionByTransactionHash(transactionHash);
         return transaction;
     }
 
     @Override
     public List<Transaction> queryTransactionListByTransactionHeight(long from,long size) {
-        List<Transaction>  transactionList = blockChainDataBase.queryTransactionListByTransactionHeight(from,size);
+        List<Transaction>  transactionList = blockchainDataBase.queryTransactionListByTransactionHeight(from,size);
         return transactionList;
     }
 
     @Override
     public List<Transaction> queryTransactionListByAddress(String address,long from,long size) {
-        List<Transaction>  transactionList = blockChainDataBase.queryTransactionListByAddress(address,from,size);
+        List<Transaction>  transactionList = blockchainDataBase.queryTransactionListByAddress(address,from,size);
         return transactionList;
     }
 
     @Override
     public List<TransactionOutput> queryTransactionOutputListByAddress(String address,long from,long size) {
-        List<TransactionOutput> txo =  blockChainDataBase.queryTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> txo =  blockchainDataBase.queryTransactionOutputListByAddress(address,from,size);
         return txo;
     }
 
     @Override
     public List<TransactionOutput> queryUnspendTransactionOutputListByAddress(String address, long from, long size) {
-        List<TransactionOutput> utxo =  blockChainDataBase.queryUnspendTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> utxo =  blockchainDataBase.queryUnspendTransactionOutputListByAddress(address,from,size);
         return utxo;
     }
 
     @Override
     public List<TransactionOutput> querySpendTransactionOutputListByAddress(String address, long from, long size) {
-        List<TransactionOutput> stxo =  blockChainDataBase.querySpendTransactionOutputListByAddress(address,from,size);
+        List<TransactionOutput> stxo =  blockchainDataBase.querySpendTransactionOutputListByAddress(address,from,size);
         return stxo;
     }
 
@@ -133,19 +133,19 @@ public class BlockchainCoreImpl extends BlockchainCore {
 
     @Override
     public Block queryBlockByBlockHeight(long blockHeight) {
-        return blockChainDataBase.queryBlockByBlockHeight(blockHeight);
+        return blockchainDataBase.queryBlockByBlockHeight(blockHeight);
     }
 
     @Override
     public Block queryBlockByBlockHash(String blockHash) {
-        return blockChainDataBase.queryBlockByBlockHash(blockHash);
+        return blockchainDataBase.queryBlockByBlockHash(blockHash);
     }
 
 
 
     @Override
     public void deleteBlocksUtilBlockHeightLessThan(long blockHeight) {
-        blockChainDataBase.deleteBlocksUtilBlockHeightLessThan(blockHeight);
+        blockchainDataBase.deleteBlocksUtilBlockHeightLessThan(blockHeight);
     }
 
 
@@ -202,7 +202,7 @@ public class BlockchainCoreImpl extends BlockchainCore {
         for(String privateKey : payerPrivateKeyList){
             //TODO 优化 可能不止100
             String address = AccountUtil.accountFromPrivateKey(privateKey).getAddress();
-            List<TransactionOutput> utxoList = blockChainDataBase.queryUnspendTransactionOutputListByAddress(address,0,100);
+            List<TransactionOutput> utxoList = blockchainDataBase.queryUnspendTransactionOutputListByAddress(address,0,100);
             for(TransactionOutput transactionOutput:utxoList){
                 inputValues += transactionOutput.getValue();
                 //交易输入

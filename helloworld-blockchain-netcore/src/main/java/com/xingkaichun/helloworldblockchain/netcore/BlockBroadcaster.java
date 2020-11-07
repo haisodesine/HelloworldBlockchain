@@ -29,13 +29,13 @@ public class BlockBroadcaster {
     private static final Logger logger = LoggerFactory.getLogger(BlockBroadcaster.class);
 
     private NodeService nodeService;
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private BlockchainNodeClient blockchainNodeClient;
 
-    public BlockBroadcaster(NodeService nodeService, BlockchainCore blockChainCore, BlockchainNodeClient blockchainNodeClient) {
+    public BlockBroadcaster(NodeService nodeService, BlockchainCore blockchainCore, BlockchainNodeClient blockchainNodeClient) {
 
         this.nodeService = nodeService;
-        this.blockChainCore = blockChainCore;
+        this.blockchainCore = blockchainCore;
         this.blockchainNodeClient = blockchainNodeClient;
     }
 
@@ -62,7 +62,7 @@ public class BlockBroadcaster {
             return;
         }
 
-        long blockchainHeight = blockChainCore.queryBlockchainHeight();
+        long blockchainHeight = blockchainCore.queryBlockchainHeight();
         //按照节点的高度进行排序
         Collections.sort(nodes,(NodeDto node1, NodeDto node2)->{
             if(LongUtil.isGreatThan(node1.getBlockchainHeight(),node2.getBlockchainHeight())){

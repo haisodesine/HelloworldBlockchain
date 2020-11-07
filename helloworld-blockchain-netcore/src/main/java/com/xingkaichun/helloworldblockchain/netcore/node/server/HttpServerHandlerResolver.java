@@ -27,12 +27,12 @@ public class HttpServerHandlerResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServerHandlerResolver.class);
 
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private NodeService nodeService;
     private ConfigurationService configurationService;
 
-    public HttpServerHandlerResolver(BlockchainCore blockChainCore, NodeService nodeService, ConfigurationService configurationService) {
-        this.blockChainCore = blockChainCore;
+    public HttpServerHandlerResolver(BlockchainCore blockchainCore, NodeService nodeService, ConfigurationService configurationService) {
+        this.blockchainCore = blockchainCore;
         this.nodeService = nodeService;
         this.configurationService = configurationService;
     }
@@ -43,7 +43,7 @@ public class HttpServerHandlerResolver {
     public ServiceResult<PingResponse> ping(ChannelHandlerContext ctx, PingRequest request){
         try {
             List<NodeDto> nodeList = nodeService.queryAllNoForkNodeList();
-            long blockchainHeight = blockChainCore.queryBlockchainHeight();
+            long blockchainHeight = blockchainCore.queryBlockchainHeight();
 
             //将ping的来路作为区块链节点
             NodeDto node = new NodeDto();
@@ -111,7 +111,7 @@ public class HttpServerHandlerResolver {
      */
     public ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeight(QueryBlockHashByBlockHeightRequest request){
         try {
-            String blockHash = blockChainCore.queryBlockHashByBlockHeight(request.getBlockHeight());
+            String blockHash = blockchainCore.queryBlockHashByBlockHeight(request.getBlockHeight());
 
             QueryBlockHashByBlockHeightResponse response = new QueryBlockHashByBlockHeightResponse();
             response.setBlockHash(blockHash);
@@ -129,7 +129,7 @@ public class HttpServerHandlerResolver {
      */
     public ServiceResult<QueryBlockDtoByBlockHeightResponse> queryBlockDtoByBlockHeight(QueryBlockDtoByBlockHeightRequest request){
         try {
-            Block block = blockChainCore.queryBlockByBlockHeight(request.getBlockHeight());
+            Block block = blockchainCore.queryBlockByBlockHeight(request.getBlockHeight());
             BlockDTO blockDTO = Model2DtoTool.block2BlockDTO(block);
 
             QueryBlockDtoByBlockHeightResponse response = new QueryBlockDtoByBlockHeightResponse();
@@ -147,7 +147,7 @@ public class HttpServerHandlerResolver {
      */
     public ServiceResult<SubmitTransactionToNodeResponse> submitTransactionToNodeRequest(SubmitTransactionToNodeRequest request){
         try {
-            blockChainCore.submitTransaction(request.getTransactionDTO());
+            blockchainCore.submitTransaction(request.getTransactionDTO());
 
             SubmitTransactionToNodeResponse response = new SubmitTransactionToNodeResponse();
             return ServiceResult.createSuccessServiceResult("commit transaction success",response);

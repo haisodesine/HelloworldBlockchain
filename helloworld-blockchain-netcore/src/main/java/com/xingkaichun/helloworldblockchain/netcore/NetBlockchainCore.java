@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class NetBlockchainCore {
 
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private BlockchainNodeHttpServer blockchainNodeHttpServer;
     private NodeSearcher nodeSearcher;
     private NodeBroadcaster nodeBroadcaster;
@@ -45,13 +45,13 @@ public class NetBlockchainCore {
     private ConfigurationService configurationService;
     private NodeService nodeService;
     private BlockchainNodeClient blockchainNodeClient;
-    public NetBlockchainCore(BlockchainCore blockChainCore
+    public NetBlockchainCore(BlockchainCore blockchainCore
             , BlockchainNodeHttpServer blockchainNodeHttpServer, ConfigurationService configurationService
             , NodeSearcher nodeSearcher, NodeBroadcaster nodeBroadcaster
             , BlockSearcher blockSearcher , BlockBroadcaster blockBroadcaster
             , NodeService nodeService, BlockchainNodeClient blockchainNodeClient) {
 
-        this.blockChainCore = blockChainCore;
+        this.blockchainCore = blockchainCore;
         this.blockchainNodeHttpServer = blockchainNodeHttpServer;
         this.configurationService = configurationService;
         this.nodeSearcher = nodeSearcher;
@@ -79,7 +79,7 @@ public class NetBlockchainCore {
 
     public void start() {
         //启动本地的单机区块链
-        blockChainCore.start();
+        blockchainCore.start();
         //启动区块链节点服务器
         blockchainNodeHttpServer.start();
 
@@ -101,14 +101,14 @@ public class NetBlockchainCore {
 
 
     public BuildTransactionResponse buildTransaction(BuildTransactionRequest request) {
-        BuildTransactionResponse buildTransactionResponse = blockChainCore.buildTransactionDTO(request);
+        BuildTransactionResponse buildTransactionResponse = blockchainCore.buildTransactionDTO(request);
         return buildTransactionResponse;
     }
 
     public SubmitTransactionResponse submitTransaction(SubmitTransactionRequest request) {
         TransactionDTO transactionDTO = request.getTransactionDTO();
         //将交易提交到本地区块链
-        blockChainCore.submitTransaction(transactionDTO);
+        blockchainCore.submitTransaction(transactionDTO);
         //提交交易到网络
         List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
         List<SubmitTransactionResponse.Node> successSubmitNode = new ArrayList<>();
@@ -134,7 +134,7 @@ public class NetBlockchainCore {
 
     //region get set
     public BlockchainCore getBlockchainCore() {
-        return blockChainCore;
+        return blockchainCore;
     }
 
     public BlockchainNodeHttpServer getBlockchainNodeHttpServer() {

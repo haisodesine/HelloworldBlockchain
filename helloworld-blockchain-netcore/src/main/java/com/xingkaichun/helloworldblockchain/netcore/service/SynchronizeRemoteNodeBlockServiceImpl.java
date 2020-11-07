@@ -29,7 +29,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     private static final Logger logger = LoggerFactory.getLogger(SynchronizeRemoteNodeBlockServiceImpl.class);
 
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private NodeService nodeService;
     private BlockchainNodeClient blockchainNodeClient;
     private ConfigurationService configurationService;
@@ -42,8 +42,8 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     private static final long SYNCHRONIZE_BLOCK_SIZE_FROM_LOCAL_BLOCKCHAIN_HEIGHT = 10;
 
 
-    public SynchronizeRemoteNodeBlockServiceImpl(BlockchainCore blockChainCore, NodeService nodeService, BlockchainNodeClient blockchainNodeClient, ConfigurationService configurationService) {
-        this.blockChainCore = blockChainCore;
+    public SynchronizeRemoteNodeBlockServiceImpl(BlockchainCore blockchainCore, NodeService nodeService, BlockchainNodeClient blockchainNodeClient, ConfigurationService configurationService) {
+        this.blockchainCore = blockchainCore;
         this.nodeService = nodeService;
         this.blockchainNodeClient = blockchainNodeClient;
         this.configurationService = configurationService;
@@ -53,14 +53,14 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
 
     @Override
     public void synchronizeRemoteNodeBlock(NodeDto node) {
-        BlockchainDatabase blockChainDataBase = blockChainCore.getBlockchainDataBase();
-        Synchronizer synchronizer = blockChainCore.getSynchronizer();
+        BlockchainDatabase blockchainDataBase = blockchainCore.getBlockchainDataBase();
+        Synchronizer synchronizer = blockchainCore.getSynchronizer();
         SynchronizerDatabase synchronizerDataBase = synchronizer.getSynchronizerDataBase();
 
         String nodeId = buildNodeId(node);
         //这里直接清除老旧的数据，这里希望同步的操作可以在进程没有退出之前完成。
         synchronizerDataBase.clear(nodeId);
-        Block tailBlock = blockChainDataBase.queryTailBlock();
+        Block tailBlock = blockchainDataBase.queryTailBlock();
         long localBlockchainHeight = tailBlock==null? LongUtil.ZERO:tailBlock.getHeight();
 
         boolean fork = false;
@@ -110,7 +110,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                     break;
                 }
                 String blockHash = queryBlockHashByBlockHeightResponseServiceResult.getResult().getBlockHash();
-                Block localBlock = blockChainDataBase.queryBlockByBlockHeight(tempBlockHeight);
+                Block localBlock = blockchainDataBase.queryBlockByBlockHeight(tempBlockHeight);
                 if(StringUtil.isEquals(blockHash,localBlock.getHash())){
                     break;
                 }
@@ -153,8 +153,8 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
                 if(!ServiceResult.isSuccess(queryBlockHashByBlockHeightResponseServiceResult)){
                     break;
                 }
-                Block block = Dto2ModelTool.blockDto2Block(blockChainDataBase,blockDTO);
-                boolean isAddBlockSuccess = blockChainDataBase.addBlock(block);
+                Block block = Dto2ModelTool.blockDto2Block(blockchainDataBase,blockDTO);
+                boolean isAddBlockSuccess = blockchainDataBase.addBlock(block);
                 if(!isAddBlockSuccess){
                     synchronizerDataBase.clear(nodeId);
                     return;
@@ -210,7 +210,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     }
 
     private BlockDTO getLocalBlockDtoByBlockHeight(NodeDto node, long blockHeight) {
-        SynchronizerDatabase synchronizerDataBase = blockChainCore.getSynchronizer().getSynchronizerDataBase();
+        SynchronizerDatabase synchronizerDataBase = blockchainCore.getSynchronizer().getSynchronizerDataBase();
         BlockDTO blockDTO = synchronizerDataBase.getBlockDto(buildNodeId(node),blockHeight);
         return blockDTO;
     }

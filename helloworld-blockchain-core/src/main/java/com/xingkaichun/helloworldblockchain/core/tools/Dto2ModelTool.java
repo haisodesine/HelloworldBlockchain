@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class Dto2ModelTool {
 
-    public static Block blockDto2Block(BlockchainDatabase blockChainDataBase, BlockDTO blockDTO) {
+    public static Block blockDto2Block(BlockchainDatabase blockchainDataBase, BlockDTO blockDTO) {
         //求上一个区块的hash
         String previousBlockHash = blockDTO.getPreviousBlockHash();
-        Block previousBlock = blockChainDataBase.queryBlockByBlockHash(previousBlockHash);
+        Block previousBlock = blockchainDataBase.queryBlockByBlockHash(previousBlockHash);
 
         Block block = new Block();
         block.setTimestamp(blockDTO.getTimestamp());
@@ -32,12 +32,12 @@ public class Dto2ModelTool {
         block.setHash(BlockTool.calculateBlockHash(block));
 
         //简单校验hash的难度 构造能满足共识的hash很难
-        if(blockChainDataBase.getConsensus().isReachConsensus(blockChainDataBase,block)){
+        if(blockchainDataBase.getConsensus().isReachConsensus(blockchainDataBase,block)){
             throw new RuntimeException();
         }
 
         long blockHeight = previousBlock==null? GlobalSetting.GenesisBlock.HEIGHT+1:previousBlock.getHeight()+1;
-        List<Transaction> transactionList = transactionDto2Transaction(blockChainDataBase,blockDTO.getTransactionDtoList());
+        List<Transaction> transactionList = transactionDto2Transaction(blockchainDataBase,blockDTO.getTransactionDtoList());
         String merkleTreeRoot = BlockTool.calculateBlockMerkleTreeRoot(block);
 
         block.setHeight(blockHeight);
@@ -46,18 +46,18 @@ public class Dto2ModelTool {
         return block;
     }
 
-    private static List<Transaction> transactionDto2Transaction(BlockchainDatabase blockChainDataBase, List<TransactionDTO> transactionDtoList) {
+    private static List<Transaction> transactionDto2Transaction(BlockchainDatabase blockchainDataBase, List<TransactionDTO> transactionDtoList) {
         List<Transaction> transactionList = new ArrayList<>();
         if(transactionDtoList != null){
             for(TransactionDTO transactionDTO:transactionDtoList){
-                Transaction transaction = transactionDto2Transaction(blockChainDataBase,transactionDTO);
+                Transaction transaction = transactionDto2Transaction(blockchainDataBase,transactionDTO);
                 transactionList.add(transaction);
             }
         }
         return transactionList;
     }
 
-    public static Transaction transactionDto2Transaction(BlockchainDatabase blockChainDataBase, TransactionDTO transactionDTO) {
+    public static Transaction transactionDto2Transaction(BlockchainDatabase blockchainDataBase, TransactionDTO transactionDTO) {
         List<TransactionInput> inputs = new ArrayList<>();
         List<TransactionInputDTO> transactionInputDtoList = transactionDTO.getTransactionInputDtoList();
         if(transactionInputDtoList != null){
@@ -66,7 +66,7 @@ public class Dto2ModelTool {
                 TransactionOutputId transactionOutputId = new TransactionOutputId();
                 transactionOutputId.setTransactionHash(unspendTransactionOutputDto.getTransactionHash());
                 transactionOutputId.setTransactionOutputIndex(unspendTransactionOutputDto.getTransactionOutputIndex());
-                TransactionOutput unspendTransactionOutput = blockChainDataBase.queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
+                TransactionOutput unspendTransactionOutput = blockchainDataBase.queryUnspendTransactionOutputByTransactionOutputId(transactionOutputId);
                 if(unspendTransactionOutput == null){
                     throw new ClassCastException("UnspendTransactionOutput不应该是null。");
                 }

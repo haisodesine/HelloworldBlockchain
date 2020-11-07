@@ -16,11 +16,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     //是否自动搜寻区块链网络节点？
     private static final String IS_AUTO_SEARCH_NODE = "IS_AUTO_SEARCH_NODE";
 
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private ConfigurationDao configurationDao;
 
-    public ConfigurationServiceImpl(BlockchainCore blockChainCore,ConfigurationDao configurationDao) {
-        this.blockChainCore = blockChainCore;
+    public ConfigurationServiceImpl(BlockchainCore blockchainCore,ConfigurationDao configurationDao) {
+        this.blockchainCore = blockchainCore;
         this.configurationDao = configurationDao;
     }
 
@@ -36,9 +36,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public void restoreMinerConfiguration() {
         if(isMinerActive()){
-            blockChainCore.getMiner().active();
+            blockchainCore.getMiner().active();
         }else {
-            blockChainCore.getMiner().deactive();
+            blockchainCore.getMiner().deactive();
         }
     }
 
@@ -54,14 +54,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void activeMiner() {
-        blockChainCore.getMiner().active();
+        blockchainCore.getMiner().active();
         ConfigurationEntity configurationEntity = new ConfigurationEntity(IS_MINER_ACTIVE,String.valueOf(true));
         setConfiguration(configurationEntity);
     }
 
     @Override
     public void deactiveMiner() {
-        blockChainCore.getMiner().deactive();
+        blockchainCore.getMiner().deactive();
         ConfigurationEntity configurationEntity = new ConfigurationEntity(IS_MINER_ACTIVE,String.valueOf(false));
         setConfiguration(configurationEntity);
     }
@@ -69,9 +69,9 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public void restoreSynchronizerConfiguration() {
         if(isSynchronizerActive()){
-            blockChainCore.getSynchronizer().active();
+            blockchainCore.getSynchronizer().active();
         }else {
-            blockChainCore.getSynchronizer().deactive();
+            blockchainCore.getSynchronizer().deactive();
         }
     }
 
@@ -87,14 +87,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void activeSynchronizer() {
-        blockChainCore.getSynchronizer().active();
+        blockchainCore.getSynchronizer().active();
         ConfigurationEntity configurationEntity = new ConfigurationEntity(IS_SYNCHRONIZER_ACTIVE,String.valueOf(true));
         setConfiguration(configurationEntity);
     }
 
     @Override
     public void deactiveSynchronizer() {
-        blockChainCore.getSynchronizer().active();
+        blockchainCore.getSynchronizer().active();
         ConfigurationEntity configurationEntity = new ConfigurationEntity(IS_SYNCHRONIZER_ACTIVE,String.valueOf(false));
         setConfiguration(configurationEntity);
     }

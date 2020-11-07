@@ -28,16 +28,16 @@ public class BlockSearcher {
 
     private NodeService nodeService;
     private SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService;
-    private BlockchainCore blockChainCore;
+    private BlockchainCore blockchainCore;
     private BlockchainNodeClient blockchainNodeClient;
 
 
     public BlockSearcher(NodeService nodeService
-            , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockchainCore blockChainCore
+            , SynchronizeRemoteNodeBlockService synchronizeRemoteNodeBlockService, BlockchainCore blockchainCore
             , BlockchainNodeClient blockchainNodeClient) {
         this.nodeService = nodeService;
         this.synchronizeRemoteNodeBlockService = synchronizeRemoteNodeBlockService;
-        this.blockChainCore = blockChainCore;
+        this.blockchainCore = blockchainCore;
         this.blockchainNodeClient = blockchainNodeClient;
     }
 
@@ -62,7 +62,7 @@ public class BlockSearcher {
         new Thread(()->{
             while (true){
                 try {
-                    if(blockChainCore.getSynchronizer().isActive()){
+                    if(blockchainCore.getSynchronizer().isActive()){
                         synchronizeBlocks();
                     }
                 } catch (Exception e) {
@@ -82,13 +82,13 @@ public class BlockSearcher {
             return;
         }
 
-        long localBlockchainHeight = blockChainCore.queryBlockchainHeight();
+        long localBlockchainHeight = blockchainCore.queryBlockchainHeight();
         //可能存在多个节点的数据都比本地节点的区块多，但它们节点的数据可能是相同的，不应该向每个节点都去请求数据。
         for(NodeDto node:nodes){
             if(LongUtil.isLessThan(localBlockchainHeight,node.getBlockchainHeight())){
                 synchronizeRemoteNodeBlockService.synchronizeRemoteNodeBlock(node);
                 //同步之后，本地区块链高度已经发生改变了
-                localBlockchainHeight = blockChainCore.queryBlockchainHeight();
+                localBlockchainHeight = blockchainCore.queryBlockchainHeight();
             }
         }
     }

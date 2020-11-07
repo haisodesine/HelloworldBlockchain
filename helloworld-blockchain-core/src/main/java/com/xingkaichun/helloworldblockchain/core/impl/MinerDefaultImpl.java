@@ -35,8 +35,8 @@ public class MinerDefaultImpl extends Miner {
     //挖矿开关:默认打开挖矿的开关
     private boolean mineOption = true;
 
-    public MinerDefaultImpl(Wallet wallet, BlockchainDatabase blockChainDataBase, MinerTransactionDtoDatabase minerTransactionDtoDataBase) {
-        super(wallet,blockChainDataBase,minerTransactionDtoDataBase);
+    public MinerDefaultImpl(Wallet wallet, BlockchainDatabase blockchainDataBase, MinerTransactionDtoDatabase minerTransactionDtoDataBase) {
+        super(wallet,blockchainDataBase,minerTransactionDtoDataBase);
     }
     //endregion
 
@@ -65,10 +65,10 @@ public class MinerDefaultImpl extends Miner {
                 block.setNonce(nonce);
                 block.setHash(BlockTool.calculateBlockHash(block));
                 //挖矿成功
-                if(blockChainDataBase.getConsensus().isReachConsensus(blockChainDataBase,block)){
+                if(blockchainDataBase.getConsensus().isReachConsensus(blockchainDataBase,block)){
                     logger.info("祝贺您！挖矿成功！！！区块高度:"+block.getHeight()+",区块哈希:"+block.getHash());
                     //将矿放入区块链
-                    boolean isAddBlockToBlockchainSuccess = blockChainDataBase.addBlock(block);
+                    boolean isAddBlockToBlockchainSuccess = blockchainDataBase.addBlock(block);
                     if(!isAddBlockToBlockchainSuccess){
                         logger.error("挖矿成功，但是放入区块链失败。请检查异常。");
                         continue;
@@ -106,7 +106,7 @@ public class MinerDefaultImpl extends Miner {
         if(forMineBlockTransactionDtoList != null){
             for(TransactionDTO transactionDTO:forMineBlockTransactionDtoList){
                 try {
-                    Transaction transaction = Dto2ModelTool.transactionDto2Transaction(blockChainDataBase,transactionDTO);
+                    Transaction transaction = Dto2ModelTool.transactionDto2Transaction(blockchainDataBase,transactionDTO);
                     forMineBlockTransactionList.add(transaction);
                 } catch (Exception e) {
                     String transactionHash = TransactionTool.calculateTransactionHash(transactionDTO);
@@ -163,7 +163,7 @@ public class MinerDefaultImpl extends Miner {
         Iterator<Transaction> iterator = transactionList.iterator();
         while (iterator.hasNext()){
             Transaction transaction = iterator.next();
-            boolean transactionCanAddToNextBlock = blockChainDataBase.isTransactionCanAddToNextBlock(null,transaction);
+            boolean transactionCanAddToNextBlock = blockchainDataBase.isTransactionCanAddToNextBlock(null,transaction);
             if(!transactionCanAddToNextBlock){
                 iterator.remove();
                 minerTransactionDtoDataBase.deleteByTransactionHash(transaction.getTransactionHash());
@@ -184,7 +184,7 @@ public class MinerDefaultImpl extends Miner {
         ArrayList<TransactionOutput> outputs = new ArrayList<>();
         TransactionOutput output = new TransactionOutput();
         output.setAddress(address);
-        output.setValue(blockChainDataBase.getIncentive().mineAward(block));
+        output.setValue(blockchainDataBase.getIncentive().mineAward(block));
         output.setScriptLock(StackBasedVirtualMachine.createPayToPublicKeyHashOutputScript(address));
         outputs.add(output);
 
@@ -199,7 +199,7 @@ public class MinerDefaultImpl extends Miner {
     private Block buildNextMineBlock(List<Transaction> packingTransactionList, Account minerAcount) {
         long timestamp = System.currentTimeMillis();
 
-        Block tailBlock = blockChainDataBase.queryTailBlock();
+        Block tailBlock = blockchainDataBase.queryTailBlock();
         Block nonNonceBlock = new Block();
         //这个挖矿时间不需要特别精确，没必要非要挖出矿的前一霎那时间。省去了挖矿时实时更新这个时间的繁琐。
         nonNonceBlock.setTimestamp(timestamp);

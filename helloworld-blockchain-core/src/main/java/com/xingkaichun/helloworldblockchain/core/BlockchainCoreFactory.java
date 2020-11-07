@@ -28,17 +28,17 @@ public class BlockchainCoreFactory {
 
         Incentive incentive = new IncentiveDefaultImpl();
         Consensus consensus = new ProofOfWorkConsensusImpl();
-        BlockchainDatabase blockChainDataBase = new BlockchainDatabaseDefaultImpl(blockchainDataPath,incentive,consensus);
+        BlockchainDatabase blockchainDataBase = new BlockchainDatabaseDefaultImpl(blockchainDataPath,incentive,consensus);
 
         MinerTransactionDtoDatabase minerTransactionDtoDataBase = new MinerTransactionDtoDtoDatabaseDefaultImpl(blockchainDataPath);
         Wallet wallet = new WalletImpl(blockchainDataPath);
-        Miner miner = new MinerDefaultImpl(wallet,blockChainDataBase,minerTransactionDtoDataBase);
+        Miner miner = new MinerDefaultImpl(wallet,blockchainDataBase,minerTransactionDtoDataBase);
 
         SynchronizerDatabase synchronizerDataBase = new SynchronizerDatabaseDefaultImpl(blockchainDataPath);
         BlockchainDatabase temporaryBlockchainDatabase = new BlockchainDatabaseDefaultImpl(new File(blockchainDataPath,"TemporaryBlockchainDataBase").getAbsolutePath(),incentive,consensus);
-        Synchronizer synchronizer = new SynchronizerDefaultImpl(blockChainDataBase, temporaryBlockchainDatabase,synchronizerDataBase);
+        Synchronizer synchronizer = new SynchronizerDefaultImpl(blockchainDataBase, temporaryBlockchainDatabase,synchronizerDataBase);
 
-        BlockchainCore blockChainCore = new BlockchainCoreImpl(blockChainDataBase,wallet,miner,synchronizer);
-        return blockChainCore;
+        BlockchainCore blockchainCore = new BlockchainCoreImpl(blockchainDataBase,wallet,miner,synchronizer);
+        return blockchainCore;
     }
 }

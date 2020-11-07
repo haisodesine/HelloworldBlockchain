@@ -54,7 +54,7 @@ public class BlockchainBrowserController {
     @Autowired
     private NetBlockchainCore netBlockchainCore;
     @Autowired
-    private BlockchainBrowserService blockChainBrowserService;
+    private BlockchainBrowserService blockchainBrowserService;
 
    /**
      * 生成账户(公钥、私钥、地址)
@@ -97,7 +97,7 @@ public class BlockchainBrowserController {
     @RequestMapping(value = BlockchainApiRoute.QUERY_TRANSACTION_BY_TRANSACTION_HASH,method={RequestMethod.GET,RequestMethod.POST})
     public ServiceResult<QueryTransactionByTransactionHashResponse> queryTransactionByTransactionHash(@RequestBody QueryTransactionByTransactionHashRequest request){
         try {
-            TransactionView transactionView = blockChainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
+            TransactionView transactionView = blockchainBrowserService.queryTransactionByTransactionHash(request.getTransactionHash());
             QueryTransactionByTransactionHashResponse response = new QueryTransactionByTransactionHashResponse();
             response.setTransactionView(transactionView);
             return ServiceResult.createSuccessServiceResult("根据交易哈希查询交易成功",response);
@@ -145,7 +145,7 @@ public class BlockchainBrowserController {
             if(StringUtil.isNullOrEmpty(request.getBlockHash())){
                 return ServiceResult.createFailServiceResult("区块哈希不能是空");
             }
-            List<TransactionView> transactionViewList = blockChainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);
+            List<TransactionView> transactionViewList = blockchainBrowserService.queryTransactionListByBlockHashTransactionHeight(request.getBlockHash(),from,size);
             QueryTransactionListByBlockHashTransactionHeightResponse response = new QueryTransactionListByBlockHashTransactionHeightResponse();
             response.setTransactionViewList(transactionViewList);
             return ServiceResult.createSuccessServiceResult("根据交易高度查询交易成功",response);
@@ -163,7 +163,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<TransactionView> transactionViewList = blockChainBrowserService.queryTransactionListByAddress(request.getAddress(),from,size);
+            List<TransactionView> transactionViewList = blockchainBrowserService.queryTransactionListByAddress(request.getAddress(),from,size);
             QueryTransactionListByAddressResponse response = new QueryTransactionListByAddressResponse();
             response.setTransactionViewList(transactionViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
@@ -206,7 +206,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.queryUnspendTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockchainBrowserService.queryUnspendTransactionOutputListByAddress(request.getAddress(),from,size);
             QueryUnspendTransactionOutputListByAddressResponse response = new QueryUnspendTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
@@ -226,7 +226,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.querySpendTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockchainBrowserService.querySpendTransactionOutputListByAddress(request.getAddress(),from,size);
             QuerySpendTransactionOutputListByAddressResponse response = new QuerySpendTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
@@ -246,7 +246,7 @@ public class BlockchainBrowserController {
             PageCondition pageCondition = request.getPageCondition();
             long from = pageCondition.getFrom() == null ? 0L : pageCondition.getFrom();
             long size = pageCondition.getSize() == null ? 10L : pageCondition.getSize();
-            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockChainBrowserService.queryTransactionOutputListByAddress(request.getAddress(),from,size);
+            List<TransactionOutputDetailView> transactionOutputDetailViewList = blockchainBrowserService.queryTransactionOutputListByAddress(request.getAddress(),from,size);
             QueryTransactionOutputListByAddressResponse response = new QueryTransactionOutputListByAddressResponse();
             response.setTransactionOutputDetailViewList(transactionOutputDetailViewList);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);
@@ -264,7 +264,7 @@ public class BlockchainBrowserController {
     public ServiceResult<QueryTransactionOutputByTransactionOutputIdResponse> queryTransactionOutputByTransactionOutputId(@RequestBody QueryTransactionOutputByTransactionOutputIdRequest request){
         try {
             TransactionOutputId transactionOutputId = request.getTransactionOutputId();
-            TransactionOutputDetailView transactionOutputDetailView = blockChainBrowserService.queryTransactionOutputByTransactionOutputId(transactionOutputId);
+            TransactionOutputDetailView transactionOutputDetailView = blockchainBrowserService.queryTransactionOutputByTransactionOutputId(transactionOutputId);
             QueryTransactionOutputByTransactionOutputIdResponse response = new QueryTransactionOutputByTransactionOutputIdResponse();
             response.setTransactionOutputDetailView(transactionOutputDetailView);
             return ServiceResult.createSuccessServiceResult("[查询交易输出]成功",response);

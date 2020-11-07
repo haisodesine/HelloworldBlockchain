@@ -25,7 +25,7 @@ import java.util.List;
 public abstract class BlockchainCore {
 
     //区块链数据库
-    protected BlockchainDatabase blockChainDataBase ;
+    protected BlockchainDatabase blockchainDataBase ;
     //矿工
     protected Miner miner ;
     //钱包
@@ -33,8 +33,8 @@ public abstract class BlockchainCore {
     //区块链同步器
     protected Synchronizer synchronizer ;
 
-    public BlockchainCore(BlockchainDatabase blockChainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
-        this.blockChainDataBase = blockChainDataBase;
+    public BlockchainCore(BlockchainDatabase blockchainDataBase, Wallet wallet, Miner miner, Synchronizer synchronizer) {
+        this.blockchainDataBase = blockchainDataBase;
         this.wallet = wallet;
         this.miner = miner;
         this.synchronizer = synchronizer;
@@ -134,7 +134,7 @@ public abstract class BlockchainCore {
 
     //region get set
     public BlockchainDatabase getBlockchainDataBase() {
-        return blockChainDataBase;
+        return blockchainDataBase;
     }
 
     public Miner getMiner() {

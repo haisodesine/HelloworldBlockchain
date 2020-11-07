@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class PingResponse {
 
-    private Long blockChainVersion;
+    private Long blockchainVersion;
     private Long blockchainHeight ;
     private List<NodeDto> nodeList;
 
@@ -21,11 +21,11 @@ public class PingResponse {
 
 
     public Long getBlockchainVersion() {
-        return blockChainVersion;
+        return blockchainVersion;
     }
 
-    public void setBlockchainVersion(Long blockChainVersion) {
-        this.blockChainVersion = blockChainVersion;
+    public void setBlockchainVersion(Long blockchainVersion) {
+        this.blockchainVersion = blockchainVersion;
     }
 
     public Long getBlockchainHeight() {
