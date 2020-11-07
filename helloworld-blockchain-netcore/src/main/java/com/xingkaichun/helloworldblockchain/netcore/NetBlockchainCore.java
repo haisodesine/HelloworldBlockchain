@@ -6,8 +6,8 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRespo
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.SubmitTransactionToNodeResponse;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainNetworkRequest;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainNetworkResponse;
+import com.xingkaichun.helloworldblockchain.netcore.model.transaction.SubmitTransactionToBlockchainNetworkRequest;
+import com.xingkaichun.helloworldblockchain.netcore.model.transaction.SubmitTransactionToBlockchainNetworkResponse;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHttpServer;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
