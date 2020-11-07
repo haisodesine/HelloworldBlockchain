@@ -95,7 +95,7 @@ public class BlockSearcher {
 
 
     /**
-     * 在区块链网络中搜寻新的节点
+     * 在区块链网络中搜寻新的区块
      */
     private void searchBlocks() {
         List<NodeDto> nodes = nodeService.queryAllNoForkNodeList();

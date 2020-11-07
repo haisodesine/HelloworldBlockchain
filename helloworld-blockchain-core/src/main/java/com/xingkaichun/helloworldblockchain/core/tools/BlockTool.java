@@ -6,6 +6,8 @@ import com.xingkaichun.helloworldblockchain.core.model.transaction.Transaction;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionInput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionOutput;
 import com.xingkaichun.helloworldblockchain.core.model.transaction.TransactionType;
+import com.xingkaichun.helloworldblockchain.netcore.transport.dto.BlockDTO;
+import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
 import com.xingkaichun.helloworldblockchain.util.ByteUtil;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
 import com.xingkaichun.helloworldblockchain.util.StringUtil;
@@ -34,34 +36,47 @@ public class BlockTool {
      * 计算区块的Hash值
      */
     public static String calculateBlockHash(Block block) {
-        byte[] bytesTimestamp = ByteUtil.longToBytes8(block.getTimestamp());
-        byte[] bytesPreviousBlockHash = HexUtil.hexStringToBytes(block.getPreviousBlockHash());
-        byte[] bytesMerkleTreeRoot = HexUtil.hexStringToBytes(block.getMerkleTreeRoot());
-        byte[] bytesNonce = ByteUtil.longToBytes8(block.getNonce());
+        BlockDTO blockDto = Model2DtoTool.block2BlockDTO(block);
+        return calculateBlockHash(blockDto);
+    }
+    /**
+     * 计算区块的Hash值
+     */
+    public static String calculateBlockHash(BlockDTO blockDto) {
+        byte[] bytesTimestamp = ByteUtil.longToBytes8(blockDto.getTimestamp());
+        byte[] bytesPreviousBlockHash = HexUtil.hexStringToBytes(blockDto.getPreviousBlockHash());
+        byte[] bytesMerkleTreeRoot = HexUtil.hexStringToBytes(calculateBlockMerkleTreeRoot(blockDto));
+        byte[] bytesNonce = ByteUtil.longToBytes8(blockDto.getNonce());
 
         byte[] bytesData = Bytes.concat(ByteUtil.concatLengthBytes(bytesTimestamp),
-                                    ByteUtil.concatLengthBytes(bytesPreviousBlockHash),
-                                    ByteUtil.concatLengthBytes(bytesMerkleTreeRoot),
-                                    ByteUtil.concatLengthBytes(bytesNonce));
+                ByteUtil.concatLengthBytes(bytesPreviousBlockHash),
+                ByteUtil.concatLengthBytes(bytesMerkleTreeRoot),
+                ByteUtil.concatLengthBytes(bytesNonce));
         byte[] sha256Digest = SHA256Util.digestTwice(bytesData);
         return HexUtil.bytesToHexString(sha256Digest);
     }
-
     /**
      * 计算区块的默克尔树根值
      */
     public static String calculateBlockMerkleTreeRoot(Block block) {
-        List<Transaction> transactions = block.getTransactions();
+        BlockDTO blockDto = Model2DtoTool.block2BlockDTO(block);
+        return calculateBlockMerkleTreeRoot(blockDto);
+    }
+    /**
+     * 计算区块的默克尔树根值
+     */
+    public static String calculateBlockMerkleTreeRoot(BlockDTO blockDto) {
+        List<TransactionDTO> transactions = blockDto.getTransactionDtoList();
         List<byte[]> bytesTransactionHashList = new ArrayList<>();
         if(transactions != null){
-            for(Transaction transaction : transactions) {
-                byte[] bytesTransactionHash = HexUtil.hexStringToBytes(transaction.getTransactionHash());
+            for(TransactionDTO transactionDto : transactions) {
+                String transactionHash = TransactionTool.calculateTransactionHash(transactionDto);
+                byte[] bytesTransactionHash = HexUtil.hexStringToBytes(transactionHash);
                 bytesTransactionHashList.add(bytesTransactionHash);
             }
         }
         return HexUtil.bytesToHexString(MerkleTreeUtil.calculateMerkleTreeRoot(bytesTransactionHashList));
     }
-
     /**
      * 区块新产生的哈希是否存在重复
      */

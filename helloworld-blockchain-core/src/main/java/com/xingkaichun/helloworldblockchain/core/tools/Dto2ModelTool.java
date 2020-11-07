@@ -29,20 +29,21 @@ public class Dto2ModelTool {
         block.setTimestamp(blockDTO.getTimestamp());
         block.setPreviousBlockHash(previousBlockHash);
         block.setNonce(blockDTO.getNonce());
-        block.setHash(BlockTool.calculateBlockHash(block));
-
-        //简单校验hash的难度 构造能满足共识的hash很难
-        if(blockchainDataBase.getConsensus().isReachConsensus(blockchainDataBase,block)){
-            throw new RuntimeException();
-        }
 
         long blockHeight = previousBlock==null? GlobalSetting.GenesisBlock.HEIGHT+1:previousBlock.getHeight()+1;
-        List<Transaction> transactionList = transactionDto2Transaction(blockchainDataBase,blockDTO.getTransactionDtoList());
-        String merkleTreeRoot = BlockTool.calculateBlockMerkleTreeRoot(block);
-
         block.setHeight(blockHeight);
+
+        List<Transaction> transactionList = transactionDto2Transaction(blockchainDataBase,blockDTO.getTransactionDtoList());
         block.setTransactions(transactionList);
+
+        String merkleTreeRoot = BlockTool.calculateBlockMerkleTreeRoot(block);
         block.setMerkleTreeRoot(merkleTreeRoot);
+
+        block.setHash(BlockTool.calculateBlockHash(block));
+        //简单校验hash的难度 构造能满足共识的hash很难
+        if(!blockchainDataBase.getConsensus().isReachConsensus(blockchainDataBase,block)){
+            throw new RuntimeException();
+        }
         return block;
     }
 
