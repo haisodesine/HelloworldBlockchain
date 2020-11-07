@@ -7,7 +7,7 @@ var url = "";
 var miner = {};//矿工信息
 var syn = {};//同步信息
 var node = {};//节点信息
-var block_heght = document.getElementById('block_heght');//获取区块高度
+var block_height = document.getElementById('block_height');//获取区块高度
 var miner_status = document.getElementById('miner_status');//获取矿工状态
 var miner_handle = document.getElementById('miner_handle');//获取激活按钮
 var syn_status = document.getElementById('syn_status');//获取同步状态
@@ -27,7 +27,7 @@ function queryBlockHeight() {
         dataType: "json",
         async: false,
         success: function (data) {
-            block_heght.textContent = data.result.blockchainHeight;
+            block_height.textContent = data.result.blockchainHeight;
         },
         error: function (e) {
         }
