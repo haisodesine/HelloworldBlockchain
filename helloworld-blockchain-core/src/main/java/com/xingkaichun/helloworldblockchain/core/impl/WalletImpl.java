@@ -1,10 +1,10 @@
 package com.xingkaichun.helloworldblockchain.core.impl;
 
 import com.xingkaichun.helloworldblockchain.core.Wallet;
-import com.xingkaichun.helloworldblockchain.util.FileUtil;
-import com.xingkaichun.helloworldblockchain.util.JdbcUtil;
 import com.xingkaichun.helloworldblockchain.crypto.AccountUtil;
 import com.xingkaichun.helloworldblockchain.crypto.model.Account;
+import com.xingkaichun.helloworldblockchain.util.FileUtil;
+import com.xingkaichun.helloworldblockchain.util.JdbcUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +28,10 @@ public class WalletImpl extends Wallet {
 
     public WalletImpl(String blockchainDataPath) {
         this.blockchainDataPath = blockchainDataPath;
-        init();
+        initDatabase();
     }
 
-    private void init() {
+    private void initDatabase() {
         String createTable1Sql1 = "CREATE TABLE IF NOT EXISTS wallet " +
                 "(" +
                 "privateKey CHAR(100) PRIMARY KEY NOT NULL," +

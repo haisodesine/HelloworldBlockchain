@@ -104,7 +104,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         ConfigurationEntity configurationEntity = configurationDao.getConfigurationValue(IS_AUTO_SEARCH_NODE);
         if(configurationEntity == null){
             //默认值
-            return false;
+            return true;
         }
         return Boolean.valueOf(configurationEntity.getConfValue());
     }

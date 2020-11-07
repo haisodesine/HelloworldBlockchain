@@ -7,14 +7,12 @@ package com.xingkaichun.helloworldblockchain.netcore.dto.netserver;
 public class BaseNodeDto {
 
     private String ip;
-    private int port;
 
     public BaseNodeDto() {
     }
 
-    public BaseNodeDto(String ip, int port) {
+    public BaseNodeDto(String ip) {
         this.ip = ip;
-        this.port = port;
     }
 
 
@@ -28,14 +26,6 @@ public class BaseNodeDto {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     //endregion

@@ -21,14 +21,12 @@ public class SubmitTransactionToBlockchainNetworkResponse {
 
     public static class Node{
         private String ip;
-        private int port;
 
         public Node() {
         }
 
-        public Node(String ip, int port) {
+        public Node(String ip) {
             this.ip = ip;
-            this.port = port;
         }
 
         //region get set
@@ -39,14 +37,6 @@ public class SubmitTransactionToBlockchainNetworkResponse {
 
         public void setIp(String ip) {
             this.ip = ip;
-        }
-
-        public int getPort() {
-            return port;
-        }
-
-        public void setPort(int port) {
-            this.port = port;
         }
 
         //endregion

@@ -21,10 +21,10 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 
     public ConfigurationDaoImpl(String blockchainDataPath) {
         this.blockchainDataPath = blockchainDataPath;
-        init();
+        initDatabase();
     }
 
-    private void init() {
+    private void initDatabase() {
         String createTable1Sql1 = "CREATE TABLE IF NOT EXISTS [Configuration](" +
                 "  [confKey] VARCHAR(100)," +
                 "  [confValue] VARCHAR(100));";

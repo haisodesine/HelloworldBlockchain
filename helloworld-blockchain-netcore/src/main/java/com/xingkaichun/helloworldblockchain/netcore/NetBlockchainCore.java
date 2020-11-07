@@ -13,6 +13,7 @@ import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHt
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
 import com.xingkaichun.helloworldblockchain.netcore.service.NodeService;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,9 +118,9 @@ public class NetBlockchainCore {
             for(NodeDto node:nodes){
                 ServiceResult<SubmitTransactionToNodeResponse> submitSuccess = blockchainNodeClient.submitTransaction(node,transactionDTO);
                 if(ServiceResult.isSuccess(submitSuccess)){
-                    successSubmitNode.add(new SubmitTransactionToBlockchainNetworkResponse.Node(node.getIp(),node.getPort()));
+                    successSubmitNode.add(new SubmitTransactionToBlockchainNetworkResponse.Node(node.getIp()));
                 } else {
-                    failSubmitNode.add(new SubmitTransactionToBlockchainNetworkResponse.Node(node.getIp(),node.getPort()));
+                    failSubmitNode.add(new SubmitTransactionToBlockchainNetworkResponse.Node(node.getIp()));
                 }
             }
         }

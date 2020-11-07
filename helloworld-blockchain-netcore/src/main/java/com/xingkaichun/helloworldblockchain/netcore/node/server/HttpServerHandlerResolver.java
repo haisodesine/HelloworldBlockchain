@@ -50,12 +50,11 @@ public class HttpServerHandlerResolver {
             InetSocketAddress insocket = (InetSocketAddress) ctx.channel().remoteAddress();
             String ip = insocket.getAddress().getHostAddress();
             node.setIp(ip);
-            node.setPort(request.getPort());
             if(nodeService.queryNode(node) == null){
                 node.setIsNodeAvailable(true);
                 if(configurationService.isAutoSearchNode()){
                     nodeService.addNode(node);
-                    logger.debug(String.format("有节点[%s:%d]尝试Ping本地节点，将来路节点加入节点数据库。",ip,request.getPort()));
+                    logger.debug(String.format("有节点[%s:%d]尝试Ping本地节点，将来路节点加入节点数据库。",ip,GlobalSetting.DEFAULT_PORT));
                 }
             }
 
@@ -80,7 +79,6 @@ public class HttpServerHandlerResolver {
             InetSocketAddress inetSocketAddress = (InetSocketAddress) ctx.channel().remoteAddress();
             String ip = inetSocketAddress.getAddress().getHostAddress();
             node.setIp(ip);
-            node.setPort(GlobalSetting.DEFAULT_PORT);
             node.setIsNodeAvailable(true);
             node.setBlockchainHeight(request.getBlockchainHeight());
             node.setErrorConnectionTimes(0);

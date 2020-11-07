@@ -1,8 +1,8 @@
 package com.xingkaichun.helloworldblockchain.netcore.service;
 
 import com.xingkaichun.helloworldblockchain.netcore.dao.NodeDao;
-import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.BaseNodeDto;
+import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.entity.NodeEntity;
 import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import com.xingkaichun.helloworldblockchain.util.LongUtil;
@@ -38,13 +38,13 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void nodeConnectionErrorHandle(BaseNodeDto baseNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp());
         if(nodeEntity == null){
             return;
         }
         int errorConnectionTimes = nodeEntity.getErrorConnectionTimes()+1;
         if(errorConnectionTimes >= GlobalSetting.NodeConstant.NODE_ERROR_CONNECTION_TIMES_DELETE_THRESHOLD){
-            nodeDao.deleteNode(baseNodeDto.getIp(), baseNodeDto.getPort());
+            nodeDao.deleteNode(baseNodeDto.getIp());
         } else {
             nodeEntity.setErrorConnectionTimes(errorConnectionTimes);
             nodeEntity.setIsNodeAvailable(false);
@@ -54,11 +54,10 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void updateOrInsertForkPropertity(BaseNodeDto baseNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp());
         if(nodeEntity == null){
             nodeEntity = new NodeEntity();
             nodeEntity.setIp(baseNodeDto.getIp());
-            nodeEntity.setPort(baseNodeDto.getPort());
             nodeEntity.setFork(true);
             fillNodeDefaultValue(nodeEntity);
             nodeDao.addNode(nodeEntity);
@@ -70,7 +69,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void deleteNode(BaseNodeDto baseNodeDto){
-        nodeDao.deleteNode(baseNodeDto.getIp(), baseNodeDto.getPort());
+        nodeDao.deleteNode(baseNodeDto.getIp());
     }
 
     @Override
@@ -95,7 +94,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto queryNode(BaseNodeDto baseNodeDto){
-        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp(), baseNodeDto.getPort());
+        NodeEntity nodeEntity = nodeDao.queryNode(baseNodeDto.getIp());
         if(nodeEntity == null){
             return null;
         }
@@ -117,7 +116,6 @@ public class NodeServiceImpl implements NodeService {
     private NodeDto classCast(NodeEntity nodeEntity) {
         NodeDto node = new NodeDto();
         node.setIp(nodeEntity.getIp());
-        node.setPort(nodeEntity.getPort());
         node.setIsNodeAvailable(nodeEntity.getIsNodeAvailable());
         node.setErrorConnectionTimes(nodeEntity.getErrorConnectionTimes());
         node.setBlockchainHeight(nodeEntity.getBlockchainHeight());
@@ -128,7 +126,6 @@ public class NodeServiceImpl implements NodeService {
     private NodeEntity classCast(NodeDto node) {
         NodeEntity nodeEntity = new NodeEntity();
         nodeEntity.setIp(node.getIp());
-        nodeEntity.setPort(node.getPort());
         nodeEntity.setIsNodeAvailable(node.getIsNodeAvailable());
         nodeEntity.setErrorConnectionTimes(node.getErrorConnectionTimes());
         nodeEntity.setBlockchainHeight(node.getBlockchainHeight());

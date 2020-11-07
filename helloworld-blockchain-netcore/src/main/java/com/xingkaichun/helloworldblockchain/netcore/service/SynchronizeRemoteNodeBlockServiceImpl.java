@@ -178,7 +178,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
             ThreadUtil.sleep(timestamp);
             totalTimestamp += timestamp;
             if(totalTimestamp > maxTimestamp){
-                logger.error(String.format("节点[%s:%d]数据太长时间没有被区块链系统使用，请检查原因",node.getIp(),node.getPort()));
+                logger.error(String.format("节点[%s:%d]数据太长时间没有被区块链系统使用，请检查原因",node.getIp(),GlobalSetting.DEFAULT_PORT));
                 synchronizerDataBase.clear(nodeId);
             }
         }
@@ -193,7 +193,7 @@ public class SynchronizeRemoteNodeBlockServiceImpl implements SynchronizeRemoteN
     }
 
     private String buildNodeId(NodeDto node) {
-        return node.getIp()+":"+node.getPort();
+        return node.getIp()+":"+GlobalSetting.DEFAULT_PORT;
     }
 
     private BlockDTO getBlockDtoByBlockHeight(NodeDto node, long blockHeight) {

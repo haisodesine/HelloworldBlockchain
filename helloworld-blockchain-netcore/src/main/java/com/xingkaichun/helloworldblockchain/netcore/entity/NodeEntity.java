@@ -6,7 +6,6 @@ package com.xingkaichun.helloworldblockchain.netcore.entity;
  */
 public class NodeEntity{
     private String ip;
-    private Integer port;
     private Long blockchainHeight;
     private Boolean isNodeAvailable;
     private Integer errorConnectionTimes;
@@ -22,14 +21,6 @@ public class NodeEntity{
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
     }
 
     public Long getBlockchainHeight() {

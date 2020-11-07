@@ -134,7 +134,7 @@ public class NodeSearcher {
                 node.setErrorConnectionTimes(0);
                 if(nodeService.queryNode(node) == null){
                     nodeService.addNode(node);
-                    logger.debug(String.format("自动发现节点[%s:%d]，节点已加入节点数据库。",node.getIp(),node.getPort()));
+                    logger.debug(String.format("自动发现节点[%s]，节点已加入节点数据库。",node.getIp()));
                 }else {
                     nodeService.updateNode(node);
                 }
@@ -150,7 +150,6 @@ public class NodeSearcher {
             NodeDto node = new NodeDto();
             String[] nodeDetail = strNode.split(":");
             node.setIp(nodeDetail[0]);
-            node.setPort(Integer.parseInt(nodeDetail[1]));
             NodeDto nodeDto = nodeService.queryNode(node);
             if(nodeDto == null){
                 if(configurationService.isAutoSearchNode()){

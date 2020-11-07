@@ -31,10 +31,10 @@ public class SynchronizerDatabaseDefaultImpl extends SynchronizerDatabase {
 
     public SynchronizerDatabaseDefaultImpl(String blockchainDataPath) {
         this.blockchainDataPath = blockchainDataPath;
-        init();
+        initDatabase();
     }
 
-    private void init() {
+    private void initDatabase() {
         String createTable1Sql1 = "CREATE TABLE IF NOT EXISTS NODE " +
                 "(" +
                 "nodeId CHAR(100) PRIMARY KEY NOT NULL," +

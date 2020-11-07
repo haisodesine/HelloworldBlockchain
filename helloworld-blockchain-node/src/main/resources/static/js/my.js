@@ -125,7 +125,6 @@ function searchNodeStatus() {
         async: false,
         success: function (data) {
             node.staus = data.result.autoSearchNewNode;
-			// console.log(data);
         },
         error: function (e) {
         }

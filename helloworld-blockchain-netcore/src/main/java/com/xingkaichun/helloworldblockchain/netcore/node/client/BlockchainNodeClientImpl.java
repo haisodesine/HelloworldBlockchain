@@ -9,6 +9,7 @@ import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeServerApiR
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.request.*;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.*;
 import com.xingkaichun.helloworldblockchain.netcore.transport.dto.TransactionDTO;
+import com.xingkaichun.helloworldblockchain.setting.GlobalSetting;
 import com.xingkaichun.helloworldblockchain.util.NetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
     @Override
     public ServiceResult<SubmitTransactionToNodeResponse> submitTransaction(BaseNodeDto node, TransactionDTO transactionDTO) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.SUBMIT_TRANSACTION_TO_NODE);
+            String url = String.format("http://%s:%d%s",node.getIp(), GlobalSetting.DEFAULT_PORT, NodeServerApiRoute.SUBMIT_TRANSACTION_TO_NODE);
             SubmitTransactionToNodeRequest request = new SubmitTransactionToNodeRequest();
             request.setTransactionDTO(transactionDTO);
             String html = NetUtil.jsonGetRequest(url,request);
@@ -45,17 +46,17 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
                 return ServiceResult.createFailServiceResult(pingResponseServiceResult.getMessage());
             }
         } catch (IOException e) {
-            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         } catch (Exception e) {
-            logger.debug(String.format("提交交易[%s]至节点[%s:%d]出现异常",gson.toJson(transactionDTO),node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("提交交易[%s]至节点[%s:%d]出现异常",gson.toJson(transactionDTO),node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         }
     }
 
     public ServiceResult<PingResponse> pingNode(BaseNodeDto node) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.PING);
+            String url = String.format("http://%s:%d%s",node.getIp(),GlobalSetting.DEFAULT_PORT, NodeServerApiRoute.PING);
             PingRequest pingRequest = new PingRequest();
             String html = NetUtil.jsonGetRequest(url,pingRequest);
             Type jsonType = new TypeToken<ServiceResult<PingResponse>>() {}.getType();
@@ -66,17 +67,17 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
                 return ServiceResult.createFailServiceResult(pingResponseServiceResult.getMessage());
             }
         } catch (IOException e) {
-            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         } catch (Exception e) {
-            logger.debug(String.format("Ping节点[%s:%d]出现异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("Ping节点[%s:%d]出现异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         }
     }
 
     public ServiceResult<AddOrUpdateNodeResponse> unicastLocalBlockchainHeight(BaseNodeDto node, long localBlockchainHeight) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(), node.getPort(), NodeServerApiRoute.ADD_OR_UPDATE_NODE);
+            String url = String.format("http://%s:%d%s",node.getIp(), GlobalSetting.DEFAULT_PORT, NodeServerApiRoute.ADD_OR_UPDATE_NODE);
             AddOrUpdateNodeRequest request = new AddOrUpdateNodeRequest();
             request.setBlockchainHeight(localBlockchainHeight);
             String html = NetUtil.jsonGetRequest(url,request);
@@ -88,18 +89,18 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
                 return ServiceResult.createFailServiceResult(pingResponseServiceResult.getMessage());
             }
         } catch (IOException e) {
-            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         } catch (Exception e) {
-            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         }
     }
 
     @Override
     public ServiceResult<QueryBlockHashByBlockHeightResponse> queryBlockHashByBlockHeight(NodeDto node, Long blockHeight) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.QUERY_BLOCK_HASH_BY_BLOCK_HEIGHT);
+            String url = String.format("http://%s:%d%s",node.getIp(),GlobalSetting.DEFAULT_PORT, NodeServerApiRoute.QUERY_BLOCK_HASH_BY_BLOCK_HEIGHT);
             QueryBlockHashByBlockHeightRequest request = new QueryBlockHashByBlockHeightRequest();
             request.setBlockHeight(blockHeight);
             String html = NetUtil.jsonGetRequest(url,request);
@@ -111,18 +112,18 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
                 return ServiceResult.createFailServiceResult(serviceResult.getMessage());
             }
         } catch (IOException e) {
-            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         } catch (Exception e) {
-            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         }
     }
 
     @Override
     public ServiceResult<QueryBlockDtoByBlockHeightResponse> queryBlockDtoByBlockHeight(NodeDto node, Long blockHeight) {
         try {
-            String url = String.format("http://%s:%d%s",node.getIp(),node.getPort(), NodeServerApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT);
+            String url = String.format("http://%s:%d%s",node.getIp(),GlobalSetting.DEFAULT_PORT, NodeServerApiRoute.QUERY_BLOCKDTO_BY_BLOCK_HEIGHT);
             QueryBlockDtoByBlockHeightRequest request = new QueryBlockDtoByBlockHeightRequest();
             request.setBlockHeight(blockHeight);
             String html = NetUtil.jsonGetRequest(url,request);
@@ -134,11 +135,11 @@ public class BlockchainNodeClientImpl implements BlockchainNodeClient {
                 return ServiceResult.createFailServiceResult(serviceResult.getMessage());
             }
         } catch (IOException e) {
-            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         } catch (Exception e) {
-            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),node.getPort()),e);
-            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),node.getPort()));
+            logger.debug(String.format("将本地区块链高度单播给节点[%s:%d]出现异常",node.getIp(),GlobalSetting.DEFAULT_PORT),e);
+            return ServiceResult.createFailServiceResult(String.format("节点%s:%d网络异常",node.getIp(),GlobalSetting.DEFAULT_PORT));
         }
     }
 }
