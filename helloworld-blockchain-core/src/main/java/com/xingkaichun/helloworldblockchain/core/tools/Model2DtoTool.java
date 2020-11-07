@@ -39,6 +39,7 @@ public class Model2DtoTool {
 
         BlockDTO blockDTO = new BlockDTO();
         blockDTO.setTimestamp(block.getTimestamp());
+        blockDTO.setPreviousBlockHash(block.getPreviousBlockHash());
         blockDTO.setTransactionDtoList(transactionDtoList);
         blockDTO.setNonce(block.getNonce());
         return blockDTO;
