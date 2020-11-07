@@ -6,8 +6,8 @@ import com.xingkaichun.helloworldblockchain.core.model.pay.BuildTransactionRespo
 import com.xingkaichun.helloworldblockchain.netcore.dto.common.ServiceResult;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.NodeDto;
 import com.xingkaichun.helloworldblockchain.netcore.dto.netserver.response.SubmitTransactionToNodeResponse;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionRequest;
-import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionResponse;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainRequest;
+import com.xingkaichun.helloworldblockchain.netcore.dto.transaction.SubmitTransactionToBlockchainResponse;
 import com.xingkaichun.helloworldblockchain.netcore.node.client.BlockchainNodeClient;
 import com.xingkaichun.helloworldblockchain.netcore.node.server.BlockchainNodeHttpServer;
 import com.xingkaichun.helloworldblockchain.netcore.service.ConfigurationService;
@@ -105,26 +105,26 @@ public class NetBlockchainCore {
         return buildTransactionResponse;
     }
 
-    public SubmitTransactionResponse submitTransaction(SubmitTransactionRequest request) {
+    public SubmitTransactionToBlockchainResponse submitTransaction(SubmitTransactionToBlockchainRequest request) {
         TransactionDTO transactionDTO = request.getTransactionDTO();
         //将交易提交到本地区块链
         blockchainCore.submitTransaction(transactionDTO);
         //提交交易到网络
         List<NodeDto> nodes = nodeService.queryAllNoForkAliveNodeList();
-        List<SubmitTransactionResponse.Node> successSubmitNode = new ArrayList<>();
-        List<SubmitTransactionResponse.Node> failSubmitNode = new ArrayList<>();
+        List<SubmitTransactionToBlockchainResponse.Node> successSubmitNode = new ArrayList<>();
+        List<SubmitTransactionToBlockchainResponse.Node> failSubmitNode = new ArrayList<>();
         if(nodes != null){
             for(NodeDto node:nodes){
                 ServiceResult<SubmitTransactionToNodeResponse> submitSuccess = blockchainNodeClient.submitTransaction(node,transactionDTO);
                 if(ServiceResult.isSuccess(submitSuccess)){
-                    successSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
+                    successSubmitNode.add(new SubmitTransactionToBlockchainResponse.Node(node.getIp(),node.getPort()));
                 } else {
-                    failSubmitNode.add(new SubmitTransactionResponse.Node(node.getIp(),node.getPort()));
+                    failSubmitNode.add(new SubmitTransactionToBlockchainResponse.Node(node.getIp(),node.getPort()));
                 }
             }
         }
 
-        SubmitTransactionResponse response = new SubmitTransactionResponse();
+        SubmitTransactionToBlockchainResponse response = new SubmitTransactionToBlockchainResponse();
         response.setTransactionDTO(transactionDTO);
         response.setSuccessSubmitNode(successSubmitNode);
         response.setFailSubmitNode(failSubmitNode);
